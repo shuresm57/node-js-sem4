@@ -37,3 +37,4 @@ people.push("Victor");
 console.log(people);
 
 // ASI = Automatic Semicolon Insertion
+// JS sætter automatisk semikolon
