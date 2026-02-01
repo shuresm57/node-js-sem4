@@ -38,3 +38,11 @@ console.log(people);
 
 // ASI = Automatic Semicolon Insertion
 // JS sætter automatisk semikolon
+
+
+// How to define Strings in JS
+// ""
+// ''
+// String template literal
+// ``
+
