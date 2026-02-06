@@ -20,7 +20,7 @@ const getRandomIntArrowFunction = (min, max) => {
 
 // Javascript functions as first class citizens.
 // this is a callback function
-// which is defined as a function that accepts a 
+// a callback function is a function that is passed as an argument to another function
                             // string, function reference
 function genericActionPerformer(name, action) {
     return action(name);
