@@ -17,7 +17,7 @@ REPL stands for Read-Eval-Print-Loop. It's an interactive environment, used for 
 
 This way you can test code snippets quickly in a terminal, instead of running it in an IDE.
 
-== javascript Fundamentals
+== Javascript Fundamentals
 
 === Variables and Data Types
 
@@ -125,7 +125,8 @@ console.log(letters[2]);         // "c"
 // parseFloat - converts to decimal number
 const numberOne = "1.10";
 const numberTwo = "2.30";
-const total = parseFloat(numberOne) + parseFloat(numberTwo); // 3.4
+const total = parseFloat(numberOne) + parseFloat(numberTwo); 
+// 3.4
 
 // Number - general conversion
 const anotherNumber = Number("42"); // 42

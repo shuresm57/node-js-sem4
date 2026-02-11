@@ -14,12 +14,20 @@
   
   show link: it => underline(text(it, blue))
   
+ show raw.where(block: false): it => box(
+  fill: rgb("#2d2d2d"),
+  inset: (x: 2pt, y: 6pt),
+  radius: 3pt,
+  baseline: 0.5em,
+  text(fill: rgb("#539804"), it)
+)
+
   show raw.where(lang: "javascript"): it => block(
     fill: rgb("#282c34"),
     inset: 8pt,
     radius: 4pt,
     width: 100%,
-    it
+    text(size: 11pt, it)
   )
   
   doc
