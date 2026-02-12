@@ -2,13 +2,22 @@
 const express = require('express');
 // instantiate express
 const app = express();
+// parse the req.body
+app.use(express.json());
 
+
+
+// path must be absolute, cannot be relative
 app.get('/', (req, res) => {
-  res.send({ data: 'Welcome to min minecraft server!' });
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/snowstorm', (req, res) => {
-  res.send({ data: 'snestorm kl 12!!!!' });
+app.get('/xss', (req, res) => {
+  res.sendFile(__dirname + '/xss.html')
+});
+
+app.get('/snowstorms', (req, res) => {
+  res.send({ warning: 'snestorm kl 12!!!!' });
 });
 
 // how can we send data in a GET request?
@@ -30,5 +39,21 @@ app.get('/cars/:carModel/:year', (req, res) => {
 app.get('/bag', (req, res) => {
   res.send({ data: req.query });
 });
+
+
+app.post('/dinosaurs', (req, res) => {
+  console.log(req.body)
+  res.send({ data : req.body })
+})
+
+// assignment : create a POST route with the endpoint /energydrinks that adds energydrinks to an array
+
+const energyDrinks = []
+
+app.post('/energy-drinks', (req, res) => {
+  energyDrinks.push(req.body);
+  res.send(req.body);
+  console.log(energyDrinks);
+})
 
 app.listen(8080);
