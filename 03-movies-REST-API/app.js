@@ -29,16 +29,16 @@ app.get('/movies/:id', (req, res) => {
   const foundMovie = movies.find((movie) => movie.id === providedMovieId);
 
   if (!foundMovie) {
-   return res.status(404).send({ errorMessage: `No movie found with id ${req.params.id}` });
+    return res.status(404).send({ errorMessage: `No movie found with id ${req.params.id}` });
   } 
   
   res.send({ data: { ...foundMovie, id: encryptId(foundMovie.id) }
-    });
+  });
 });
 
 app.post('/movies', (req, res) => {
   if (!req.body.title){
-    return res.status(400).send({ errorMessage: 'ID, name and description is required for movie resources' })
+    return res.status(400).send({ errorMessage: 'ID, name and description is required for movie resources' });
   }
   // if movies are 0 entries, return 1, else map through and find the highest id + 1
   const newId = movies.length > 0 ? Math.max(...movies.map(movie => movie.id)) + 1 : 1;
@@ -49,7 +49,7 @@ app.post('/movies', (req, res) => {
 });
 
 app.patch('/movies/:id', (req, res) => {
-  const movie = movies.find((movie) => movie.id === Number(decryptId(req.params.id)))
+  const movie = movies.find((movie) => movie.id === Number(decryptId(req.params.id)));
   
   if (!movie) {
     return res.status(404).send({ errorMessage: `No movie found with id ${req.params.id}` });
@@ -58,11 +58,11 @@ app.patch('/movies/:id', (req, res) => {
   if (req.body.title) movie.title = req.body.title;
   if (req.body.description) movie.description = req.body.description;
   
-  res.send({ data: {...movie, id: encryptId(movie.id)} })
+  res.send({ data: {...movie, id: encryptId(movie.id)} });
 });
 
 
-app.put('/movies/:id', (req, res) => {
+app.put('/movies/:id', (req, res) => {  
   const movieIndex = movies.findIndex((movie) => movie.id === Number(decryptId(req.params.id)));
   
   if (movieIndex === -1) {
@@ -86,6 +86,6 @@ app.delete('/movies/:id', (req,res) => {
 
   const deletedMovie = movies.splice(movieIndex, 1)[0];
   res.send(`"${deletedMovie.title}" has been deleted`);
-})
+});
 
 app.listen(8080);
