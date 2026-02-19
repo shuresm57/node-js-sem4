@@ -12,6 +12,8 @@ const movies = [
   { id: 2, title: 'Microsocopic Subway to Oblivion', description: 'In a world, where microscopic subway to oblivion'}
 ];
 
+let nextId = 3;
+
 app.get('/movies', (req, res) => {
   console.log('Fetching all movie ressources');
 
@@ -36,29 +38,39 @@ app.get('/movies/:id', (req, res) => {
   });
 });
 
+// let number = 2;
+// //post fix
+// console.log(number);
+// console.log(number++);
+// //pre fix
+// console.log(++number);
+// console.log(number);
+
 app.post('/movies', (req, res) => {
   if (!req.body.title){
-    return res.status(400).send({ errorMessage: 'ID, name and description is required for movie resources' });
+    return res.status(400).send({ errorMessage: 'JSON body must be provided' });
   }
   // if movies are 0 entries, return 1, else map through and find the highest id + 1
-  const newId = movies.length > 0 ? Math.max(...movies.map(movie => movie.id)) + 1 : 1;
-  const movie = { id: newId, title: req.body.title, description: req.body.description };
-  movies.push(movie);
+  const providedMovie = req.body;
+  providedMovie.id = nextId++;
+  movies.push(providedMovie);
 
-  res.status(201).send({ data: {...movie, id: encryptId(movie.id)} });
+  res.send({ data: providedMovie });
 });
 
+
+//TODO: Rewrite to Anders' version
 app.patch('/movies/:id', (req, res) => {
-  const movie = movies.find((movie) => movie.id === Number(decryptId(req.params.id)));
+  const providedMovie = movies.find((movie) => movie.id === Number(decryptId(req.params.id)));
   
-  if (!movie) {
+  if (!providedMovie) {
     return res.status(404).send({ errorMessage: `No movie found with id ${req.params.id}` });
   } 
 
-  if (req.body.title) movie.title = req.body.title;
-  if (req.body.description) movie.description = req.body.description;
+  if (req.body.title) providedMovie.title = req.body.title;
+  if (req.body.description) providedMovie.description = req.body.description;
   
-  res.send({ data: {...movie, id: encryptId(movie.id)} });
+  res.send({ data: {...providedMovie, id: encryptId(providedMovie.id)} });
 });
 
 
@@ -85,7 +97,7 @@ app.delete('/movies/:id', (req,res) => {
   }
 
   const deletedMovie = movies.splice(movieIndex, 1)[0];
-  res.send(`"${deletedMovie.title}" has been deleted`);
+  res.send({ data: deletedMovie, message: "has been deleted" });
 });
 
 app.listen(8080);
