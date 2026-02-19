@@ -22,11 +22,15 @@ app.get('/snowstorms', (req, res) => {
 
 app.get('/proxy', (req, res) => {
   //assignment: create a proxy to https://google.com/'
-  fetch('https://google.com')
-  .then((response) => response.text())
-  .then(result => {
-    res.send(result)
-  })
+
+  // fetch('https://google.com')
+  // .then((response) => response.text())
+  // .then(result => {
+  //   res.send(result)
+  // })
+
+  
+
 })
 
 // how can we send data in a GET request?
