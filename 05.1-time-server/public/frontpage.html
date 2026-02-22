@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 3. css file -->
+    <!-- link href="/frontpage.css" rel="stylesheet" -->   
+    <!-- 2. css in style tag -->
+    <style>
+        body { background-color: #121212; }
+        h1 { 
+            color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 450px;
+        }
+    </style>
+    <title>Frontpage</title>
+</head>
+<body>
+    <h1 id="unix-counter"></h1>
+    <script>
+        const timeSinceBirthUnix = new Date(2025, 7, 28, 3, 30).getTime();
+        const unixCounter = document.getElementById('unix-counter')
+
+        function getTimeSinceBirthInUnix(){
+            const elapsedTimeUnix = Math.floor((Date.now() - timeSinceBirthUnix) / 1000);
+            unixCounter.textContent = elapsedTimeUnix;
+        }
+
+        getTimeSinceBirthInUnix()
+        setInterval(getTimeSinceBirthInUnix, 1000);
+    </script>
+</body>
+</html>
