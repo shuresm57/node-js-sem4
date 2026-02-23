@@ -3,29 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 3. css file -->
-    <!-- link href="/frontpage.css" rel="stylesheet" -->   
-    <!-- 2. css in style tag -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
     <style>
-        body { background-color: #121212; }
-        h1 { 
-            color: lightgray;
+        body { 
+            background-color: #121212; 
+            font-family: "Trirong", serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 450px;
+            flex-direction: column;
+        }
+        h1 { 
+            color: lightgray;
+            font-size: 256px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 1s;
+        }
+        .p1 {
+            color: whitesmoke;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 2s;
+        }
+        .p2 {
+            color: red;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 4s;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
     </style>
     <title>Frontpage</title>
 </head>
 <body>
-    <h1 id="unix-counter"></h1>
+
+    <h1 id="unix-counter">Counter</h1>
+
+    <p class="p1">On January 19, 2038 the current Unix Time 
+        Stamp will no longer be applicable for non 32-bit systems. 
+    </p>
+    <p class="p2">
+         I propose we start a new one.
+    </p>
+
     <script>
-        const timeSinceBirthUnix = new Date(2025, 7, 28, 3, 30).getTime();
+
+        const newUnix = new Date(2025, 7, 28, 3, 30).getTime();
         const unixCounter = document.getElementById('unix-counter')
 
         function getTimeSinceBirthInUnix(){
-            const elapsedTimeUnix = Math.floor((Date.now() - timeSinceBirthUnix) / 1000);
+            const elapsedTimeUnix = Math.floor((Date.now() - newUnix) / 1000);
             unixCounter.textContent = elapsedTimeUnix;
         }
 
