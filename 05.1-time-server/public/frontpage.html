@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
     <style>
+
         body { 
             background-color: #121212; 
             font-family: "Trirong", serif;
@@ -14,6 +15,7 @@
             align-items: center;
             flex-direction: column;
         }
+        
         h1 { 
             color: lightgray;
             font-size: 256px;
@@ -21,25 +23,29 @@
             animation: fadeIn 2s forwards;
             animation-delay: 1s;
         }
+
         .p1 {
             color: whitesmoke;
             opacity: 0;
             animation: fadeIn 2s forwards;
             animation-delay: 2s;
         }
+
         .p2 {
             color: red;
             opacity: 0;
             animation: fadeIn 2s forwards;
             animation-delay: 4s;
         }
+
         @keyframes fadeIn {
             to {
                 opacity: 1;
             }
         }
+
     </style>
-    <title>Frontpage</title>
+    <title>Unix Counter</title>
 </head>
 <body>
 
@@ -64,6 +70,7 @@
 
         getTimeSinceBirthInUnix()
         setInterval(getTimeSinceBirthInUnix, 1000);
+
     </script>
 </body>
 </html>
