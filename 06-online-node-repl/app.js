@@ -32,4 +32,4 @@ app.listen(8080, (error) => {
   };
 
   console.log('Server running on ', 8080);
-})
+});

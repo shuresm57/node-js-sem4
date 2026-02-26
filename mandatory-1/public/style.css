@@ -1,0 +1,33 @@
+body {
+    background-color: #1c1c1c;
+    font-family: "Computer Modern", serif;
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.main-section {
+    border: thick solid #ccc;
+    border-radius: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem;
+}
+
+pre {
+    border-radius: 20px;
+    overflow-x: auto;
+    filter: drop-shadow(8px 8px 0px #737270);
+}
+
+
+code:not(pre code) {
+    border-radius: 12px;
+    color: #79c0ff;
+    border: 1px solid #79c0ff;
+    background: #0d1a2e;
+    padding: 0.3em 0.3em;
+    font-size: 0.9em;
+}
+
