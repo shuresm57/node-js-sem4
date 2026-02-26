@@ -1,8 +1,11 @@
 const express = require('express')
 const app = express()
 
+// this is needed in order to serve static file
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/frontpage.html');
+  res.sendFile(__dirname + '/public/frontpage/frontpage.html');
 });
 
 // listen
