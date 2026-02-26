@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection</title>
+</head>
+<body>
+
+    <h1>Sad to see you go :/</h1>
+    <!-- 1. Anchor tag -->
+    <a href="/">Please get me out of here</a>
+
+    <!-- 2. metatag redirect -->
+    <!-- <meta http-equiv = "refresh" content = "3; url = /"/> -->
+
+    <!-- assignment: programmatically redirect to th frontpage after 3 seconds -->
+     <script>
+        // dynamic 1
+        // setTimeout(() => {
+        //     window.location.href = "/";
+        // }, 3000);
+
+        // dynamic 2
+        // window.setTimeout(() => {
+        //     location.href = '/';
+        // }, 3000);
+
+        // dynamic 3 this doesn't preserve browser page history
+        //  setTimeout(() => {
+        //     location.replace('/');
+        // }, 3000);
+     </script>
+</body>
+</html>

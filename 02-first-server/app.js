@@ -20,6 +20,11 @@ app.get('/snowstorms', (req, res) => {
   res.send({ warning: 'snestorm kl 12!!!!' });
 });
 
+// redirect in backend
+app.get('/forecast', (req, res) => {
+  res.redirect('/snowstorms');
+});
+
 app.get('/proxy', (req, res) => {
   //assignment: create a proxy to https://google.com/'
 
