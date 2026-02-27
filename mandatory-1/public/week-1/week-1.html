@@ -7,55 +7,105 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
 </head>
 <body>
-<section class="main-section">
-  
-  <h1>Week 1: Introduction to Node.js</h1>
+  <section class="main-section">
 
-  <h2>Node.js Introduction</h2>
+    <h1>Introduction to Node.js</h1>
 
-  <h2>Javascript Fundamentals</h2>
+    <h2>Node.js Introduction</h2>
+    <p class="newspaper-p">
+      Node.js is a JavaScript runtime built on Chrome's V8 engine, allowing us
+      to run JavaScript outside of a browser. It is commonly used for building
+      server-side apps, including Server API's, but also CLI's, desktop apps using the Electron framework.
+    </p>
 
-  <h3>Variables and Data Types</h3>
+    <h3>Node.js REPL</h3>
+    <p>
+      REPL stands for Read-Eval-Print-Loop. It's an environment where we interactively
+      can type JavaScript code and then see the immediate result. This is great for quickly
+      testing code snippets in a terminal, instead of running it in an IDE.
+    </p>
 
-  <code>const x = 1;</code>
+    <hr>
 
-  <pre><code class="language-javascript">// example code block
-const greeting = 'Hello, Node.js!';
-console.log(greeting);
+    <h2>Javascript Fundamentals</h2>
+
+    <h3>Variables and Data Types</h3>
+    <p>
+      JavaScript has three ways of declaring a variable:
+    </p>
+    <p>
+      <code>const</code> Used for values that won't be reassigned.<br>
+      <code>let</code> Used for values that will change.<br>
+      <code>var</code> Not used anymore, avoid using at all costs.
+    </p>
+    <p>
+      We usually want to use <code>const</code> when assigning a variable,
+      but there are times where this would cause unwanted functionality, such as:
+    </p>
+    <pre><code class="language-javascript">for(const i = 0; i < 5, i++){
+  console.log(i) // will print 0 once
+}</code></pre>
+
+    <p>
+      But on the other hand, it is a bad habit of 'just' using <code>let</code> for everything out of habit,
+      when most variables never actually get reassigned. 
+
+      Some examples of using <code>let</code>, instead of <code>const</code>:
+    </p>
+
+    <pre><code class="language-javascript"> let status = 'active';
+ status = 'done'
+ let total = 0;
+ total += price;</code></pre>
+
+    <h3>Data Types</h3>
+    <ol>
+      <li><strong>String</strong> - Text value</li>
+      <li><strong>Number</strong> - Numeric values</li>
+      <li><strong>Boolean</strong> - True or False</li>
+      <li><strong>Object</strong> - Collection of key: value pairs</li>
+      <li><strong>BigInt</strong> - Very large integers</li>
+      <li><strong>Symbol</strong> - Unique identifier</li>
+      <li><strong>Null</strong> - Absence of value</li>
+      <li><strong>Undefined</strong> - Variable declared but not assigned</li>
+    </ol>
+
+    <h3>Type Coercion</h3>
+
+    <p>JavaScript will automatically convert types when needed:</p>
+
+    
+
+    <pre><code class="language-javascript">const greeting = 'Hello, Node.js!';
+console.log(greeting);</code></pre>
+
+    <h3>Strings and Numbers</h3>
+    <pre><code class="language-javascript">// example code block
 </code></pre>
 
-  <h3>Strings and Numbers</h3>
-
-  <pre><code class="language-javascript">// example code block
+    <h2>Working with Numbers</h2>
+    <pre><code class="language-javascript">// example code block
 </code></pre>
 
-  <h2>Working with Numbers</h2>
-
-  <pre><code class="language-javascript">// example code block
+    <h3>Arrays and Objects</h3>
+    <pre><code class="language-javascript">// example code block
 </code></pre>
 
-  <h3>Arrays and Objects</h3>
+    <h2>Code Conventions</h2>
+    <pre><code class="language-bash">npm install -g eslint</code></pre>
 
-  <pre><code class="language-javascript">
-    // example code block
-  
+    <h2>REST API Design</h2>
+    <pre><code class="language-javascript">// example code block
 </code></pre>
 
-  <h2>Code Conventions</h2>
+  </section>
 
-  <pre><code class="language-bash">npm install -g eslint
-</code></pre>
-
-  <h2>REST API Design</h2>
-
-  <pre><code class="language-javascript">// example code block
-</code></pre>
-</section>
-
- <script src="../observer.js"></script>
+  <script type="module" src="../navigation/page-sidebar.js"></script>
 </body>
 </html>
