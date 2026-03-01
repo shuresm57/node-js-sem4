@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 2</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <section class="main-section">
+
+    <h1>First Server</h1>
+
+    <p class="newspaper-p">
+      This week we dive deeper into Javascript, we learn more about variables, functions in general,
+      but also callback functions and how to use them. We also look at how to setup a Node.js server,
+      so that we can implement our first REST API server.
+    </p>
+
+    <h2>Advanced JavaScript</h2>
+
+    <h3>Functions and Callbacks</h3>
+
+    <p>The traditional way to define a function in Javascript:</p>
+
+    <pre><code class="language-javascript">function getRandomInt(min, max){
+    return Math.floor(
+        Math.random() * (max + 1 - min) + min
+    );
+}</code></pre>
+
+    <h3>Hoisting</h3>
+
+    <p>
+      Function declarations are 'hoisted' to the top of their scope, meaning you can call them
+      before they are defined in your code:
+    </p>
+
+    <pre><code class="language-javascript">console.log(getRandomInt(4,8))
+
+function getRandomInt(min, max){
+    return Math.floor(
+        Math.random() * (max + 1 - min) + min
+    );
+}</code></pre>
+
+    <h3>Anonymous Functions</h3>
+
+    <p>Functions without a name, assigned to a variable:</p>
+
+    <pre><code class="language-javascript">const getRandomIntAnonymousFunction =
+    function (min, max) {
+    return Math.floor(
+        Math.random() * (max + 1 - min) + min
+    );
+}</code></pre>
+
+    <p>
+      This will prevent accidental reassignment - when using <code>const</code>, you ensure
+      the function reference can't be changed.
+    </p>
+
+    <pre><code class="language-javascript">const myFunc = function() { return 'original'; };
+ myFunc = function() { return "new"; };
+// Error! Can't reassign</code></pre>
+
+    <h3>Callback Functions</h3>
+
+    <p>A callback function is a function passed as an argument to another function:</p>
+
+    <pre><code class="language-javascript">function genericActionPerformer(name, action) {
+    return action(name);
+}
+
+function eatingAction(name) {
+    return `${name} is eating`;
+}
+
+console.log(
+    genericActionPerformer("Valdemar", eatingAction)
+);
+// Output: "Valdemar is eating"</code></pre>
+
+    <p><strong>Callback with Anonymous Functions:</strong></p>
+
+    <pre><code class="language-javascript">const runningAction = (name) => {
+    return `${name} is running`;
+};
+
+console.log(
+    genericActionPerformer("Sidi", runningAction)
+);
+// Output: "Sidi is running"</code></pre>
+
+    <h3>Inline arrow function callbacks</h3>
+
+    <pre><code class="language-javascript">console.log(genericActionPerformer(
+    "Kristian",
+    (name) => `${name} is laughing`
+));
+// Output: "Kristian is laughing"</code></pre>
+
+    <div class="infobox">
+      <p>Callbacks are fundamental in Node.js for handling asynchronous operations, event handling, and HTTP requests.</p>
+    </div>
+
+    <h3>Scoping (const, let, var)</h3>
+
+    <h3>The problem with var</h3>
+
+    <p>Never use <code>var</code> in modern JavaScript because of this problematic scoping behavior:</p>
+
+    <pre><code class="language-javascript">{
+    var someVariable = true;
+    {
+        var someVariable = false;
+    }
+    // false. inner block overwrites the outer!
+    console.log(someVariable)
+}</code></pre>
+
+    <p><code>var</code> is function scoped, not block-scoped:</p>
+
+    <pre><code class="language-javascript">// This prints 5 six times (bug!)
+for (var i = 0; i &lt; 5; i++) {
+    setTimeout(() => {
+        console.log(i);
+    }, 1000);
+}</code></pre>
+
+    <h3>Block scope with let</h3>
+
+    <p><code>let</code> is block-scoped, which means that variables are contained within <code>{}</code>:</p>
+
+    <pre><code class="language-javascript">{
+    let someVariable = true;
+    {
+        let someVariable = false; // Different variable
+    }
+    // true - each block has its own variable
+    console.log(someVariable);
+}</code></pre>
+
+    <p>Always use <code>const</code> unless you know the variable will be reassigned:</p>
+
+    <pre><code class="language-javascript">const name = "Valdemar";
+// name = "Niko";
+// Error: Assignment to constant variable</code></pre>
+
+    <h3>Avoid Global Variables</h3>
+
+    <p>Never declare variables without <code>const</code>, <code>let</code> or <code>var</code>:</p>
+
+    <pre><code class="language-javascript">// DON'T DO THIS!
+totalGlobalVariable = "";
+// Creates global variable (bad!)</code></pre>
+
+    <h3>Reserved Keywords</h3>
+
+    <p>Some words are reserved and cannot be used as variable names:</p>
+
+    <pre><code class="language-javascript">break, case, catch, class, const,
+continue, debugger, default, delete,
+do, else, export, extends, finally,
+for, function, if, import, in,
+instanceof, new, return, super,
+switch, this, throw, try, typeof,
+var, void, while, with, yield</code></pre>
+
+    <p>In strict mode:</p>
+
+    <pre><code class="language-javascript">let, static, implements, interface,
+package, private, protected, public</code></pre>
+
+    <hr>
+
+    <h2>Package Management</h2>
+
+    <h3>NPM and Package.json</h3>
+
+    <p>
+      NPM (Node Package Manager) is the default package manager for Node.js. It allows you to install
+      third-party libraries (packages), manage project dependencies, run scripts and share your own packages.
+    </p>
+
+    <h3>package.json</h3>
+
+    <p>This file defines your project and its dependencies. It contains metadata about your project:</p>
+
+    <pre><code class="language-json">{
+    "dependencies": {
+        "express": "5.2.1"
+    },
+    "devDependencies": {
+        "eslint": "^9.39.2"
+    }
+}</code></pre>
+
+    <p>
+      Dependencies are packages required for your application to run in production, while DevDependencies
+      are only needed during development, such as testing, linting and build tools.
+    </p>
+
+    <pre><code class="language-json">"dependencies": {
+    "express": "5.2.1"
+}</code></pre>
+
+    <pre><code class="language-json">"devDependencies": {
+    "eslint": "^9.39.2"
+}</code></pre>
+
+    <h3>Installing packages</h3>
+
+    <pre><code class="language-bash"># Install a dependency
+npm install express
+
+# Install a dev dependency
+npm install --save-dev eslint
+
+# Install all dependencies from package.json
+npm install</code></pre>
+
+    <h3>Version Numbers</h3>
+
+    <p>NPM uses semantic versioning (semver):</p>
+    <pre><code class="language-bash">"express": "5.2.1"
+           │ │ │
+           │ │ └─ Patch (bug fixes)
+           │ └─── Minor (new features)
+           └───── Major (breaking changes)</code></pre>
+
+    <ul>
+      <li><code>5.2.1</code> — Exact version</li>
+      <li><code>^5.2.1</code> — Compatible with 5.x.x (allows minor and patch updates)</li>
+      <li><code>~5.2.1</code> — Compatible with 5.2.x (allows only patch updates)</li>
+    </ul>
+
+    <h3>Node_modules</h3>
+
+    <p>
+      When you run <code>npm install</code>, NPM downloads all packages and their dependencies into a
+      folder called <code>node_modules</code>.
+    </p>
+
+    <ul>
+      <li>Never commit node_modules to Git — it's huge and unnecessary</li>
+      <li>Add <code>node_modules/</code> to your <code>.gitignore</code> file</li>
+      <li>Other developers run <code>npm install</code> to get the same dependencies</li>
+    </ul>
+
+    <h3>How It Works</h3>
+
+    <pre><code class="language-bash">your-project/
+├── node_modules/   # All installed packages
+│                   # (auto-generated)
+│   ├── express/
+│   ├── eslint/
+│   └── ... (hundreds of dependencies)
+├── package.json         # Your dependency list
+└── package-lock.json    # Exact versions installed</code></pre>
+
+    <p>When you <code>require()</code> or <code>import</code> a package, Node.js looks for it in <code>node_modules</code>:</p>
+
+    <pre><code class="language-javascript">// Loads from node_modules/express
+const express = require('express');</code></pre>
+
+    <hr>
+
+    <h2>Express.js</h2>
+
+    <p>
+      Express is a minimal and flexible Node.js web application framework that provides a way of doing
+      simple routing, HTTP request/response handling and easy server setup.
+    </p>
+
+    <h3>Server Setup</h3>
+
+    <pre><code class="language-javascript">// Import express
+const express = require('express');
+
+// Create an Express application
+const app = express();
+
+// Define routes (covered below)
+
+// Start the server on port 8080
+app.listen(8080);</code></pre>
+
+    <p>You now have a server running at <code>http://localhost:8080</code></p>
+
+    <h3>GET Requests</h3>
+
+    <h3>Basic Route</h3>
+
+    <pre><code class="language-javascript">app.get('/', (req, res) => {
+    res.send({ data: 'Welcome to my server!' });
+});</code></pre>
+
+    <ul>
+      <li><code>app.get()</code> — Defines a GET route</li>
+      <li><code>'/'</code> — The endpoint/path</li>
+      <li><code>(req, res) => {}</code> — Callback function (request, response)</li>
+      <li><code>res.send()</code> — Sends a response to the client</li>
+    </ul>
+
+    <pre><code class="language-javascript">app.get('/snowstorm', (req, res) => {
+    res.send({ data: 'Snowstorm at 12!' });
+});</code></pre>
+
+    <p>Visit <code>http://localhost:8080/snowstorm</code> to see this response.</p>
+
+    <h3>Path Parameters</h3>
+
+    <p>Use <code>:paramName</code> in the route to capture dynamic values from the URL:</p>
+
+    <pre><code class="language-javascript">app.get('/cars/:carModel', (req, res) => {
+    console.log(req.params); // { carModel: 'tesla' }
+    res.send({
+        data:
+            `Your ${req.params.carModel} is very nice`
+    });
+});</code></pre>
+
+    <p><strong>URL:</strong> <code>http://localhost:8080/cars/tesla</code></p>
+    <p><strong>Response:</strong> <code>{ data: "Your tesla is very nice" }</code></p>
+
+    <p>Multiple path parameters:</p>
+
+    <pre><code class="language-javascript">app.get('/cars/:carModel/:year', (req, res) => {
+    // { carModel: 'tesla', year: '2024' }
+    console.log(req.params);
+    res.send({
+        data: `Your ${req.params.carModel}
+            from the year ${req.params.year}
+            is very nice`
+    });
+});</code></pre>
+
+    <p><strong>URL:</strong> <code>http://localhost:8080/cars/tesla/2024</code></p>
+    <p><strong>Response:</strong> <code>{ data: "Your tesla from the year 2024 is very nice" }</code></p>
+
+    <h3>Query Parameters</h3>
+
+    <p>Use <code>req.query</code> to access parameters from the URL query string:</p>
+
+    <pre><code class="language-javascript">app.get('/bag', (req, res) => {
+    res.send({ data: req.query });
+});</code></pre>
+
+    <p><strong>URL:</strong> <code>http://localhost:8080/bag?color=red&amp;size=large</code></p>
+    <p><strong>Response:</strong> <code>{ data: { color: "red", size: "large" } }</code></p>
+
+    <hr>
+
+    <h2>Summary</h2>
+
+    <ul>
+      <li>Use arrow functions and callbacks for flexible, functional code</li>
+      <li>Always use <code>const</code>, unless you know the value will change (never, ever use <code>var</code>)</li>
+      <li>Understand block scope vs function scope</li>
+      <li>Use <code>package.json</code> to manage dependencies</li>
+      <li>Never commit <code>node_modules</code> to git</li>
+      <li>We use Express to create web servers</li>
+      <li>Use path parameters for resource identification</li>
+      <li>Use query parameters for filtering and options</li>
+    </ul>
+
+  </section>
+
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>

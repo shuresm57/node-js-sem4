@@ -2,7 +2,9 @@ import express from 'express';
 import path from 'path';
 
 const app = express();
-app.use(express.static('public'));
+app.use(express.static('public', {
+  extensions: ['html']
+}));
 
 
 app.get('/', (req,res) => {
@@ -10,9 +12,12 @@ app.get('/', (req,res) => {
 });
 
 app.get('/week-1', (req,res) => {
-    res.sendFile(path.resolve('public/week-1/week-1.html'));
+    res.sendFile(path.resolve('public/documentation/week-1.html'));
 });
 
+app.get('/week-2', (req,res) => {
+    res.sendFile(path.resolve('public/documentation/week-2.html'));
+});
 
 app.listen(8080, (error) => {
   if (error) {

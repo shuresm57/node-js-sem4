@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 5</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <section class="main-section">
+
+    <h1>ES Modules and Static Files</h1>
+
+    <h2>ES Modules vs CommonJS</h2>
+
+    <p>
+      If we add <code>"type": "module"</code> to our package.json, it enables ES Modules syntax in Node.js.
+    </p>
+
+    <pre><code class="language-json">{
+  "type": "module",
+  "dependencies": {
+    "express": "5.2.1"
+  }
+}</code></pre>
+
+    <h3>CommonJS</h3>
+
+    <p>Exporting:</p>
+
+    <pre><code class="language-javascript">const cookie = require('./cookie.json');
+
+function getCookie() {
+  return cookie;
+}
+
+module.exports = { getCookie };</code></pre>
+
+    <p>Importing:</p>
+
+    <pre><code class="language-javascript">const cookiesUtil =
+  require('./util/commonjsCookiesUtil.js');</code></pre>
+
+    <p>This is the old way and we will not do that anymore. Instead we will use ES Modules.</p>
+
+    <h3>ES Modules</h3>
+
+    <p>Exporting:</p>
+
+    <pre><code class="language-javascript">// Named export
+export function esModuleCookieFactory() {
+  return 'On a break :D';
+}
+
+// Default export
+export default {
+  esModuleCookieFactory
+};</code></pre>
+
+    <p>Importing:</p>
+
+    <pre><code class="language-javascript">// Named import (curly braces,
+// can define more than one)
+import { esModuleCookieFactory }
+  from './util/esModuleCookiesUtil.js';
+
+// Default import (no curly braces,
+// for single imports)
+import cookiesUtil
+  from './util/esModuleCookiesUtil.js';</code></pre>
+
+    <p><strong>Always</strong> use the <code>.js</code> extension in ES Module imports.</p>
+
+    <h3>Import / Export in HTML</h3>
+
+    <p>Regular scripts share global scope — but order matters and can be hard to manage:</p>
+
+    <pre><code class="language-html">&lt;!-- Scripts share global scope --&gt;
+&lt;script src="./common.js"&gt;&lt;/script&gt;
+&lt;script src="./cookieFactory.js"&gt;&lt;/script&gt;</code></pre>
+
+    <p>With <code>type="module"</code>, every script has its own scope and can share code. The browser handles load order automatically:</p>
+
+    <pre><code class="language-html">&lt;!-- ES Module - isolated scope --&gt;
+&lt;script type="module"
+  src="./cookies.js"&gt;
+&lt;/script&gt;</code></pre>
+
+    <h3>Export Patterns</h3>
+
+    <p>Named exports (recommended):</p>
+
+    <pre><code class="language-javascript">// Export multiple
+export function func1() { }
+export const value = 42;
+
+// Import specific
+import { func1, value }
+  from './module.js';</code></pre>
+
+    <p>Default export:</p>
+
+    <pre><code class="language-javascript">// One per file
+export default function() { }
+
+// Import without braces
+import myFunction from './module.js';</code></pre>
+
+    <hr>
+
+    <h2>Serving Static Files</h2>
+
+    <p>
+      Without static file serving, users can't access CSS, JS or images. We need to give explicit
+      permission to Express in order to serve these files.
+    </p>
+
+    <pre><code class="language-javascript">import express from 'express';
+const app = express();
+
+// Serve files from 'public' directory
+app.use(express.static('public'));</code></pre>
+
+    <h3>File Paths in Express</h3>
+
+    <p>Always use <code>path.resolve</code> — it creates absolute paths, which are required by <code>sendFile</code>. Note that <code>__dirname</code> is CommonJS-specific and won't work with ES Modules.</p>
+
+    <pre><code class="language-javascript">import path from 'path';
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(
+    'public/frontpage/frontpage.html'
+  ));
+});
+
+app.get('/cookieFactory', (req, res) => {
+  res.sendFile(path.resolve(
+    'public/cookieFactory/cookieFactory.html'
+  ));
+});</code></pre>
+
+    <h3>Typical Project Structure</h3>
+
+    <pre><code class="language-bash">project/
+├── public/           # client
+│   ├── frontpage/
+│   │   ├── frontpage.html
+│   │   └── frontpage.css
+│   └── cookieFactory/
+├── util/             # server
+│   └── esModuleCookiesUtil.js
+├── package.json      # server
+└── app.js            # server</code></pre>
+
+    <hr>
+
+    <h2>Redirection</h2>
+
+    <h3>Client-Side</h3>
+
+    <p>Timed redirect with JavaScript:</p>
+
+    <pre><code class="language-javascript">setTimeout(() => {
+  window.location.href = '/success';
+}, 2000);</code></pre>
+
+    <p>Or with a meta tag:</p>
+
+    <pre><code class="language-html">&lt;meta http-equiv="refresh"
+  content="3;url=/success"&gt;</code></pre>
+
+    <p>Useful for redirecting users after a form submission or similar action.</p>
+
+    <h3>Server-Side</h3>
+
+    <pre><code class="language-javascript">app.get('/old-page', (req, res) => {
+  res.redirect('/new-page');
+});</code></pre>
+
+    <hr>
+
+    <h2>Summary</h2>
+
+    <ul>
+      <li>Use ES Modules with <code>"type": "module"</code> — never use CommonJS</li>
+      <li>Always include <code>.js</code> in ES Module imports</li>
+      <li>Use <code>app.use(express.static('public'))</code> for static files</li>
+      <li>Use <code>path.resolve()</code> for file paths</li>
+      <li>Client redirection: JavaScript or meta tags (user actions)</li>
+      <li>Server redirection: <code>res.redirect()</code></li>
+      <li>ES Modules work in both browsers and Node.js</li>
+    </ul>
+
+  </section>
+
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #faf7f2;
+    color: #1a1917;
+    font-family: "Computer Modern", serif;
+    font-size: 1.4rem;
+    display: block;
+    padding: 2rem;
+    padding-top: 0rem !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.darkmode {
+    background-color: #1a1917;
+    color: #e8e0d0;
+}
+
+hr {
+    margin-top: 2rem;
+    opacity: 0.6;
+}
+
+h1, h2, h3 {
+    font-family: "Playfair Display", serif;
+}
+
+.newspaper-p:first-letter {
+    font-family: "UnifrakturMaguntia", cursive;
+    margin-right: 8px;
+    float: left;
+    font-weight: bold;
+    font-size: 6rem;
+    line-height: 0.8;
+    padding-top: 0.25rem;
+}
+
+.darkmode-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    margin-top: 5px;
+}
+
+.darkmode-toggle:hover {
+    opacity: 1;
+}
+
+.main-section {
+    max-width: 800px;
+    line-height: 2;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+pre {
+    overflow-x: hidden;
+    filter: drop-shadow(8px 8px 20px #b0aca6);
+    font-size: 1.2rem;
+}
+
+body.darkmode pre {
+    filter: drop-shadow(8px 8px 0px #737270);
+}
+
+code:not(pre code) {
+    color: #2a5a8a;
+    border: 1px solid #9ab8d4;
+    background: #e8f0f8;
+    padding: 0.1em 0.4em;
+    font-size: 1.2rem;
+    vertical-align: baseline;
+    position: relative;
+    top: -0.05em;
+}
+
+body.darkmode code:not(pre code) {
+    color: #a8c8e8;
+    border: 1px solid #2a3a5c;
+    background: #111825;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tbody td {
+    padding: 0.5rem;
+    border: thin solid #1a1917;
+}
+
+body.darkmode tbody td {
+    padding: 0.5rem;
+    border: thin solid #e8e0d0;
+}

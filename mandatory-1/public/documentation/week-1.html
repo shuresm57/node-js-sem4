@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 1</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <section class="main-section">
+
+    <h1>Introduction to Node.js</h1>
+
+    <h2>Node.js Introduction</h2>
+    <p class="newspaper-p">
+      Node.js is a JavaScript runtime built on Chrome's V8 engine, allowing us
+      to run JavaScript outside of a browser. It is commonly used for building
+      server-side apps, including Server API's, but also CLI's, desktop apps using the Electron framework but also automation
+      since it can run natively in Github Actions.
+    </p>
+
+    <h3>REPL</h3>
+    <p>
+      REPL stands for Read-Eval-Print-Loop. It's an environment where we interactively
+      can type JavaScript code and then see the immediate result. This is great for quickly
+      testing code snippets in a terminal, instead of running it in an IDE.
+    </p>
+
+    <hr>
+
+    <h2>Javascript Fundamentals</h2>
+
+    <h3>Variables and Data Types</h3>
+    <p>
+      JavaScript has three ways of declaring a variable:
+    </p>
+    <p>
+      <code>const</code> Used for values that won't be reassigned.<br>
+      <code>let</code> Used for values that will change.<br>
+      <code>var</code> Not used anymore, avoid using at all costs.
+    </p>
+    <p>
+      We usually want to use <code>const</code> when assigning a variable,
+      but there are times where this would cause unwanted functionality, such as:
+    </p>
+    <pre><code class="language-javascript">for(const i = 0; i < 5, i++){
+  console.log(i) // will print 0 once
+}</code></pre>
+
+    <p>
+      But on the other hand, it is a bad habit of 'just' using <code>let</code> for everything out of habit,
+      when most variables never actually get reassigned.
+
+      Some examples of using <code>let</code>, instead of <code>const</code>:
+    </p>
+
+    <pre><code class="language-javascript"> let status = 'active';
+ status = 'done'
+ let total = 0;
+ total += price;</code></pre>
+
+    <h3>Data Types</h3>
+    <ol>
+      <li><strong>String</strong> - Text value</li>
+      <li><strong>Number</strong> - Numeric values</li>
+      <li><strong>Boolean</strong> - True or False</li>
+      <li><strong>Object</strong> - Collection of key: value pairs</li>
+      <li><strong>BigInt</strong> - Very large integers</li>
+      <li><strong>Symbol</strong> - Unique identifier</li>
+      <li><strong>Null</strong> - Absence of value</li>
+      <li><strong>Undefined</strong> - Variable declared but not assigned</li>
+    </ol>
+
+    <h3>Type Coercion</h3>
+
+    <p>JavaScript will automatically convert types when needed:</p>
+
+    <pre><code class="language-javascript"> const year = 2020;
+ const increment = 1;
+ const result = year + increment;
+ // result = 20251 (String concatenation)</code></pre>
+
+    <p>To avoid unexpected behavior, explicitly convert types:</p>
+
+    <pre><code class="language-javascript"> const numberYear = Number(year);
+ const newYear = numberYear + increment;
+ // newYear = 2026 (Number addition)</code></pre>
+
+    <h3>Strict Equality</h3>
+
+    <p>
+      Use <code>===</code> instead of <code>==</code> by default, unless you have a reason to check for type coercion:
+    </p>
+
+    <pre><code class="language-javascript"> '5' == 5 // True
+ '5' === 5 // False</code></pre>
+
+    <h3>Strings and Numbers</h3>
+
+    <p>
+      There are 3 ways of defining string in javascript:
+    </p>
+    <ul>
+      <li>Double quotes</li>
+      <li>Single quotes</li>
+      <li>Backticks (Template literals)</li>
+    </ul>
+    <p>
+      You can use double quotes inside a string of single quotes and vice versa.
+      We strive to only use single quotes, to adhere to a standard within JavaScript.
+    </p>
+
+    <pre><code class="language-javascript">const firstName = "Svend"
+const lastName = 'Støvring Storgaard'
+
+const fullName = `My first name is ${firstName}
+and my last name is ${lastName}`</code></pre>
+
+    <h3>String Methods</h3>
+
+    <p>Replace word:</p>
+    <pre><code class="language-javascript">const fact = 'You are learning javascript!';
+const capitalizedFact =
+    fact.replace('javascript', 'JavaScript');</code></pre>
+
+    <p>Accessing String Characters:</p>
+    <pre><code class="language-javascript">const letters = 'abc';
+console.log(letters.charAt(2)); // 'c'
+console.log(letters[2]);        // 'c'</code></pre>
+
+    <hr>
+
+    <h2>Working with Numbers</h2>
+
+    <h3>Converting Strings to Numbers</h3>
+
+    <pre><code class="language-javascript">// parseFloat - converts to decimal number
+const numberOne = '1.10';
+const numberTwo = '2.30';
+const total = parseFloat(numberOne) +
+    parseFloat(numberTwo);
+// 3.4
+
+// Number - general conversion
+const anotherNumber = Number('42'); // 42</code></pre>
+
+    <h3>toFixed()</h3>
+
+    <p>Format decimal places:</p>
+    <pre><code class="language-javascript">const anotherNumberOne = '1.123849';
+const anotherNumberTwo = '2.30';
+const sum = Number(anotherNumberOne) +
+    Number(anotherNumberTwo);
+console.log(sum.toFixed(2)); // '3.42'</code></pre>
+
+    <h3>Calculating Averages</h3>
+
+    <pre><code class="language-javascript">const one = 10;
+const two = 45;
+const three = 98;
+const avg = (one + two + three) / 3;
+console.log(avg);</code></pre>
+
+    <hr>
+
+    <h2>Arrays and Objects</h2>
+
+    <h3>Arrays</h3>
+
+    <p>An ordered collection of values, accessed by index.</p>
+
+    <p>Creating arrays:</p>
+    <pre><code class="language-javascript">const letters = ['a', 'b', 'c'];
+const friends = [];</code></pre>
+
+    <p>Accessing arrays:</p>
+    <pre><code class="language-javascript">console.log(letters[1]); // 'b'</code></pre>
+
+    <p>Adding elements:</p>
+    <pre><code class="language-javascript">const people = [];
+people.push('Valdemar');
+console.log(people); // ['Valdemar']</code></pre>
+
+    <p>Array methods:</p>
+    <pre><code class="language-javascript">const significantMathNumbers =
+    [0, 2.718, 3.14159, 1729];
+
+// indexOf - find the position of a value
+console.log(
+    significantMathNumbers.indexOf(1729)
+); // 3
+
+// splice - insert or remove elements
+const diet = ['tomato', 'cucumber', 'rocket'];
+diet.splice(2, 0, 'hamburger', 'pizza', 'soda');
+// ['tomato', 'cucumber', 'hamburger',
+// 'pizza', 'soda', 'rocket']
+
+// pop - remove last element
+diet.pop();
+
+// Array.from - copy an array
+const dinnerTray = Array.from(diet);</code></pre>
+
+    <h3>Objects</h3>
+
+    <p>
+      Objects store data as key-value pairs. Just like you might see in JSON (<em>JavaScript Object Notation</em>),
+      except that JSON requires quoted keys and can't use comments - which is the key difference between the two.
+    </p>
+
+    <p>Creating an object:</p>
+    <pre><code class="language-javascript">const person = {
+    name: 'Mathias'
+};</code></pre>
+
+    <p>Accessing properties:</p>
+    <pre><code class="language-javascript">const greetings = {
+    message: 'Hello, earthling! I bring peace.'
+};
+console.log(greetings.message);</code></pre>
+
+    <p>Modifying objects:</p>
+    <pre><code class="language-javascript">// Change existing property
+person.name = 'Gustav';
+
+// Add new property
+person.age = 31;
+
+// Add to empty object
+const stackOverflow = {};
+stackOverflow.isAllowed = true;</code></pre>
+
+    <p>Removing properties:</p>
+    <pre><code class="language-javascript">const thisSong = {
+    description: 'The best song in the world.'
+};
+delete thisSong.description;
+thisSong.about = 'Just a tribute.';</code></pre>
+
+    <hr>
+
+    <h2>Code Conventions</h2>
+
+    <h3>ASI (Automatic Semicolon Insertion)</h3>
+
+    <p>
+      JavaScript automatically inserts semicolons at the end of statements. However, it is considered best practice
+      to include them explicitly to avoid unexpected behavior.
+    </p>
+
+    <p>Best Practices:</p>
+    <ul>
+      <li>We want to use const by default, let when reassignment is needed</li>
+      <li>Use template literals (backticks) for string interpolation</li>
+      <li>Use strict equality (===) instead of loose equality (==)</li>
+      <li>Use variable names that are meaningful and purpose minded</li>
+      <li>Include semicolons explicitly</li>
+      <li>Use proper indentation</li>
+    </ul>
+
+    <h3>Linter</h3>
+
+    <p>Install ESLint or the Prettier extension and use this to format your code. It will ensure that your code is readable and therefore easily maintained and understandable for others.</p>
+
+    <h3>ESLint</h3>
+
+    <pre><code class="language-bash">npm install -g eslint</code></pre>
+
+    <p>Create a global config at <code>~/.eslintrc.json</code></p>
+    <pre><code class="language-json">{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"]
+  }
+}</code></pre>
+
+    <h3>Prettier</h3>
+
+    <pre><code class="language-bash">npm install -g prettier</code></pre>
+
+    <p>Create a global config at <code>~/.prettierrc.json</code></p>
+    <pre><code class="language-json">{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5"
+}</code></pre>
+
+    <h3>VS Code Integration</h3>
+
+    <p>Add this JSON to settings.json:</p>
+    <pre><code class="language-json">{
+  "eslint.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.configPath": "~/.prettierrc"
+}</code></pre>
+
+    <h3>Code Style Documentation</h3>
+    <ul>
+      <li><a href="https://www.w3schools.com/js/js_conventions.asp">https://www.w3schools.com/js/js_conventions.asp</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Code_style_guide/JavaScript">https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Code_style_guide/JavaScript</a></li>
+      <li><a href="https://docs.gitlab.com/development/fe_guide/style/javascript/">https://docs.gitlab.com/development/fe_guide/style/javascript/</a></li>
+      <li><a href="https://www.npmjs.com/package/airbnb-style">https://www.npmjs.com/package/airbnb-style</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>REST API Design</h2>
+
+    <p>
+      REST (<em>Representational State Transfer</em>) is an architectural style for designing networked applications.
+      A REST API uses HTTP requests to perform operations on resources (<em>resources = data</em>).
+    </p>
+
+    <h3>Core Principles</h3>
+
+    <h3>HTTP Methods</h3>
+    <p>Each HTTP method has a specific purpose:</p>
+    <ul>
+      <li><code>GET</code> - Retrieve data (Read)</li>
+      <li><code>POST</code> - Create new data (Create)</li>
+      <li><code>PUT</code> - Update/replace existing data (Update)</li>
+      <li><code>PATCH</code> - Partially update existing data (Update)</li>
+      <li><code>DELETE</code> - Remove data (Delete)</li>
+    </ul>
+
+    <p>These methods map to CRUD operations:</p>
+    <ul>
+      <li>Create → POST</li>
+      <li>Read → GET</li>
+      <li>Update → PUT/PATCH</li>
+      <li>Delete → DELETE</li>
+    </ul>
+
+    <h3>Method Ordering</h3>
+    <p>When documenting or implementing REST APIs, methods should be presented in a standard order: GET, POST, PUT, PATCH, DELETE.</p>
+
+    <h3>Endpoint Standardization</h3>
+    <p>Endpoints should be:</p>
+    <ul>
+      <li>Noun-based (not verb-based) - represent resources, not actions</li>
+      <li>Plural - use collection names (/beers not /beer)</li>
+      <li>Hierarchical - show relationships between resources</li>
+      <li>Consistent - follow the same patterns throughout your API</li>
+    </ul>
+
+    <h3>Example: Beer API</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Method</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>/beers</td><td>GET</td><td>Retrieve all beer resources.</td></tr>
+        <tr><td>/beers/{id}</td><td>GET</td><td>Retrieve a beer resource by id.</td></tr>
+        <tr><td>/beers</td><td>POST</td><td>Create a beer resource.</td></tr>
+        <tr><td>/beers/{id}</td><td>PUT</td><td>Update a beer resource.</td></tr>
+        <tr><td>/beers/{id}</td><td>PATCH</td><td>Update parts of a beer resource.</td></tr>
+        <tr><td>/beers/{id}</td><td>DELETE</td><td>Delete a beer resource.</td></tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>

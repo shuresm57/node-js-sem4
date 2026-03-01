@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 3</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <section class="main-section">
+
+    <h1>POST & Loops</h1>
+
+    <h2>Loop Methods</h2>
+
+    <h3>Rules</h3>
+    <ul>
+      <li>Use loop methods over <code>for</code> loops.</li>
+      <li>Use <code>map()</code> over <code>.forEach()</code> if you need data back.</li>
+      <li>Only use <code>for</code> loops for finger counting.</li>
+    </ul>
+
+    <h3>Key Methods</h3>
+
+    <pre><code class="language-javascript">// .map() - transform 1:1
+const doubled = [1, 2, 3].map(n => n * 2);
+// [2, 4, 6]
+
+// .filter() - keep matches
+const evens = [1, 2, 3, 4].filter(n => n % 2 === 0);
+// [2, 4]
+
+// .find() - first match
+const movie = movies.find(m => m.id === 2);
+
+// .findIndex() - index of first match
+const index = movies.findIndex(m => m.id === 2);</code></pre>
+
+    <hr>
+
+    <h2>URL Structure</h2>
+
+    <p><code>https://www.google.com/search?q=cool+search</code></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Protocol</td><td>https</td></tr>
+        <tr><td>Protocol Identifier</td><td><code>://</code></td></tr>
+        <tr><td>Subdomain</td><td>www</td></tr>
+        <tr><td>Domain</td><td>google</td></tr>
+        <tr><td>Top Level Domain</td><td>.com</td></tr>
+        <tr><td>Path</td><td>/search</td></tr>
+        <tr><td>Query String</td><td>?q=cool+search</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>POST Requests</h2>
+
+    <h3>Setup</h3>
+
+    <pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+// Required to parse JSON bodies.
+app.use(express.json());</code></pre>
+
+    <hr>
+
+    <h2>Complete CRUD</h2>
+
+    <p>Made in class with Anders — Crypto functions implemented by me.</p>
+
+    <h3>GET all</h3>
+
+    <pre><code class="language-javascript">app.get('/movies', (req, res) => {
+  console.log('Fetching all movie ressources');
+
+  // we do not use res.json, ever
+  const encryptedMovies = movies.map(movie => ({
+    ...movie,
+    id: encryptId(movie.id)
+  }));
+
+  res.send({ data: encryptedMovies });
+});</code></pre>
+
+    <h3>GET by ID</h3>
+
+    <pre><code class="language-javascript">app.get('/movies/:id', (req, res) => {
+  const providedMovieId = Number(
+    decryptId(req.params.id)
+  );
+  const foundMovie = movies.find(
+    (movie) => movie.id === providedMovieId
+  );
+
+  if (!foundMovie) {
+    return res.status(404).send({
+      errorMessage:
+        `No movie found with id ${req.params.id}`
+    });
+  }
+
+  res.send({
+    data: {
+      ...foundMovie,
+      id: encryptId(foundMovie.id)
+    }
+  });
+});</code></pre>
+
+    <h3>POST</h3>
+
+    <pre><code class="language-javascript">app.post('/movies', (req, res) => {
+  if (!req.body.title) {
+    return res.status(400).send({
+      errorMessage: 'JSON body must be provided'
+    });
+  }
+
+  const providedMovie = req.body;
+  providedMovie.id = nextId++;
+  movies.push(providedMovie);
+
+  res.send({ data: providedMovie });
+});</code></pre>
+
+    <h3>PATCH</h3>
+
+    <pre><code class="language-javascript">// TODO: Rewrite to Anders' version
+app.patch('/movies/:id', (req, res) => {
+  const providedMovie = movies.find(
+    (movie) => movie.id ===
+      Number(decryptId(req.params.id))
+  );
+
+  if (!providedMovie) {
+    return res.status(404).send({
+      errorMessage:
+        `No movie found with id ${req.params.id}`
+    });
+  }
+
+  if (req.body.title)
+    providedMovie.title = req.body.title;
+  if (req.body.description)
+    providedMovie.description = req.body.description;
+
+  res.send({
+    data: {
+      ...providedMovie,
+      id: encryptId(providedMovie.id)
+    }
+  });
+});</code></pre>
+
+    <h3>PUT</h3>
+
+    <pre><code class="language-javascript">app.put('/movies/:id', (req, res) => {
+  const movieIndex = movies.findIndex(
+    (movie) => movie.id ===
+      Number(decryptId(req.params.id))
+  );
+
+  if (movieIndex === -1) {
+    return res.status(404).send({
+      errorMessage:
+        `No movie found with id ${req.params.id}`
+    });
+  }
+  if (!req.body.title) {
+    return res.status(400).send({
+      errorMessage: 'ID and title are required'
+    });
+  }
+
+  movies[movieIndex] = {
+    id: Number(decryptId(req.params.id)),
+    title: req.body.title,
+    description: req.body.description
+  };
+
+  res.send({
+    data: {
+      ...movies[movieIndex],
+      id: encryptId(movies[movieIndex].id)
+    }
+  });
+});</code></pre>
+
+    <h3>DELETE</h3>
+
+    <pre><code class="language-javascript">app.delete('/movies/:id', (req, res) => {
+  const providedMovieId = Number(
+    decryptId(req.params.id)
+  );
+  const movieIndex = movies.findIndex(
+    (movie) => movie.id === providedMovieId
+  );
+
+  if (movieIndex === -1) {
+    return res.status(404).send({
+      errorMessage:
+        `No movie found with id ${req.params.id}`
+    });
+  }
+
+  const deletedMovie = movies.splice(movieIndex, 1)[0];
+  res.send({
+    data: deletedMovie,
+    message: "has been deleted"
+  });
+});</code></pre>
+
+    <hr>
+
+    <h2>PATCH vs PUT</h2>
+
+    <h3>PATCH</h3>
+    <p>
+      PATCH is for partially updating a resource — the required fields are just the changes.
+    </p>
+
+    <h3>PUT</h3>
+    <p>
+      PUT is the method for fully replacing a resource — all fields are required (except for ID).
+    </p>
+
+    <hr>
+
+    <h2>Status Codes</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>200</td><td>OK</td></tr>
+        <tr><td>201</td><td>Created</td></tr>
+        <tr><td>400</td><td>Bad Request</td></tr>
+        <tr><td>404</td><td>Not Found</td></tr>
+        <tr><td>500</td><td>Server Error</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Serving HTML &amp; Fetch</h2>
+
+    <h3>Backend</h3>
+
+    <pre><code class="language-javascript">app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});</code></pre>
+
+    <h3>Frontend</h3>
+
+    <pre><code class="language-javascript">fetch('/movies')
+  .then(res => res.json())
+  .then(data => console.log(data));</code></pre>
+
+    <hr>
+
+    <h2>XSS Prevention</h2>
+
+    <p>
+      Using <code>innerHTML</code> to set the text in an element or tag can be a security problem
+      and poses a threat to unwanted actions on a site. Use <code>textContent</code> instead.
+    </p>
+
+    <pre><code class="language-javascript">// Unsafe - can be used to execute scripts
+div.innerHTML = userInput;
+
+// Safe - treats as text only
+div.textContent = userInput;</code></pre>
+
+    <hr>
+
+    <h2>ID Encryption</h2>
+
+    <p>
+      Uses the <code>crypto</code> module to encrypt IDs with AES-256-CBC. Encrypting IDs before
+      sending them to the client can prevent users from guessing sequential IDs and accessing
+      unauthorized resources.
+    </p>
+
+    <div class="infobox">
+      <p>This was a misunderstanding — it was not a part of the curriculum.</p>
+    </div>
+
+    <h3>Setup</h3>
+
+    <pre><code class="language-javascript">const crypto = require('crypto');
+const SECRET = process.env.SECRET_KEY;
+
+const algorithm = 'aes-256-cbc';
+
+// Converts secret to 32 bytes for the algorithm
+const key = crypto.scryptSync(SECRET, 'salt', 32);
+
+// 16-bit initialization vector for the algorithm
+const iv = Buffer.alloc(16, 0);
+
+// To create a 32 char key:
+// const SECRET =
+//   crypto.randomBytes(32).toString('hex');
+// console.log(SECRET);</code></pre>
+
+    <h3>encryptId</h3>
+
+    <pre><code class="language-javascript">function encryptId(id) {
+  const cipher = crypto.createCipheriv(
+    algorithm, key, iv
+  );
+  let encrypted = cipher.update(
+    String(id), 'utf-8', 'hex'
+  );
+  encrypted += cipher.final('hex');
+  return encrypted;
+}</code></pre>
+
+    <h3>decryptId</h3>
+
+    <pre><code class="language-javascript">function decryptId(encrypted) {
+  try {
+    const decipher = crypto.createDecipheriv(
+      algorithm, key, iv
+    );
+    let decrypted = decipher.update(
+      encrypted, 'hex', 'utf-8'
+    );
+    decrypted += decipher.final('utf-8');
+    return parseInt(decrypted);
+  } catch (error) {
+    // Return null if decryption fails
+    return null;
+  }
+}
+
+module.exports = { encryptId, decryptId };</code></pre>
+
+    <hr>
+
+    <h2>Nodemon</h2>
+
+    <h3>Installation &amp; Usage</h3>
+
+    <pre><code class="language-bash">npm install --save-dev nodemon
+nodemon app.js</code></pre>
+
+    <p>
+      This npm package auto-restarts the server on file changes — great for development,
+      but not for deployment.
+    </p>
+
+  </section>
+
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>

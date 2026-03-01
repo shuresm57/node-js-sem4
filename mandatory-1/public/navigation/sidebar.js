@@ -16,10 +16,14 @@ headings.forEach(h => {
     a.classList.add('active');
     
     const target = document.getElementById(h.id);
-    target.scrollIntoView({ behavior: 'smooth' });
+    target.scrollIntoView({ behavior: 'smooth',  block: 'start'});
   });
 
   nav.appendChild(a);
 });
+const link = document.createElement('link');
+link.rel = 'stylesheet';
+link.href = '../navigation/navigation.css';
+document.head.appendChild(link);
 
 document.body.prepend(nav);

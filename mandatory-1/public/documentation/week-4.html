@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 4</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+  <script>
+    const theme = localStorage.getItem("theme") || "dark";
+    document.documentElement.dataset.theme = theme;
+  </script>
+  <section class="main-section">
+
+    <h1>Time, Fetch and Deployment</h1>
+
+    <h2>Working with Time in JavaScript</h2>
+
+    <p>
+        In JavaScript, we can call on the <code>Date</code> object to generate a generic Date.
+
+        However, the object is a number in milliseconds since midnight of January 1, 1970 (UTC).
+
+        It is like this, to make sure we have a universal and timezone-independent way of calculating time.
+    </p>
+
+    <h3>Date Methods</h3>
+
+    <p>To generate a <code>Date</code> object, we can generate it like so:</p>
+
+    <pre><code class="language-javascript">new Date()        // UTC date + time
+// 28th of August, 2025, 3.30
+// (note that August = 7)
+new Date(2025, 7, 28, 3, 30)
+Date()            // Local time string
+Date.now()        // Unix timestamp
+                  // (ms since Jan 1, 1970)</code></pre>
+
+    <h3>Getting Current Month</h3>
+
+    <p>
+        When we call on the <code>Date.getMonth()</code> method, it returns a numbers,
+        representing the index in an array of 12 Months, starting at January - which means to access
+        April, we call upon monthNames[3].
+    </p>
+    <pre><code class="language-javascript">// Manual array approach
+const monthNames = [
+  "January", "February", "March",
+  "April", "May", "June", "July",
+  "August", "September", "October",
+  "November", "December"
+];
+
+app.get('/months/v1', (req, res) => {
+  // 0-11
+  const today = new Date().getMonth();
+  res.send(monthNames[today]);
+});</code></pre>
+    <p>
+        If we don't have a hardcoded array of month names, we can call on the method <code>toLocaleString()</code>.
+    </p>
+    <pre><code class="language-javascript">// Using toLocaleString
+app.get('/months/v2', (req, res) => {
+  const currentMonth = new Date()
+    .toLocaleString('en-uk', { month: 'long' });
+  res.send({ data: currentMonth });
+});</code></pre>
+
+    <h3>Unix Timestamp Counter</h3>
+
+    <p>
+      In an assignement with the dogma "Time", I created a new epoch for the unix counter, dated at my son's birth.
+      In order to do so, I had to first generate a <code>Date</code> object, then in a function make <code>const elapsedTimeUnix</code>,
+      which I then updated every second with <code>setInterval()</code> to generate a counter.
+    </p>
+
+    <pre><code class="language-javascript">const newUnix = new Date(2025, 7, 28, 3, 30).getTime();
+
+function getTimeSinceBirthInUnix() {
+  const elapsedTimeUnix = Math.floor(
+    (Date.now() - newUnix) / 1000
+  );
+  unixCounter.textContent = elapsedTimeUnix;
+}
+
+// Updates every second
+setInterval(getTimeSinceBirthInUnix, 1000);</code></pre>
+
+    <hr>
+
+    <h2>Fetch API</h2>
+    <p>
+    In our frontend, we can utilize the <code>fetch()</code> method, for making HTTP requests to our server and process
+    the responses.
+    </p>
+    
+    <p>
+    The metod starts the process of fetching a resource from a network, which then returns a promise, that gets 
+    fulfilled once the response is available.
+    </p>
+    
+
+    <h3>Basic Fetch Request</h3>
+    <p>
+    When requesting a resource, we expect a response from the server, that's where the <code>.then()</code> method comes in
+    When the promise has been resolved, <code>.then()</code> takes the raw response and calls <code>.json()</code>,
+    which parses it to a JSON string - this also returns a promise, which is why there is a second <code>.then()</code>.
+    </p>
+    
+
+    <p>
+    The second <code>.then()</code> recieves the parsed JavaScript object (<code>data</code>) and logs it to the console.
+    </p>
+
+    <pre><code class="language-javascript">fetch('/movies')
+  .then(response => response.json())
+  .then(data => console.log(data));</code></pre>
+
+    <h3>POST Request</h3>
+    <p>
+    If you do not set a HTTP-verb for the method, it will default to <code>GET</code>, however, you can use
+    the <code>method:</code> option to use a different type of request.
+    
+    After defining the verb, you can set the headers and then the body, which is the actual payload of the request.
+    </p>
+    <p>
+    This is very useful when we want to send data to a server, in this instance we want to send a
+    <code>JSON</code> object, containing a Movie.
+    </p>
+    
+
+    <pre><code class="language-javascript">fetch('/movies', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: 'New Movie',
+    description: 'Description'
+  })
+})
+  .then(res => res.json())
+  .then(data => console.log(data));</code></pre>
+
+    <hr>
+
+    <h2>Server Setup with Error Handling</h2>
+
+    <pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.sendFile(
+    __dirname + '/public/frontpage.html'
+  );
+});
+
+app.listen(8080, (error) => {
+  if (error) {
+    console.log('Error starting the server');
+    return;
+  }
+  console.log('Server is running on port', 8080);
+});</code></pre>
+
+    <p>
+      <strong>Callback Pattern:</strong> Optional error parameter to handle startup failures.
+    </p>
+
+    <hr>
+
+    <h2>DOM Manipulation</h2>
+
+    <pre><code class="language-javascript">const counter =
+  document.getElementById('guest-book-counter');
+let counterValue = 0;
+
+function incrementCounter() {
+  counter.textContent = ++counterValue;
+}</code></pre>
+
+    <h3>JavaScript Loading</h3>
+
+    <pre><code class="language-javascript">// Inline (avoid mixing)
+&lt;script&gt; /* code */ &lt;/script&gt;
+
+// External (preferred)
+&lt;script src="./frontpage.js"&gt;&lt;/script&gt;</code></pre>
+
+    <hr>
+
+    <h2>Falsy Values</h2>
+
+    <p>JavaScript treats these as <code>false</code> in conditionals:</p>
+
+    <ul>
+      <li><code>false</code></li>
+      <li><code>null</code></li>
+      <li><code>undefined</code></li>
+      <li><code>NaN</code> (not a number)</li>
+      <li><code>""</code> (empty string)</li>
+      <li><code>0</code></li>
+    </ul>
+
+    <pre><code class="language-javascript">if (error) {  // Truthy check
+  console.log('Error occurred');
+  return;
+}</code></pre>
+
+  </section>
+
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>
