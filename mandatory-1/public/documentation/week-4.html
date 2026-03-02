@@ -23,6 +23,8 @@
 
     <h2>Working with Time in JavaScript</h2>
 
+    <h3>The Date Object</h3>
+
     <p>
         In JavaScript, we can call on the <code>Date</code> object to generate a generic Date.
 
@@ -96,6 +98,8 @@ setInterval(getTimeSinceBirthInUnix, 1000);</code></pre>
     <hr>
 
     <h2>Fetch API</h2>
+
+    <h3>Introduction to Fetch</h3>
     <p>
     In our frontend, we can utilize the <code>fetch()</code> method, for making HTTP requests to our server and process
     the responses.
@@ -105,9 +109,8 @@ setInterval(getTimeSinceBirthInUnix, 1000);</code></pre>
     The metod starts the process of fetching a resource from a network, which then returns a promise, that gets 
     fulfilled once the response is available.
     </p>
-    
 
-    <h3>Basic Fetch Request</h3>
+    <h3>Handling Responses</h3>
     <p>
     When requesting a resource, we expect a response from the server, that's where the <code>.then()</code> method comes in
     When the promise has been resolved, <code>.then()</code> takes the raw response and calls <code>.json()</code>,
@@ -118,6 +121,8 @@ setInterval(getTimeSinceBirthInUnix, 1000);</code></pre>
     <p>
     The second <code>.then()</code> recieves the parsed JavaScript object (<code>data</code>) and logs it to the console.
     </p>
+
+    <h3>Basic Fetch Request</h3>
 
     <pre><code class="language-javascript">fetch('/movies')
   .then(response => response.json())
@@ -151,7 +156,82 @@ setInterval(getTimeSinceBirthInUnix, 1000);</code></pre>
 
     <hr>
 
-    <h2>Server Setup with Error Handling</h2>
+    <h2>JavaScript and HTML Integration</h2>
+
+    <h3>The Document Object Model (DOM)</h3>
+    <p>
+      The DOM (Document Object Model) is an API that represents the HTML page as a tree of objects - we can use JavaScript to access these objects
+      and modify them in memory. The DOM tree consists of nodes, where each of these nodes represents a part of the document.
+    </p>
+    <p>
+      The DOM is not part of the JavaScript language - it was designed to be independent of any language, and therefore
+      we can theoretically use any langauge to access it, since it is available from a single API. 
+    </p>
+
+    <h3>DOM Manipulation In Practice</h3>
+
+    <p>
+      In this example, JavaScript updates the text inside an HTML element, whenever the function runs, meaning that the page can change, without
+      it being reloaded.
+    </p>
+    <p>
+      <code>document</code> represents the HTML page - but the <code>.getElementById()</code> is a DOM method, which finds and returns the HTML element
+      with the given id.
+    </p>
+    <h3>DOM Manipulation In Practice</h3>
+
+    <pre><code class="language-javascript">const counter =
+  document.getElementById('guest-book-counter');
+let counterValue = 0;
+
+function incrementCounter() {
+  counter.textContent = ++counterValue;
+}</code></pre>
+
+    <h3>Event Handling</h3>
+    <p>The <code>incrementCounter</code> function demonstrates how to update DOM elements dynamically, typically triggered by user events.</p>
+
+    <h3>JavaScript Loading</h3>
+
+    <p>
+      Now that we know we can manipulate the DOM, we need to load the script.
+
+      This can be done two ways: Inline or External.
+    </p>
+    <p>
+      The first example, is using Inline. This can be fine for small or few lines of scripts since it is laoded directly into the 
+      HTML file.
+    </p>
+    <p>
+      Second example is by calling upon a JavaScript file - this is great when we have a bunch of logic, which we then can divide
+      into separate modules or files, granting us with a better overview of scripting. We are required to think more
+      about our architecural decision in our project, but granted that, we have improved maintainability and readability by moving 
+      it into an external script.
+    </p>
+
+    <pre><code class="language-javascript">// Inline (avoid mixing)
+&lt;script&gt; /* code */ &lt;/script&gt;
+
+// External (preferred)
+&lt;script src="./frontpage.js"&gt;&lt;/script&gt;</code></pre>
+
+
+    <h2>Server Setup and Error Handling</h2>
+
+    <p>
+      Previously, when we have set up a server in our Node.js backend, we did it by only using <code>app.listen(8080)</code>.
+    </p>
+    <p>
+      While this can be fine, it can be better to have a more verbose method, not only telling us if the server is running,
+      but also if the server failed to start, giving us a much faster failure response.
+    </p>
+      <p> To do so, we need to create a callback function to <code>app.listen</code>, and parse <error>error</error>
+      as a paramter to the function. If something goes wrong, the <code>error</code> object will contain information about the problem.
+      </p>
+      <p>
+        Inside the callback, if <code>error</code> exists, we log an error - if not, we log that the Server is running on port 8080
+      </p>
+
 
     <pre><code class="language-javascript">const express = require('express');
 const app = express();
@@ -170,33 +250,11 @@ app.listen(8080, (error) => {
   console.log('Server is running on port', 8080);
 });</code></pre>
 
-    <p>
-      <strong>Callback Pattern:</strong> Optional error parameter to handle startup failures.
-    </p>
-
     <hr>
 
-    <h2>DOM Manipulation</h2>
+    <h2>Error Handling and Validation</h2>
 
-    <pre><code class="language-javascript">const counter =
-  document.getElementById('guest-book-counter');
-let counterValue = 0;
-
-function incrementCounter() {
-  counter.textContent = ++counterValue;
-}</code></pre>
-
-    <h3>JavaScript Loading</h3>
-
-    <pre><code class="language-javascript">// Inline (avoid mixing)
-&lt;script&gt; /* code */ &lt;/script&gt;
-
-// External (preferred)
-&lt;script src="./frontpage.js"&gt;&lt;/script&gt;</code></pre>
-
-    <hr>
-
-    <h2>Falsy Values</h2>
+    <h3>Falsy Values</h3>
 
     <p>JavaScript treats these as <code>false</code> in conditionals:</p>
 
@@ -209,11 +267,18 @@ function incrementCounter() {
       <li><code>0</code></li>
     </ul>
 
+    <h3>Truthy Checks in Practice</h3>
+
     <pre><code class="language-javascript">if (error) {  // Truthy check
   console.log('Error occurred');
   return;
 }</code></pre>
 
+  <h2>Deployment</h2>
+
+  <h3>Simple Deployment</h3>
+
+  <h3>Advanced Deployment</h3>
   </section>
 
   <script type="module" src="../navigation/toggle.js"></script>

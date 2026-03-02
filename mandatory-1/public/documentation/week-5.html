@@ -19,6 +19,8 @@
 
     <h2>ES Modules vs CommonJS</h2>
 
+    <h3>Enabling ES Modules</h3>
+
     <p>
       If we add <code>"type": "module"</code> to our package.json, it enables ES Modules syntax in Node.js.
     </p>
@@ -30,7 +32,7 @@
   }
 }</code></pre>
 
-    <h3>CommonJS</h3>
+    <h3>CommonJS Exporting</h3>
 
     <p>Exporting:</p>
 
@@ -42,6 +44,8 @@ function getCookie() {
 
 module.exports = { getCookie };</code></pre>
 
+    <h3>CommonJS Importing</h3>
+
     <p>Importing:</p>
 
     <pre><code class="language-javascript">const cookiesUtil =
@@ -49,7 +53,7 @@ module.exports = { getCookie };</code></pre>
 
     <p>This is the old way and we will not do that anymore. Instead we will use ES Modules.</p>
 
-    <h3>ES Modules</h3>
+    <h3>ES Modules Exporting</h3>
 
     <p>Exporting:</p>
 
@@ -62,6 +66,8 @@ export function esModuleCookieFactory() {
 export default {
   esModuleCookieFactory
 };</code></pre>
+
+    <h3>ES Modules Importing</h3>
 
     <p>Importing:</p>
 
@@ -77,13 +83,15 @@ import cookiesUtil
 
     <p><strong>Always</strong> use the <code>.js</code> extension in ES Module imports.</p>
 
-    <h3>Import / Export in HTML</h3>
+    <h3>Traditional Script Loading</h3>
 
     <p>Regular scripts share global scope — but order matters and can be hard to manage:</p>
 
     <pre><code class="language-html">&lt;!-- Scripts share global scope --&gt;
 &lt;script src="./common.js"&gt;&lt;/script&gt;
 &lt;script src="./cookieFactory.js"&gt;&lt;/script&gt;</code></pre>
+
+    <h3>Module Script Loading</h3>
 
     <p>With <code>type="module"</code>, every script has its own scope and can share code. The browser handles load order automatically:</p>
 
@@ -92,7 +100,7 @@ import cookiesUtil
   src="./cookies.js"&gt;
 &lt;/script&gt;</code></pre>
 
-    <h3>Export Patterns</h3>
+    <h3>Named vs Default Exports</h3>
 
     <p>Named exports (recommended):</p>
 
@@ -114,7 +122,9 @@ import myFunction from './module.js';</code></pre>
 
     <hr>
 
-    <h2>Serving Static Files</h2>
+    <h2>Static File Management</h2>
+
+    <h3>Express Static Middleware</h3>
 
     <p>
       Without static file serving, users can't access CSS, JS or images. We need to give explicit
@@ -127,7 +137,7 @@ const app = express();
 // Serve files from 'public' directory
 app.use(express.static('public'));</code></pre>
 
-    <h3>File Paths in Express</h3>
+    <h3>Absolute Path Requirements</h3>
 
     <p>Always use <code>path.resolve</code> — it creates absolute paths, which are required by <code>sendFile</code>. Note that <code>__dirname</code> is CommonJS-specific and won't work with ES Modules.</p>
 
@@ -160,15 +170,17 @@ app.get('/cookieFactory', (req, res) => {
 
     <hr>
 
-    <h2>Redirection</h2>
+    <h2>HTTP Redirection Techniques</h2>
 
-    <h3>Client-Side</h3>
+    <h3>JavaScript Redirection</h3>
 
     <p>Timed redirect with JavaScript:</p>
 
     <pre><code class="language-javascript">setTimeout(() => {
   window.location.href = '/success';
 }, 2000);</code></pre>
+
+    <h3>HTML Meta Redirection</h3>
 
     <p>Or with a meta tag:</p>
 
@@ -177,7 +189,7 @@ app.get('/cookieFactory', (req, res) => {
 
     <p>Useful for redirecting users after a form submission or similar action.</p>
 
-    <h3>Server-Side</h3>
+    <h3>Express Server Redirection</h3>
 
     <pre><code class="language-javascript">app.get('/old-page', (req, res) => {
   res.redirect('/new-page');
