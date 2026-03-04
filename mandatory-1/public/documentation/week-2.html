@@ -25,7 +25,7 @@
 
     <h2>Advanced JavaScript</h2>
 
-    <h3>Functions and Callbacks</h3>
+    <h3>Functions</h3>
 
     <p>The traditional way to define a function in Javascript:</p>
 
@@ -87,7 +87,7 @@ console.log(
 );
 // Output: "Valdemar is eating"</code></pre>
 
-    <p><strong>Callback with Anonymous Functions:</strong></p>
+    <p>We can also pass an anonymous arrow function directly as the callback:</p>
 
     <pre><code class="language-javascript">const runningAction = (name) => {
     return `${name} is running`;
@@ -111,6 +111,8 @@ console.log(
     </div>
 
     <h3>Scoping (const, let, var)</h3>
+
+    <p>How and where a variable can be accessed depends on how it was declared.</p>
 
     <h3>The problem with var</h3>
 
@@ -163,7 +165,10 @@ totalGlobalVariable = "";
 
     <h3>Reserved Keywords</h3>
 
-    <p>Some words are reserved and cannot be used as variable names:</p>
+    <p>
+      Some words are reserved and cannot be used as variable names — attempting to do so will 
+      throw a syntax error.
+    </p>
 
     <pre><code class="language-javascript">break, case, catch, class, const,
 continue, debugger, default, delete,
@@ -223,8 +228,17 @@ npm install express
 # Install a dev dependency
 npm install --save-dev eslint
 
+# Install a global dependency
+npm install -g nodemon
+
 # Install all dependencies from package.json
 npm install</code></pre>
+
+    <p>
+      Global packages are command-line tools available across all projects, rather than libraries 
+      imported into a specific codebase. Nodemon is a good example — installed once and used from 
+      the terminal in any project.
+    </p>
 
     <h3>Version Numbers</h3>
 
@@ -295,6 +309,8 @@ app.listen(8080);</code></pre>
     <p>You now have a server running at <code>http://localhost:8080</code></p>
 
     <h3>GET Requests</h3>
+
+    <p>GET is the default HTTP method — used to retrieve data from the server without modifying anything.</p>
 
     <h3>Basic Route</h3>
 
@@ -370,7 +386,7 @@ app.listen(8080);</code></pre>
       <li>Use path parameters for resource identification</li>
       <li>Use query parameters for filtering and options</li>
     </ul>
-
+    
   </section>
 
   <script type="module" src="../navigation/toggle.js"></script>

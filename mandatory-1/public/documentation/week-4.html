@@ -25,7 +25,7 @@
 
     <h3>The Date Object</h3>
 
-    <p>
+    <p class="newspaper-p">
         In JavaScript, we can call on the <code>Date</code> object to generate a generic Date.
 
         However, the object is a number in milliseconds since midnight of January 1, 1970 (UTC).
@@ -275,10 +275,37 @@ app.listen(8080, (error) => {
 }</code></pre>
 
   <h2>Deployment</h2>
+  <p>
+    Whenever we are developing an app, when we want to access it, it can only run on <code>localhost</code>.
+    We might want to make that publicly available, and that's where deployment comes in.
+  </p>
+  <p>
+  There are several ways of deploying an application, ranging from incredibly simple to very 
+  advanced, depending on what you need. 
+</p>
+<p>
+  Is it a single static page with no database? Use Vercel or GitHub Pages. Are you deploying 
+  a full-scale application with many microservices and high user load? Use a cloud provider 
+  like AWS, Azure, or orchestrate containers with Docker and Kubernetes.
+</p>
+  
 
-  <h3>Simple Deployment</h3>
+  <h3>Simple Deployment  With Vercel</h3>
 
-  <h3>Advanced Deployment</h3>
+  <p>
+  However, so far we have only made small applications without databases or any complex infrastructure,
+  which makes Vercel a great fit. Vercel is a cloud platform that lets us deploy Node.js and 
+  frontend projects with minimal configuration, it utilizes serverless computing, which means it will only
+  spin up a VM, when there is a request for the page.
+</p>
+<p>
+  To deploy with Vercel, we can register at their <a href="https://www.vercel.com">website</a>, connect our GitHub account and deploy within minutes.
+</p>
+<p>
+  Vercel integrates really well with GitHub, which means that pushing to a repository can automatically 
+  trigger a new deployment — so every time we push new code, our live site updates as well.
+</p>
+  
   </section>
 
   <script type="module" src="../navigation/toggle.js"></script>

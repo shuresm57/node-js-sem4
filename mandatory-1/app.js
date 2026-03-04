@@ -8,15 +8,15 @@ app.use(express.static('public', {
 
 
 app.get('/', (req,res) => {
-    res.sendFile(path.resolve('public/frontpage/frontpage.html'));
+  res.sendFile(path.resolve('public/frontpage/frontpage.html'));
 });
 
 app.get('/week-1', (req,res) => {
-    res.sendFile(path.resolve('public/documentation/week-1.html'));
+  res.sendFile(path.resolve('public/documentation/week-1.html'));
 });
 
 app.get('/week-2', (req,res) => {
-    res.sendFile(path.resolve('public/documentation/week-2.html'));
+  res.sendFile(path.resolve('public/documentation/week-2.html'));
 });
 
 app.listen(8080, (error) => {

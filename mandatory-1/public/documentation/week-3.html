@@ -17,34 +17,81 @@
 
     <h1>POST & Loops</h1>
 
-    <h2>Loop Methods</h2>
+   <h2>Loop Methods</h2>
+<p>
+  JavaScript gives us a set of built-in array methods that are cleaner than writing a 
+  traditional <code>for</code> loop. Rather than manually managing an index and iterating 
+  over an array, these methods let us describe <em>what</em> we want to do with the data, 
+  rather than <em>how</em> to loop over it.
+</p>
 
-    <h3>Rules</h3>
-    <ul>
-      <li>Use loop methods over <code>for</code> loops.</li>
-      <li>Use <code>map()</code> over <code>.forEach()</code> if you need data back.</li>
-      <li>Only use <code>for</code> loops for finger counting.</li>
-    </ul>
+<h3>Rules</h3>
+<ul>
+  <li>Use loop methods over <code>for</code> loops.</li>
+  <li>Use <code>map()</code> over <code>.forEach()</code> if you need data back.</li>
+  <li>Only use <code>for</code> loops for finger counting.</li>
+</ul>
 
-    <h3>Key Methods</h3>
+<h3>map()</h3>
+<p>
+  <code>map()</code> transforms every element in an array 1:1, returning a new array 
+  of the same length. Here we double every number — notice how the commented-out 
+  <code>for</code> loop achieves the same thing but requires far more code.
+</p>
+<pre><code class="language-javascript">const numbers = [1, 2, 3, 4, 5];
 
-    <pre><code class="language-javascript">// .map() - transform 1:1
-const doubled = [1, 2, 3].map(n => n * 2);
-// [2, 4, 6]
+// The for loop way (avoid this)
+// for(let i = 0; i < numbers.length; i++){
+//     const multipliedNumbers = []
+//     multipliedNumbers.push(numbers[i] * 2)
+// }
 
-// .filter() - keep matches
-const evens = [1, 2, 3, 4].filter(n => n % 2 === 0);
-// [2, 4]
+const doubledNumbers = numbers.map((number) => {
+  return number * 2;
+});
+// [2, 4, 6, 8, 10]</code></pre>
 
-// .find() - first match
-const movie = movies.find(m => m.id === 2);
+<p>
+  <code>map()</code> also works on arrays of objects. Here we update the difficulty 
+  of every balloon animal except the Koala, first with a full function, then as a one-liner 
+  using a ternary operator.
+</p>
+<pre><code class="language-javascript">const balloonAnimals = [
+  { type: 'Koala', difficulty: 5.0 },
+  { type: 'Dog', difficulty: 2.5 },
+  { type: 'Giraffe', difficulty: 1.0, isTall: true },
+];
 
-// .findIndex() - index of first match
-const index = movies.findIndex(m => m.id === 2);</code></pre>
+// Full version
+const updatedBalloonAnimals = balloonAnimals.map((balloonAnimal) => {
+  if (balloonAnimal.type !== 'Koala') {
+    balloonAnimal.difficulty = 3.0;
+  }
+  return balloonAnimal;
+});
 
+// One-liner using ternary
+const oneLinerUpdatedBalloonAnimals = balloonAnimals.map((balloonAnimal) => ({
+  difficulty: balloonAnimal.type !== 'Koala' ? 3.0 : balloonAnimal.difficulty,
+  ...balloonAnimal,
+}));</code></pre>
+
+<p>
+  Each callback in <code>map()</code> has access to three arguments — the current element, 
+  its index, and the original array.
+</p>
+<pre><code class="language-javascript">numbers.map((element, index, originalArray) =>
+  console.log(element, index, originalArray)
+);</code></pre>
     <hr>
 
     <h2>URL Structure</h2>
+
+    <p>
+  A URL is made up of several distinct parts, each serving 
+  a specific purpose. Understanding the structure helps us build better routes and 
+  query strings in our API.
+  </p>  
 
     <p><code>https://www.google.com/search?q=cool+search</code></p>
 
@@ -68,9 +115,19 @@ const index = movies.findIndex(m => m.id === 2);</code></pre>
 
     <hr>
 
-    <h2>POST Requests</h2>
+    <h2>JSON & Express</h2>
 
     <h3>Setup</h3>
+
+    <p>
+  The tagline for Express is "Fast, unopinionated, minimalist web framework for Node.js". 
+  This is quite literal — the default Express configuration has no built-in way to parse 
+  JSON from a request body.
+</p>
+<p>
+  Because of that, we need to register <code>express.json()</code> as middleware, which 
+  sits between the incoming request and our route handlers and parses the JSON body for us.
+</p>
 
     <pre><code class="language-javascript">const express = require('express');
 const app = express();
@@ -81,8 +138,11 @@ app.use(express.json());</code></pre>
     <hr>
 
     <h2>Complete CRUD</h2>
-
-    <p>Made in class with Anders — Crypto functions implemented by me.</p>
+      <p>
+  CRUD stands for Create, Read, Update and Delete. Together they map directly to HTTP methods: POST creates, 
+  GET reads, PATCH and PUT update, and DELETE removes.
+</p>
+    <p>Below is a full implementation built in class, with ID encryption added independently.</p>
 
     <h3>GET all</h3>
 
@@ -228,21 +288,36 @@ app.patch('/movies/:id', (req, res) => {
 
     <hr>
 
-    <h2>PATCH vs PUT</h2>
+    <h2>Understanding PATCH vs PUT</h2>
 
-    <h3>PATCH</h3>
     <p>
-      PATCH is for partially updating a resource — the required fields are just the changes.
-    </p>
+  Confusing PATCH and PUT can be detrimental when working with REST APIs, as using 
+  the wrong one could overwrite data you didn't intend to change. There is also a 
+  bandwidth consideration — PATCH only sends the fields that need updating, whereas 
+  PUT requires the entire object to be sent with every request. On large objects or 
+  high traffic, this difference in payload size becomes significant.
+</p>
+  <p>
 
-    <h3>PUT</h3>
-    <p>
-      PUT is the method for fully replacing a resource — all fields are required (except for ID).
-    </p>
+  But for our example, say we have a movie object with a title and a description. If we only want to update 
+  the title, we use PATCH — we only send the fields we want to change. If we use PUT, 
+  we replace the entire object, meaning all fields must be provided, otherwise they 
+  will be overwritten with empty values.
+</p>
+<p>
+  So in the end, choosing between the two comes down to intent — use PATCH when updating 
+  partially, and PUT when replacing objects entirely.
+</p>
 
     <hr>
 
     <h2>Status Codes</h2>
+
+    <p>
+  HTTP status codes are standardized numbers the server sends back to the client, 
+  indicating whether a request succeeded, failed, or something in between. 
+  Below are the most common ones. For a deeper dive, visit the <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">wiki page</a>
+</p>
 
     <table>
       <thead>
@@ -262,28 +337,18 @@ app.patch('/movies/:id', (req, res) => {
 
     <hr>
 
-    <h2>Serving HTML &amp; Fetch</h2>
-
-    <h3>Backend</h3>
-
-    <pre><code class="language-javascript">app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});</code></pre>
-
-    <h3>Frontend</h3>
-
-    <pre><code class="language-javascript">fetch('/movies')
-  .then(res => res.json())
-  .then(data => console.log(data));</code></pre>
-
-    <hr>
-
     <h2>XSS Prevention</h2>
 
-    <p>
-      Using <code>innerHTML</code> to set the text in an element or tag can be a security problem
-      and poses a threat to unwanted actions on a site. Use <code>textContent</code> instead.
-    </p>
+   <p>
+  Cross-Site Scripting, or XSS, is an attack where malicious scripts are injected into 
+  a page through user input, allowing an attacker to run malicious JavaScript code in another 
+  user's browser.
+</p>
+   <p>
+  <code>innerHTML</code> is used to insert user-provided content, but the browser will 
+  also parse and execute any script tags within it. Using <code>textContent</code> instead 
+  treats the input as plain text, neutralizing the attack.
+</p>
 
     <pre><code class="language-javascript">// Unsafe - can be used to execute scripts
 div.innerHTML = userInput;
@@ -294,16 +359,22 @@ div.textContent = userInput;</code></pre>
     <hr>
 
     <h2>ID Encryption</h2>
-
     <p>
       Uses the <code>crypto</code> module to encrypt IDs with AES-256-CBC. Encrypting IDs before
       sending them to the client can prevent users from guessing sequential IDs and accessing
       unauthorized resources.
     </p>
+    <p>
+      This was a misunderstanding — it was not part of the curriculum, however it taught me some 
+      lessons in encrypting IDs as a security measure. Insecure Direct Object Reference, or IDOR, 
+      is a vulnerability where an application exposes internal identifiers directly in the URL, 
+      allowing a user to increment the value and access resources they shouldn't.
+    </p>
+    <p>
+      In OWASP it is listed under Broken Access Control, which is ranked as the #1 vulnerability 
+      in the Top 10.
+    </p>
 
-    <div class="infobox">
-      <p>This was a misunderstanding — it was not a part of the curriculum.</p>
-    </div>
 
     <h3>Setup</h3>
 
@@ -366,8 +437,14 @@ module.exports = { encryptId, decryptId };</code></pre>
 nodemon app.js</code></pre>
 
     <p>
-      This npm package auto-restarts the server on file changes — great for development,
-      but not for deployment.
+      This npm package auto-restarts the server on file changes. This is great for development, because it means that 
+      we don't have to manually restart the server every time we want to see a change, it is very gratifying to see
+      instant feedback like this.
+    </p>
+    <p>
+      We don't want to use this for deployment though, it adds unnecessary overhead because it constantly needs to monitor 
+      the code for changes and it can cause unexpected restarts, if anything touches a file, such as logging, temp files etc.
+      Nodemon might register that as a change and abruptly restart the server, causing potential data loss.
     </p>
 
   </section>
