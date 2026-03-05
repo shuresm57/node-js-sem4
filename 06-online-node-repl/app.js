@@ -25,11 +25,17 @@ app.post('/api/repl', (req, res) => {
     res.send({ data: replCode });
 })
 
+// this is the process node runs from
+// console.log(process)
 
-app.listen(8080, (error) => {
+// don't use magic variables, use config variables
+const PORT = process.env.PORT || 8080;
+
+const server = app.listen(PORT, (error) => {
   if (error) {
-    console.log('Could not start the server on', 8080);
+    // we can call on the return value for the const server, not correct to use, but most truthful
+    console.log('Could not start the server on', server.address().port);
   };
 
-  console.log('Server running on ', 8080);
+  console.log('Server running on ', server.address().port);
 });
