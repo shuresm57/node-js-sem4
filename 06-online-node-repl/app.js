@@ -8,11 +8,11 @@ app.use(express.json());
 // ====================== PAGES ==============================
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve('public/frontend/frontend.html'));
+  res.sendFile(path.resolve('public/pages/frontend/frontend.html'));
 })
 
-app.get('/about', (req, res) => {
-  res.sendFile(path.resolve('public/about/about.html'));
+app.get('/pages/about', (req, res) => {
+  res.sendFile(path.resolve('public/pages/about/about.html'));
 })
 
 // ====================== API ==============================
@@ -21,6 +21,8 @@ import { getOrCreateSandboxContext, executeCodeInSandbox } from './util/replUtil
 
 app.post('/api/repl', (req, res) => {
     // let replCode = req.body?.replCode;
+
+    console.log(req.body);
 
     if(!req.body) {
       return res.status(400).send({ errorMessage: 'Missing a JSON body' });
@@ -36,9 +38,11 @@ app.post('/api/repl', (req, res) => {
 
     const { error, success, output, result } = executeCodeInSandbox(sandbox, replCode);
 
-
     if(error) {
-      return res.status(500).send({ errorMessage: 'Error executing the provided code'});
+      return res.status(500).send({ 
+        data: { error },
+        errorMessage: 'Error executing the provided code'
+      });
     }
 
     res.send({ data: { success, output, result } });
@@ -56,5 +60,5 @@ const server = app.listen(PORT, (error) => {
     console.log('Could not start the server on', error.message);
   };
 
-  console.log('Server running on ', server.address().port);
+  console.log('Server running on ', PORT);
 });
