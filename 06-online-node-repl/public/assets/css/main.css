@@ -2,3 +2,24 @@
     height: 10vh;
     min-height: 4rem;
 }
+
+body {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+/* nav {
+    height: 14vh;
+}
+
+main {
+    min-height: calc(100vh - 20vh);
+}
+
+footer {
+    height: 5vh;
+} */
