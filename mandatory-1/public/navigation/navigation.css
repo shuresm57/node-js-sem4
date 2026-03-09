@@ -1,14 +1,13 @@
 .sidebar {
     position: fixed;
-    left: 0;
+    left: 0rem;
     top: 4rem; 
     height: calc(100vh - 4rem);
     width: 15%;
     padding-left: 2rem;
     font-size: 1.3rem;
     display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+    flex-direction: column;    
 }
 .sidebar a {
     opacity: 0.6;

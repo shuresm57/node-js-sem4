@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 6</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="../documentation/documentation.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+    <main>
+
+    <h1>Development Basics</h1>
+    <h2>NPM Scripts</h2>
+
+    <p class="newspaper-p">
+        For development purposes, we might want to define a global way of running our application, so that we can have a consistent
+        way of running, developing and building our application, regardless of the machine or developer.
+    </p>
+    <pre><code class="language-json">{
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "5.2.1"
+  }
+}
+</code></pre>
+
+    <p>
+        The scripts can be run by running the following in the terminal:
+    </p>
+    <pre><code class="language-bash">npm run &lt;name-of-script&gt;
+</code></pre>
+    <p>We do this because it gives a standardized, project-local way of running commands.
+    </p>
+    <h2>Environment Variables</h2>
+
+    <p>
+        Sometimes we need to set values that is set outside the application, that are used
+        to configure behavior, without changing the code, but is still read at runtime. For this, we can use 
+        environment variables, to for example set a port or database URL per environment. 
+    </p>
+    <p>
+        In Node.js, every environment variable can be accessed by the global <code>process.env</code> object.
+    </p>
+    <pre><code class="language-javascript">// Read the PORT variable, fall back to 8080 if not set
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, (error) => {
+  if (error) {
+    console.log('Error starting the server');
+    return;
+  }
+  console.log('Server is running on port', PORT);
+});</code></pre>
+    <p>
+        Another important use case for environment variables, are for security. We can want to hardcode
+        API Keys, usernames, passwords and the like.
+    </p>
+
+    <p>
+        Surely we can hardcode the port number, however, you don't know if a fellow developer is running a different
+        port for development than you, so this way it can be customized per developer.
+    </p>
+    <h2>NODE_ENV</h2>
+
+    <h3>Development vs Production</h3>
+
+    <p>
+    <code>NODE_ENV</code> is a way for us to locally tell an application which environment it is running on. Libraries
+    such as Express use it internally to enable optimisations in productions mode. 
+    </p>
+
+    <h3>Setting Environment Variables</h3>
+
+    <p>
+        We can set these environment variables through the bash terminal with:
+        <pre><code class="language-bash">NODE_ENV=production</code></pre>
+        Or we can use <code>package.json</code>, like we showed earlier.
+        This way we can run different types of environments, making it easier
+        to run production, testing or development.
+        <pre><code class="language-json">{
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development node --watch app.js"
+  }
+}</code></pre>
+    </p>
+    <h2>Semantic HTML</h2>
+    <h3>What Is Semantic HTML</h3>
+
+    <p>Semantic HTML means using elements that carry meaning about the content they contain and not just how it looks.
+        It matters for accessibility, because a &lt;div&gt; says nothing about what it contains, whereas a &lt;nav&gt;
+        or &lt;code&gt; does. 
+    </p>
+    <p>
+        Assistive technology like screen readers use headings as signposts for navigation in content. 
+        So you should never skip a level in headings and always use them logically.
+    </p>
+    <pre><code class="language-html">&lt;header&gt;
+  &lt!-- Site logo, navigation, top bar --&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt!-- Primary content of the page --&gt;
+  &lt;section&gt;
+    &lt;h2>Section Title &lt/h2&gt;
+    &lt;p>Section content...&lt/p&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;!-- Copyright, links, secondary info --&gt;
+&lt;/footer&gt;</code></pre>
+    <h3></h3>
+
+    <h2>Better Project Structure</h2>
+
+    <h3>Shared vs Page Specific Assets</h3>
+
+    <p>
+        When our application grows, it usually also grows in file amounts, meaning
+        we need to keep a close eye on our project architecture.
+    </p>
+    <p>Up until now, we have used a page-specific architecture, where each page gets
+        a folder, and that folder contains the HTML, JS CSS, and images associated with that page.
+    </p>
+    <p>
+        But when the amount pages grows and when we start using JS files across the whole site, 
+        it is better to create a folder called assets, containing global CSS, JS and images.
+    </p>
+    <pre><code code="language-bash"> $ tree -L 3
+├── app.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── assets
+│   │   ├── css
+│   │   ├── images
+│   │   └── js
+│   └── pages
+│       ├── about
+│       └── frontend
+└── util
+    └── replUtil.js</code></pre>
+
+    <p>
+        The outcome of this, is that we can manage and overlook our architecture much more easily,
+        resulting in quicker navigation and less "where-did-i-put-my-hammer" type of situations.
+    </p>
+
+    <h2>Sticky Footer with CSS</h2>
+
+    <p>
+        On pages with no or little content, a footer will default to sitting in the middle of the page.
+        Of course, this looks incredibly untidy, but theres is a fix:
+    </p>
+    <pre><code class="language-css">body {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}</code></pre>
+
+    <h2>CDN vs Local</h2>
+
+    <h3>CDN</h3>
+
+    <p>Sometimes, we need to import static content to our application, like libraries, JavaScript files and CSS.
+        This can be done with CDN, which is a group of servers that are spread out across many locations.
+        They store duplicate copies of the data, so that the servers can fulfill requests based on the location 
+        of the end-user.
+    </p>
+    <p>
+        However, there are downsides to using CDN's. For example, if CDN goes down, your website will malfunction - it may 
+        also reduce performance, because it needs to establish a connection with a third-party website.
+    </p>
+    <pre><code class="language-html">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js">&lt;/script&gt;</code></pre>
+ </main>
+  <footer id="copyright-year"></footer>
+  <script type="module" src="../navigation/footer.js"></script>
+  <script type="module" src="../documentation/set-lang.js"></script>
+  <script type="module" src="../navigation/toggle.js"></script>
+  <script type="module" src="../navigation/topbar.js"></script>
+  <script type="module" src="../navigation/sidebar.js"></script>
+
+</body>
+</html>

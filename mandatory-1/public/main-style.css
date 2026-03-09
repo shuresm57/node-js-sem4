@@ -54,7 +54,7 @@ a {
     opacity: 1;
 }
 
-.main-section {
+main {
     max-width: 800px;
     line-height: 2;
     margin: 0 auto;
@@ -63,7 +63,7 @@ a {
 
 pre {
     overflow-x: hidden;
-    filter: drop-shadow(8px 8px 20px #b0aca6);
+    filter: drop-shadow(8px 8px 0px #737270);
     font-size: 1.2rem;
 }
 

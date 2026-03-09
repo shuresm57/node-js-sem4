@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +13,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
 </head>
+
 <body>
-  <section class="main-section">
+  <main>
 
-    <h1>ES Modules and Static Files</h1>
+    <h1>Modules, Static Files and Routing</h1>
 
-    <h2>ES Modules vs CommonJS</h2>
+    <h2>Module Systems in Node.js</h2>
 
     <h3>Enabling ES Modules</h3>
 
     <p class="newspaper-p">
-      If we add <code>"type": "module"</code> to our package.json, it enables ES Modules syntax in Node.js.
+      Up until now, we have used CommonJS for writing scripts and imports, meaning that if we wanted to share code
+      between files, they would have to all be imported
+      as scripts in the html files.
+      However, if we add <code>"type": "module"</code> to our package.json, it enables ES Modules syntax in Node.js.
     </p>
-
     <pre><code class="language-json">{
   "type": "module",
   "dependencies": {
     "express": "5.2.1"
-  }
+    }
 }</code></pre>
+    <p>
+      Now we can export from one file to anothers and share code between the two without having to use a html file
+      between them.
+    </p>
+
+
+
+    <h2>CommonJS</h2>
 
     <h3>CommonJS Exporting</h3>
+
+    <p>
+      In common JS we use <code>require()</code> and <code>module.exports</code> to export. This is no longer the
+      recommended
+      approach, but it was default for Node.js for many years
+    </p>
 
     <p>Exporting:</p>
 
@@ -51,23 +69,41 @@ module.exports = { getCookie };</code></pre>
     <pre><code class="language-javascript">const cookiesUtil =
   require('./util/commonjsCookiesUtil.js');</code></pre>
 
-    <p>This is the old way and we will not do that anymore. Instead we will use ES Modules.</p>
+    <p>This demonstration of CommonJS was purely intended as a educational purpose. Going forward, we will use ES
+      Modules</p>
+
+    <h2>ES Modules</h2>
 
     <h3>ES Modules Exporting</h3>
 
+    <p>
+      ES Module use <code>export</code> and <code>import</code> key words, which are also supported natively in
+      browsers,
+      that means we can use the same syntax on the client and the server. This is already a way cleaner approach, since
+      we can use
+      the same syntax all across our codebase.
+    </p>
     <p>Exporting:</p>
 
-    <pre><code class="language-javascript">// Named export
+    <pre><code class="language-javascript">// Named export, can have multiple per file
 export function esModuleCookieFactory() {
-  return 'On a break :D';
+  return 'On a break';
 }
 
-// Default export
+// Default export, only one per file
 export default {
   esModuleCookieFactory
 };</code></pre>
 
+
+
     <h3>ES Modules Importing</h3>
+
+    <p>
+      <strong>Important rule:</strong> Always keep the <code>.js</code> extenstion in ES Module import paths, Node.js
+      does not resolve the extension
+      automatically.
+    </p>
 
     <p>Importing:</p>
 
@@ -83,24 +119,14 @@ import cookiesUtil
 
     <p><strong>Always</strong> use the <code>.js</code> extension in ES Module imports.</p>
 
-    <h3>Traditional Script Loading</h3>
+      <h3>Named vs Default Exports</h3>
 
-    <p>Regular scripts share global scope — but order matters and can be hard to manage:</p>
+      <p>
+        Like we touched upon earlier, it is not possible to have more than one default exports per script,
+        but we can have many named exports.
 
-    <pre><code class="language-html">&lt;!-- Scripts share global scope --&gt;
-&lt;script src="./common.js"&gt;&lt;/script&gt;
-&lt;script src="./cookieFactory.js"&gt;&lt;/script&gt;</code></pre>
-
-    <h3>Module Script Loading</h3>
-
-    <p>With <code>type="module"</code>, every script has its own scope and can share code. The browser handles load order automatically:</p>
-
-    <pre><code class="language-html">&lt;!-- ES Module - isolated scope --&gt;
-&lt;script type="module"
-  src="./cookies.js"&gt;
-&lt;/script&gt;</code></pre>
-
-    <h3>Named vs Default Exports</h3>
+        Named exports are generally preferred, since you always know exactly what you are importing.
+      </p>
 
     <p>Named exports (recommended):</p>
 
@@ -122,13 +148,45 @@ import myFunction from './module.js';</code></pre>
 
     <hr>
 
+    <h2>Client-Side Module Loading</h2>
+
+    <h3>Traditional Script Loading</h3>
+
+    <p>Regular scripts share global scope with every other script in the page,
+      meaning variables can be passed from one file to another and accidentally overwrite another.
+      Load order also needs to be managed manually.
+    </p>
+
+    <pre><code class="language-html">&lt;!-- Scripts share global scope --&gt;
+&lt;script src="./common.js"&gt;&lt;/script&gt;
+&lt;script src="./cookieFactory.js"&gt;&lt;/script&gt;</code></pre>
+
+    <h3>Module Script Loading</h3>
+
+    <p>With <code>type="module"</code>, every script has its own scope and can share code. The browser handles load
+      order automatically:</p>
+
+    <pre><code class="language-html">&lt;!-- ES Module - isolated scope --&gt;
+&lt;script type="module"
+  src="./cookies.js"&gt;
+&lt;/script&gt;</code></pre>
+
+    
     <h2>Static File Management</h2>
 
+    <p>
+      When the browser renders a page, it will also request the affiliated CSS, JavaScript and image files.
+    </p>
+    <p>
+      But without explicit permission from the server, the requests will always return a 404, so we need to tell
+      Express which folder it should serve these files from.
+    </p>
     <h3>Express Static Middleware</h3>
 
     <p>
-      Without static file serving, users can't access CSS, JS or images. We need to give explicit
-      permission to Express in order to serve these files.
+      <code>express.static()</code> is a built-in Express middleware that serves any file inside the 
+      specified folder automatically. In this case we named it <code>'public'</code> and that becomes
+      directly accessible from the browser.
     </p>
 
     <pre><code class="language-javascript">import express from 'express';
@@ -139,7 +197,13 @@ app.use(express.static('public'));</code></pre>
 
     <h3>Absolute Path Requirements</h3>
 
-    <p>Always use <code>path.resolve</code> — it creates absolute paths, which are required by <code>sendFile</code>. Note that <code>__dirname</code> is CommonJS-specific and won't work with ES Modules.</p>
+    <p>
+      For specific page routes, we use <code>res.sendFile()</code>. This requires an absolute path,
+      which is not very useful. We can then use <code>path.resolve()</code> to construct a relative path instead.
+    </p>
+
+    <p>In the earlier weeks, we used <code>__dirname</code> which is a CommonJS feature and 
+    will not work in ES modules projects. <code>path.resolve()</code> is the replacement.</p>
 
     <pre><code class="language-javascript">import path from 'path';
 
@@ -155,7 +219,15 @@ app.get('/cookieFactory', (req, res) => {
   ));
 });</code></pre>
 
+    <h2>Project Organization</h2>
+
     <h3>Typical Project Structure</h3>
+
+    <p>
+      When working on full stack projects, clean separation between the client and server code makes 
+      the project easier to maintain and navigate. The <code>public/</code> folder belongs to the browser,
+      everything else belongs to the server.
+    </p>
 
     <pre><code class="language-bash">project/
 ├── public/           # client
@@ -172,24 +244,37 @@ app.get('/cookieFactory', (req, res) => {
 
     <h2>HTTP Redirection Techniques</h2>
 
-    <h3>JavaScript Redirection</h3>
+    <p>
+      We can redirect the user from the browser from one page to another.
+      A common usecase for this, is redirecting after a form submission. For example, sending
+      the user to a success page after a short delay.
+    </p>
 
-    <p>Timed redirect with JavaScript:</p>
+    <h3>Client Redirection</h3>
+
+    <p><strong>Timed redirect with JavaScript:</strong></p>
 
     <pre><code class="language-javascript">setTimeout(() => {
   window.location.href = '/success';
 }, 2000);</code></pre>
 
-    <h3>HTML Meta Redirection</h3>
+    <p><strong>HTML Meta Redirection</strong></p>
 
     <p>Or with a meta tag:</p>
 
     <pre><code class="language-html">&lt;meta http-equiv="refresh"
   content="3;url=/success"&gt;</code></pre>
 
-    <p>Useful for redirecting users after a form submission or similar action.</p>
+    
 
     <h3>Express Server Redirection</h3>
+
+    <p>
+      When the redirect should happen on the server — for example, to forward from an old URL
+      to a new one — we use <code>res.redirect()</code>. The server sends back a 302 response,
+      and the browser follows it automatically.
+    </p>
+
 
     <pre><code class="language-javascript">app.get('/old-page', (req, res) => {
   res.redirect('/new-page');
@@ -197,23 +282,12 @@ app.get('/cookieFactory', (req, res) => {
 
     <hr>
 
-    <h2>Summary</h2>
-
-    <ul>
-      <li>Use ES Modules with <code>"type": "module"</code> — never use CommonJS</li>
-      <li>Always include <code>.js</code> in ES Module imports</li>
-      <li>Use <code>app.use(express.static('public'))</code> for static files</li>
-      <li>Use <code>path.resolve()</code> for file paths</li>
-      <li>Client redirection: JavaScript or meta tags (user actions)</li>
-      <li>Server redirection: <code>res.redirect()</code></li>
-      <li>ES Modules work in both browsers and Node.js</li>
-    </ul>
-
-  </section>
+  </main>
 
   <script type="module" src="../navigation/toggle.js"></script>
   <script type="module" src="../navigation/topbar.js"></script>
   <script type="module" src="../navigation/sidebar.js"></script>
 
 </body>
+
 </html>

@@ -13,7 +13,7 @@
   <script>hljs.highlightAll();</script>
 </head>
 <body>
-  <section class="main-section">
+  <main>
 
     <h1>Introduction to Node.js</h1>
 
@@ -114,6 +114,11 @@
     <p>
       You can use double quotes inside a string of single quotes and vice versa.
       We strive to only use single quotes, to adhere to a standard within JavaScript.
+    </p>
+    <p>
+      Backticks allow us to use multi-line strings and string interpolation, which means we can pass variables into the string 
+      for dynamic use. It does allow for custom tag functions as well, but that has not been covered in this 
+      elective.
     </p>
 
     <pre><code class="language-javascript">const firstName = "Svend"
@@ -377,7 +382,7 @@ thisSong.about = 'Just a tribute.';</code></pre>
       </tbody>
     </table>
 
-  </section>
+  </main>
 
   <script type="module" src="../navigation/toggle.js"></script>
   <script type="module" src="../navigation/topbar.js"></script>
