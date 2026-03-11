@@ -162,7 +162,7 @@ app.listen(PORT, (error) => {
 
     <p>
         On pages with no or little content, a footer will default to sitting in the middle of the page.
-        Of course, this looks incredibly untidy, but theres is a fix:
+        Of course, this looks incredibly untidy, but there is a fix:
     </p>
     <pre><code class="language-css">body {
     min-height: 95vh;
@@ -173,7 +173,10 @@ app.listen(PORT, (error) => {
 main {
     flex: 1;
 }</code></pre>
-
+    <p>
+      The magic of this, is that it will now always sit at the bottom, regardless of the amount of things on the page. However, real magic
+      comes in, when we start looking at Server Side Rendering, which we have not covered yet.
+    </p>
     <h2>CDN vs Local</h2>
 
     <h3>CDN</h3>
@@ -183,6 +186,11 @@ main {
         They store duplicate copies of the data, so that the servers can fulfill requests based on the location 
         of the end-user.
     </p>
+      <p>
+          We use a CDN on this documentation page, to showcase code snippets.
+          <pre><code>Like this one</code></pre>
+          We can use this because of highlight.js, which we import at the top as a CDN, but also as a script tag at the bottom of the page — this ensures the library is loaded before <code>hljs.highlightAll()</code> is called.
+      </p>
     <p>
         However, there are downsides to using CDN's. For example, if CDN goes down, your website will malfunction - it may 
         also reduce performance, because it needs to establish a connection with a third-party website.
