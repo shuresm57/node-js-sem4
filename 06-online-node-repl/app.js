@@ -52,6 +52,7 @@ app.post('/api/repl', (req, res) => {
 // console.log(process)
 
 // don't use magic variables, use config variables
+// Short circuit syntax
 const PORT = process.env.PORT || 8080;
 
 const server = app.listen(PORT, (error) => {
