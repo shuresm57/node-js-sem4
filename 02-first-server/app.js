@@ -8,10 +8,16 @@ app.use(express.json());
 
 
 // path must be absolute, cannot be relative
+
+
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+// route
+      // endpoint
+                // callback function, route handler
 app.get('/xss', (req, res) => {
   res.sendFile(__dirname + '/xss.html')
 });
