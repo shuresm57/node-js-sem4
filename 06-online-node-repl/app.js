@@ -10,15 +10,18 @@ app.use(express.json());
 
 import fs from 'fs';
 
+// SSR is great because of SEO
+// also because of speed
+// also rendering runs on the server
 //const frontpage = fs.readFileSync('./public/pages/frontend/frontend.html', 'utf-8');
-const frontpage = fs.readFileSync('./public/pages/frontend/frontend.html').toString();
-
+const frontpagePage = fs.readFileSync('./public/pages/frontend/frontend.html').toString();
+const aboutPage = fs.readFileSync('./public/pages/about/about.html').toString();
 app.get('/', (req, res) => {
-  res.send(frontpage)
+  res.send(frontpagePage);
 })
 
 app.get('/pages/about', (req, res) => {
-  res.sendFile(path.resolve('public/pages/about/about.html'));
+  res.send(aboutPage);
 })
 
 // ====================== API ==============================
