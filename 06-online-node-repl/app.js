@@ -7,8 +7,14 @@ app.use(express.json());
 
 // ====================== PAGES ==============================
 
+
+import fs from 'fs';
+
+//const frontpage = fs.readFileSync('./public/pages/frontend/frontend.html', 'utf-8');
+const frontpage = fs.readFileSync('./public/pages/frontend/frontend.html').toString();
+
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve('public/pages/frontend/frontend.html'));
+  res.send(frontpage)
 })
 
 app.get('/pages/about', (req, res) => {
