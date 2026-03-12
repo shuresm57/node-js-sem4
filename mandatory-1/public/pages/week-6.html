@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Week 6</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <link rel="stylesheet" href="../main-style.css">
-  <link rel="stylesheet" href="../documentation/documentation.css">
+  <link rel="stylesheet" href="/assets/css/main-style.css">
+  <link rel="stylesheet" href="/assets/css/documentation.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -18,6 +18,8 @@
 
     <h1>Development Basics</h1>
     <h2>NPM Scripts</h2>
+
+    <h3>Defining Scripts</h3>
 
     <p class="newspaper-p">
         For development purposes, we might want to define a global way of running our application, so that we can have a consistent
@@ -35,6 +37,8 @@
 }
 </code></pre>
 
+    <h3>Running Scripts</h3>
+
     <p>
         The scripts can be run by running the following in the terminal:
     </p>
@@ -44,11 +48,16 @@
     </p>
     <h2>Environment Variables</h2>
 
+    <h3>What Are Environment Variables</h3>
+
     <p>
         Sometimes we need to set values that is set outside the application, that are used
         to configure behavior, without changing the code, but is still read at runtime. For this, we can use 
         environment variables, to for example set a port or database URL per environment. 
     </p>
+
+    <h3>Accessing Environment Variables in Node.js</h3>
+
     <p>
         In Node.js, every environment variable can be accessed by the global <code>process.env</code> object.
     </p>
@@ -62,6 +71,9 @@ app.listen(PORT, (error) => {
   }
   console.log('Server is running on port', PORT);
 });</code></pre>
+
+    <h3>Security and Configuration Benefits</h3>
+
     <p>
         Another important use case for environment variables, are for security. We can want to hardcode
         API Keys, usernames, passwords and the like.
@@ -96,16 +108,23 @@ app.listen(PORT, (error) => {
 }</code></pre>
     </p>
     <h2>Semantic HTML</h2>
+
     <h3>What Is Semantic HTML</h3>
 
     <p>Semantic HTML means using elements that carry meaning about the content they contain and not just how it looks.
         It matters for accessibility, because a &lt;div&gt; says nothing about what it contains, whereas a &lt;nav&gt;
         or &lt;code&gt; does. 
     </p>
+
+    <h3>Accessibility and Navigation</h3>
+
     <p>
         Assistive technology like screen readers use headings as signposts for navigation in content. 
         So you should never skip a level in headings and always use them logically.
     </p>
+
+    <h3>Example Structure</h3>
+
     <pre><code class="language-html">&lt;header&gt;
   &lt!-- Site logo, navigation, top bar --&gt;
 &lt;/header&gt;
@@ -121,16 +140,18 @@ app.listen(PORT, (error) => {
 &lt;footer&gt;
   &lt;!-- Copyright, links, secondary info --&gt;
 &lt;/footer&gt;</code></pre>
-    <h3></h3>
 
     <h2>Better Project Structure</h2>
 
-    <h3>Shared vs Page Specific Assets</h3>
+    <h3>Evolution of Project Architecture</h3>
 
     <p>
         When our application grows, it usually also grows in file amounts, meaning
         we need to keep a close eye on our project architecture.
     </p>
+
+    <h3>Page-Specific vs Global Assets</h3>
+
     <p>Up until now, we have used a page-specific architecture, where each page gets
         a folder, and that folder contains the HTML, JS CSS, and images associated with that page.
     </p>
@@ -138,6 +159,9 @@ app.listen(PORT, (error) => {
         But when the amount pages grows and when we start using JS files across the whole site, 
         it is better to create a folder called assets, containing global CSS, JS and images.
     </p>
+
+    <h3>Recommended Structure</h3>
+
     <pre><code code="language-bash"> $ tree -L 3
 ├── app.js
 ├── package-lock.json
@@ -153,6 +177,8 @@ app.listen(PORT, (error) => {
 └── util
     └── replUtil.js</code></pre>
 
+    <h3>Benefits</h3>
+
     <p>
         The outcome of this, is that we can manage and overlook our architecture much more easily,
         resulting in quicker navigation and less "where-did-i-put-my-hammer" type of situations.
@@ -160,10 +186,15 @@ app.listen(PORT, (error) => {
 
     <h2>Sticky Footer with CSS</h2>
 
+    <h3>The Problem</h3>
+
     <p>
         On pages with no or little content, a footer will default to sitting in the middle of the page.
         Of course, this looks incredibly untidy, but there is a fix:
     </p>
+
+    <h3>The Solution</h3>
+
     <pre><code class="language-css">body {
     min-height: 95vh;
     display: flex;
@@ -173,36 +204,44 @@ app.listen(PORT, (error) => {
 main {
     flex: 1;
 }</code></pre>
+
+    <h3>Result</h3>
+
     <p>
       Now, the footer will always sit at the bottom of the page, regardless of the amount of content that sits above it. This is a simple, but very
       powerful trick to give your page a polished look.
     </p>
     <h2>CDN vs Local</h2>
 
-    <h3>CDN</h3>
+    <h3>What is CDN</h3>
 
     <p>Sometimes, we need to import static content to our application, like libraries, JavaScript files and CSS.
         This can be done with CDN, which is a group of servers that are spread out across many locations.
         They store duplicate copies of the data, so that the servers can fulfill requests based on the location 
         of the end-user.
     </p>
+
+    <h3>Example Usage</h3>
+
       <p>
           We use a CDN on this documentation page, to showcase code snippets.
           <pre><code>Like this one</code></pre>
           We can use this because of highlight.js, which we import at the top as a CDN, but also as a script tag at the bottom of the page — this ensures the library is loaded before <code>hljs.highlightAll()</code> is called.
       </p>
+
+    <pre><code class="language-html">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js">&lt;/script&gt;</code></pre>
+
+    <h3>Downsides of CDN</h3>
+
     <p>
         However, there are downsides to using CDN's. For example, if CDN goes down, your website will malfunction - it may 
         also reduce performance, because it needs to establish a connection with a third-party website.
     </p>
-    <pre><code class="language-html">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js">&lt;/script&gt;</code></pre>
  </main>
   <footer id="copyright-year"></footer>
-  <script type="module" src="../navigation/footer.js"></script>
-  <script type="module" src="../documentation/set-lang.js"></script>
-  <script type="module" src="../navigation/toggle.js"></script>
-  <script type="module" src="../navigation/topbar.js"></script>
-  <script type="module" src="../navigation/sidebar.js"></script>
+  <script type="module" src="/assets/js/footer.js"></script>
+  <script type="module" src="/assets/js/topbar.js"></script>
+  <script type="module" src="/assets/js/sidebar.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,48 @@
+/* General styles only */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #faf7f2;
+    color: #1a1917;
+    font-family: "Computer Modern", serif;
+    font-size: 1.4rem;
+    display: block;
+    padding: 2rem;
+    padding-top: 0rem !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.darkmode {
+    background-color: #1a1917;
+    color: #e8e0d0;
+}
+
+main {
+    max-width: 800px;
+    line-height: 2;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+
+a {
+    color: #2a5a8a;
+}
+
+
+.darkmode-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    margin-top: 5px;
+}
+
+.darkmode-toggle:hover {
+    opacity: 1;
+}

@@ -1,23 +1,4 @@
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background-color: #faf7f2;
-    color: #1a1917;
-    font-family: "Computer Modern", serif;
-    font-size: 1.4rem;
-    display: block;
-    padding: 2rem;
-    padding-top: 0rem !important;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-body.darkmode {
-    background-color: #1a1917;
-    color: #e8e0d0;
-}
-
+/* Documentation-specific styles */
 hr {
     margin-top: 2rem;
     opacity: 0.6;
@@ -26,9 +7,7 @@ hr {
 h1, h2, h3 {
     font-family: "Playfair Display", serif;
 }
-a {
-    color: #2a5a8a;
-}
+
 .newspaper-p:first-letter {
     font-family: "UnifrakturMaguntia", cursive;
     margin-right: 8px;
@@ -39,29 +18,8 @@ a {
     padding-top: 0.25rem;
 }
 
-.darkmode-toggle {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0.4rem 0.9rem;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-    margin-top: 5px;
-}
-
-.darkmode-toggle:hover {
-    opacity: 1;
-}
-
-main {
-    max-width: 800px;
-    line-height: 2;
-    margin: 0 auto;
-    text-align: justify;
-}
-
 pre {
+    position: relative;
     overflow-x: hidden;
     filter: drop-shadow(8px 8px 0px #737270);
     font-size: 1.2rem;
@@ -69,6 +27,19 @@ pre {
 
 body.darkmode pre {
     filter: drop-shadow(8px 8px 0px #737270);
+}
+
+pre[data-lang]::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
 }
 
 code:not(pre code) {
@@ -100,4 +71,10 @@ tbody td {
 body.darkmode tbody td {
     padding: 0.5rem;
     border: thin solid #e8e0d0;
+}
+
+footer {
+    opacity: 0.2;
+    display: flex;
+    justify-content: center;
 }

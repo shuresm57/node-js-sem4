@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Week 5</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <link rel="stylesheet" href="../main-style.css">
+  <link rel="stylesheet" href="/assets/css/main-style.css">
+  <link rel="stylesheet" href="/assets/css/documentation.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -174,6 +175,8 @@ import myFunction from './module.js';</code></pre>
     
     <h2>Static File Management</h2>
 
+    <h3>The Problem</h3>
+
     <p>
       When the browser renders a page, it will also request the affiliated CSS, JavaScript and image files.
     </p>
@@ -181,6 +184,7 @@ import myFunction from './module.js';</code></pre>
       But without explicit permission from the server, the requests will always return a 404, so we need to tell
       Express which folder it should serve these files from.
     </p>
+
     <h3>Express Static Middleware</h3>
 
     <p>
@@ -195,12 +199,14 @@ const app = express();
 // Serve files from 'public' directory
 app.use(express.static('public'));</code></pre>
 
-    <h3>Absolute Path Requirements</h3>
+    <h3>Serving HTML Pages</h3>
 
     <p>
       For specific page routes, we use <code>res.sendFile()</code>. This requires an absolute path,
       which is not very useful. We can then use <code>path.resolve()</code> to construct a relative path instead.
     </p>
+
+    <h3>Path Resolution in ES Modules</h3>
 
     <p>In the earlier weeks, we used <code>__dirname</code> which is a CommonJS feature and 
     will not work in ES modules projects. <code>path.resolve()</code> is the replacement.</p>
@@ -221,13 +227,15 @@ app.get('/cookieFactory', (req, res) => {
 
     <h2>Project Organization</h2>
 
-    <h3>Typical Project Structure</h3>
+    <h3>Client vs Server Separation</h3>
 
     <p>
       When working on full stack projects, clean separation between the client and server code makes 
       the project easier to maintain and navigate. The <code>public/</code> folder belongs to the browser,
       everything else belongs to the server.
     </p>
+
+    <h3>Recommended Folder Structure</h3>
 
     <pre><code class="language-bash">project/
 ├── public/           # client
@@ -244,13 +252,17 @@ app.get('/cookieFactory', (req, res) => {
 
     <h2>HTTP Redirection Techniques</h2>
 
+    <h3>When to Use Redirects</h3>
+
     <p>
       We can redirect the user from the browser from one page to another.
       A common usecase for this, is redirecting after a form submission. For example, sending
       the user to a success page after a short delay.
     </p>
 
-    <h3>Client Redirection</h3>
+    <h3>Client-Side Redirection</h3>
+
+    <h4>JavaScript Timed Redirect</h4>
 
     <p><strong>Timed redirect with JavaScript:</strong></p>
 
@@ -258,23 +270,20 @@ app.get('/cookieFactory', (req, res) => {
   window.location.href = '/success';
 }, 2000);</code></pre>
 
-    <p><strong>HTML Meta Redirection</strong></p>
+    <h4>HTML Meta Redirection</h4>
 
     <p>Or with a meta tag:</p>
 
     <pre><code class="language-html">&lt;meta http-equiv="refresh"
   content="3;url=/success"&gt;</code></pre>
 
-    
-
-    <h3>Express Server Redirection</h3>
+    <h3>Server-Side Redirection</h3>
 
     <p>
       When the redirect should happen on the server — for example, to forward from an old URL
       to a new one — we use <code>res.redirect()</code>. The server sends back a 302 response,
       and the browser follows it automatically.
     </p>
-
 
     <pre><code class="language-javascript">app.get('/old-page', (req, res) => {
   res.redirect('/new-page');
@@ -284,9 +293,8 @@ app.get('/cookieFactory', (req, res) => {
 
   </main>
 
-  <script type="module" src="../navigation/toggle.js"></script>
-  <script type="module" src="../navigation/topbar.js"></script>
-  <script type="module" src="../navigation/sidebar.js"></script>
+  <script type="module" src="/assets/js/topbar.js"></script>
+  <script type="module" src="/assets/js/sidebar.js"></script>
 
 </body>
 

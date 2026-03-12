@@ -6,7 +6,7 @@ if (prefersDark) document.body.classList.add('darkmode');
 
 const link = document.createElement('link');
 link.rel = 'stylesheet';
-link.href = '../navigation/navigation.css';
+link.href = '/assets/css/navigation.css';
 document.head.appendChild(link);
 
 const topbar = document.createElement('div');
