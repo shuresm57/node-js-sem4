@@ -7,6 +7,10 @@ router.get('/', (req,res) => {
   res.send(pagesObject.frontpage);
 });
 
+router.get('/projects', (req, res) => {
+  res.send(pagesObject.projects);
+});
+
 router.get('/week-1', (req,res) => {
   res.send(pagesObject.week1);
 });

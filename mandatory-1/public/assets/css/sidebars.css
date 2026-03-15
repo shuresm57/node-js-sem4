@@ -1,0 +1,75 @@
+.sidebar {
+    top: 4rem;
+    height: calc(100vh - 3rem);
+    position: fixed;
+    left: 0rem;
+    width: 15%;
+    padding-left: 2rem;
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar2 {
+    top: 4rem;
+    height: calc(100vh - 3rem);
+    position: fixed;
+    right: 0rem;
+    width: 15%;
+    padding-right: 2rem;
+    font-size: 1.8rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar2 a {
+    opacity: 0.6;
+    text-decoration: none;
+    color: #555;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+body.darkmode .sidebar2 a {
+    color: #ccc;
+}
+
+.sidebar a {
+    opacity: 0.6;
+    text-decoration: none;
+    color: #555;
+    line-height: 2.2;
+    transition: color 0.2s ease;
+}
+
+body.darkmode .sidebar a {
+    color: #ccc;
+}
+
+.sidebar a:hover {
+    opacity: 1;
+}
+
+.sidebar a.h2 {
+    padding-left: 0.5rem;
+    color: #1a1917;
+}
+
+body.darkmode .sidebar .topbar a.h2 {
+    color: #e8e0d0;
+}
+
+.sidebar a.h3 {
+    padding-left: 1.5rem;
+    font-size: 0.85em;
+}
+
+.sidebar a.active {
+    opacity: 1;
+    color: #1a1917;
+    font-weight: bolder;
+}
+
+body.darkmode .sidebar .topbar a.active {
+    color: #e8e0d0;
+}

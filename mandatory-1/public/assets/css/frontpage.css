@@ -1,5 +1,6 @@
 p {
     line-height: 1;
+    animation: 1.2s fadeInDown;
 }
 
 main {
@@ -12,4 +13,27 @@ main {
     text-align-last: justify; 
     letter-spacing: 1.5px; 
     margin-top: 0.5rem;
+    animation: 1.2s fadeInUp;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(15%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }
