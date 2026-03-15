@@ -18,13 +18,13 @@ const homeButton = `
 `;
 
 const projects = readPage('./public/pages/projects.html');
-const projectsPage = constructPage(projects, { 
-  documentTitle: 'VSS', 
+const projectsPage = constructPage(projects, {
+  documentTitle: 'VSS - Projects',
   cssLinks: `
       <link rel="stylesheet" href="/assets/css/main-style.css">
-      <link rel="stylesheet" href="/assets/css/frontpage.css">
-      <link rel="stylesheet" href="/assets/css/topbar.css">`,
-  homeButton: homeButton 
+      <link rel="stylesheet" href="/assets/css/topbar.css">
+      <link rel="stylesheet" href="/assets/css/projects.css">`,
+  homeButton: homeButton
 });
 
 const weekScripts = '<script type="module" src="/assets/js/sidebar.js"></script>';
