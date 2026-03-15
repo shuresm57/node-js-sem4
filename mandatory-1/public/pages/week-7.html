@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 7</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="/assets/css/main-style.css">
+  <link rel="stylesheet" href="/assets/css/documentation.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+    <main>
+
+    <h1>Advanced Node.js Concepts</h1>
+    
+    <h2>Code Placement and Memory Efficiency</h2>
+    
+    <h3>Memory Management Principles</h3>
+    
+    <h3>Code Organization Impact</h3>
+
+    <h3>Memory Leaks and Prevention</h3>
+
+    <h2>Synchronous vs Asynchronous File Operations</h2>
+
+    <h3>Synchronous File Reading</h3>
+
+    <pre><code class="language-javascript">// Synchronous example from templatingEngine.js
+export function readPage(path) {
+    return fs.readFileSync(path).toString();
+}</code></pre>
+
+    <h3>Asynchronous File Reading</h3>
+
+    <h3>Performance Implications</h3>
+
+    <h3>When to Use Each Approach</h3>
+
+    <h2>Server-Side Rendering vs Client-Side Rendering</h2>
+
+    <h3>Load Time Comparison</h3>
+
+    <h3>Resource Utilization</h3>
+
+    <h3>SEO Considerations</h3>
+
+    <h3>CORS and SSR Advantages</h3>
+
+    <pre><code class="language-javascript">// SSR example from pagesRouter.js
+router.get('/', (req, res) => {
+  res.send(frontpagePage);
+})
+
+router.get('/about', (req, res) => {
+  res.send(aboutPage);
+})
+
+router.get('/contact', (req, res) => {
+  res.send(contactPage);
+})</code></pre>
+
+    <h2>Code Structure and File Organization</h2>
+
+    <h3>Avoiding Large Files</h3>
+
+    <h3>Modular Architecture Principles</h3>
+
+    <pre><code class="language-javascript">// Example of modular structure from app.js
+import pagesRouter from './routers/pagesRouter.js'
+app.use(pagesRouter);
+
+import replRouter from './routers/replRouter.js';
+app.use(replRouter);</code></pre>
+
+    <h3>Separation of Concerns</h3>
+
+    <h3>Best Practices for Project Structure</h3>
+
+    <h2>Express Router Implementation</h2>
+
+    <h3>Creating a Router by Heart</h3>
+
+    <pre><code class="language-javascript">// Basic Express Router pattern from replRouter.js
+import { Router } from 'express';
+
+const router = Router();
+
+router.get('/hello', (req, res) => {
+    res.send({ data: 'Hello :D' });
+})
+
+router.post('/api/repl', (req, res) => {
+    const {replCode, sandBoxID } = req.body;
+    
+    if (!replCode) {
+        return res.status(400).send({ 
+            errorMessage: 'Missing the key replCode in the JSON body' 
+        })
+    }
+    
+    // Process request...
+    res.send({ data: { success, output, result } });
+})
+
+export default router;</code></pre>
+
+    <h3>Router Configuration and Middleware</h3>
+
+    <h3>Route Parameter Handling</h3>
+
+    <h3>Error Handling in Routers</h3>
+
+    <h2>Template Engine and Dynamic Content</h2>
+
+    <h3>Server-Side Templating</h3>
+
+    <pre><code class="language-javascript">// Templating example from templatingEngine.js
+export function constructPage(page, options = {}) {
+    const header = readPage('./public/components/header/header.html');
+    const footer = readPage('./public/components/footer/footer.html');
+
+    return header
+            .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'Online Node.js REPL') 
+            .replace('$$CSS_LINKS$$', options.cssLinks || '<link rel="stylesheet" href="/pages/frontend/frontend.css">')
+          + page 
+          + footer;
+}</code></pre>
+
+    <h3>Dynamic Content Generation</h3>
+
+    <h3>Template Security Considerations</h3>
+
+    </main>
+    <footer id="copyright-year"></footer>
+    <script type="module" src="/assets/js/footer.js"></script>
+    <script type="module" src="/assets/js/topbar.js"></script>
+    <script type="module" src="/assets/js/sidebar.js"></script>
+
+</body>
+</html>

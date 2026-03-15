@@ -1,2 +1,1 @@
-const copyrightYearSpan = document.getElementById('copyright-year');
-copyrightYearSpan.textContent = '©' + new Date().getFullYear() + ' Valdemar Støvring Storgaard';
+document.getElementById('copyright-year').textContent = '© ' + new Date().getFullYear() + ' Valdemar Støvring Storgaard';

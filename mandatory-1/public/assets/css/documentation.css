@@ -73,8 +73,3 @@ body.darkmode tbody td {
     border: thin solid #e8e0d0;
 }
 
-footer {
-    opacity: 0.2;
-    display: flex;
-    justify-content: center;
-}
