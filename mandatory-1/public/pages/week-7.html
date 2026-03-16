@@ -51,7 +51,7 @@ export default router;</code></pre>
 
     <!-- how constructPage stitches header + page content + footer together using string placeholders -->
 
-    <h3>How It Works</h3>
+    <h3 id="how-it-works">How It Works</h3>
 
     <!-- readPage loads the HTML file, constructPage wraps it with header/footer and replaces $$PLACEHOLDERS$$ -->
 
@@ -62,7 +62,7 @@ export function constructPage(page, options = {}) {
 
     return header
             .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'Online Node.js REPL')
-            .replace('$$CSS_LINKS$$', options.cssLinks || '<link rel="stylesheet" href="/pages/frontend/frontend.css">')
+            .replace('$$CSS_LINKS$$', options.cssLinks || '&lt;link rel="stylesheet" href="/pages/frontend/frontend.css"&gt;')
           + page
           + footer;
 }</code></pre>
