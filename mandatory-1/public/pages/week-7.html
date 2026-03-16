@@ -1,71 +1,15 @@
 <h1>Advanced Node.js Concepts</h1>
-    
-    <h2>Code Placement and Memory Efficiency</h2>
-    
-    <h3>Memory Management Principles</h3>
-    
-    <h3>Code Organization Impact</h3>
 
-    <h3>Memory Leaks and Prevention</h3>
+    <h2>Creating an Express Router</h2>
 
-    <h2>Synchronous vs Asynchronous File Operations</h2>
+    <p class="newspaper-p">
+        In the previous weeks, when building <code>app.js</code>
+    </p>
+    <!-- how to write a router from scratch without looking it up -->
 
-    <h3>Synchronous File Reading</h3>
+    <h3>The Basic Pattern</h3>
 
-    <pre><code class="language-javascript">// Synchronous example from templatingEngine.js
-export function readPage(path) {
-    return fs.readFileSync(path).toString();
-}</code></pre>
-
-    <h3>Asynchronous File Reading</h3>
-
-    <h3>Performance Implications</h3>
-
-    <h3>When to Use Each Approach</h3>
-
-    <h2>Server-Side Rendering vs Client-Side Rendering</h2>
-
-    <h3>Load Time Comparison</h3>
-
-    <h3>Resource Utilization</h3>
-
-    <h3>SEO Considerations</h3>
-
-    <h3>CORS and SSR Advantages</h3>
-
-    <pre><code class="language-javascript">// SSR example from pagesRouter.js
-router.get('/', (req, res) => {
-  res.send(frontpagePage);
-})
-
-router.get('/about', (req, res) => {
-  res.send(aboutPage);
-})
-
-router.get('/contact', (req, res) => {
-  res.send(contactPage);
-})</code></pre>
-
-    <h2>Code Structure and File Organization</h2>
-
-    <h3>Avoiding Large Files</h3>
-
-    <h3>Modular Architecture Principles</h3>
-
-    <pre><code class="language-javascript">// Example of modular structure from app.js
-import pagesRouter from './routers/pagesRouter.js'
-app.use(pagesRouter);
-
-import replRouter from './routers/replRouter.js';
-app.use(replRouter);</code></pre>
-
-    <h3>Separation of Concerns</h3>
-
-    <h3>Best Practices for Project Structure</h3>
-
-    <h2>Express Router Implementation</h2>
-
-    <h3>Creating a Router by Heart</h3>
+    <!-- import Router, create it, define routes, export it - that's all you need -->
 
     <pre><code class="language-javascript">// Basic Express Router pattern from replRouter.js
 import { Router } from 'express';
@@ -78,28 +22,38 @@ router.get('/hello', (req, res) => {
 
 router.post('/api/repl', (req, res) => {
     const {replCode, sandBoxID } = req.body;
-    
+
     if (!replCode) {
-        return res.status(400).send({ 
-            errorMessage: 'Missing the key replCode in the JSON body' 
+        return res.status(400).send({
+            errorMessage: 'Missing the key replCode in the JSON body'
         })
     }
-    
+
     // Process request...
     res.send({ data: { success, output, result } });
 })
 
 export default router;</code></pre>
 
-    <h3>Router Configuration and Middleware</h3>
+    <h3>Hooking It Up in app.js</h3>
 
-    <h3>Route Parameter Handling</h3>
+    <!-- app.use() is how you plug the router in - middleware runs top to bottom so order matters -->
 
-    <h3>Error Handling in Routers</h3>
+    <h3>Reading URL Parameters</h3>
 
-    <h2>Template Engine and Dynamic Content</h2>
+    <!-- req.params for route params like /user/:id, req.body for POST data, req.query for ?foo=bar -->
 
-    <h3>Server-Side Templating</h3>
+    <h3>Sending Back Errors</h3>
+
+    <!-- always send a proper status code - 400 for bad input, 404 for not found, 500 for server errors -->
+
+    <h2>The Template Engine</h2>
+
+    <!-- how constructPage stitches header + page content + footer together using string placeholders -->
+
+    <h3>How It Works</h3>
+
+    <!-- readPage loads the HTML file, constructPage wraps it with header/footer and replaces $$PLACEHOLDERS$$ -->
 
     <pre><code class="language-javascript">// Templating example from templatingEngine.js
 export function constructPage(page, options = {}) {
@@ -107,12 +61,145 @@ export function constructPage(page, options = {}) {
     const footer = readPage('./public/components/footer/footer.html');
 
     return header
-            .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'Online Node.js REPL') 
+            .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'Online Node.js REPL')
             .replace('$$CSS_LINKS$$', options.cssLinks || '<link rel="stylesheet" href="/pages/frontend/frontend.css">')
-          + page 
+          + page
           + footer;
 }</code></pre>
 
-    <h3>Dynamic Content Generation</h3>
+    <h3>Passing Options Per Page</h3>
 
-    <h3>Template Security Considerations</h3>
+    <!-- each page gets its own title, css links and scripts passed in through the options object -->
+
+    <h3>Security</h3>
+
+    <!-- never inject raw user input into templates - sanitize first or you open the door to XSS -->
+
+    <h2>How to Structure Your Code</h2>
+
+    <!-- why splitting into routers/, util/, public/ is better than dumping everything in one file -->
+
+    <h3>One File Per Responsibility</h3>
+
+    <!-- each file does one job - routing, templating, page construction are all separate -->
+    <p>
+        We used to have a very long <code>app.js</code> file, containing all of the pages routing and API methods.
+    </p>
+    <p>
+        However, this quickly turned out to being a very long file, containing many different things that could be split up into other files,
+        such as <code>pagesRouter.js</code> and in our Online Node Repl <code>replRouter</code> containing the API logic for the REPL.
+    </p>
+
+    <pre><code class="language-javascript">// app.js
+import express from 'express';
+import pagesRouter from './routers/pagesRouter.js';
+
+const app = express();
+app.use(express.static('public'));
+app.use(pagesRouter);</code></pre>
+
+    <h3>Folder Structure</h3>
+
+    <!-- routers/ handles routing, util/ handles helpers, public/ holds static files - explain why this grouping makes sense -->
+
+    <h2>Code Placement and Efficiency</h2>
+
+    <!-- talk about how WHERE you put your code matters - stuff that runs once at startup vs stuff that runs on every request -->
+    <p>
+        Making sure your know when your code gets executed, is quite important - when making these types of webapps, ask yourself if the code
+        should run on startup or per request.
+    </p>
+    <h3>Startup vs. Per Request</h3>
+
+    <!-- pages are built once when the server starts and stored as variables - show how pagesUtil.js does this -->
+
+    <p>
+        One import thing to run on start up, could be the pages. If they are built on startup, the user does not need to wait
+        too long for the page to load. For this type of small app, it might not matter too much, but navigation does feel
+        snappier.
+    </p>
+    <p>
+        We did this in class by generating a pagesUtil, that will generate the pages based on different options and through
+        a homebrewed templating engine (We will get to that part later).
+    </p>
+
+    <pre><code class="language-javascript">// pagesUtil.js
+const week7 = readPage('./public/pages/week-7.html');
+const week7Page = constructPage(week7, {
+  documentTitle: 'VSS - Week 7',
+  cssLinks: weekCssLinks,
+  homeButton: homeButton,
+  scripts: weekScripts
+});</code></pre>
+
+    <h2>Sync vs. Async When Reading Files</h2>
+
+    <p>
+        When serving pages with <code>'fs'</code>, we have a choice between fetching the file synchronous or asynchronous. Choosing
+        one over the other matters, since we want to be sure the whole page is served when it is requested.
+    </p>
+    <p>
+        If files were read on every request, rather than once at startup, using synchronous would halt the whole server for each user and that's where async becomes necessary.
+    </p>
+
+    <h3>Why We Use Synchronous</h3>
+
+    <p>
+        The server needs the HTML content before it can send a response, so if it didn't wait for the file to finish
+        being read, it would serve either a broken file or nothing.
+    </p>
+
+    <pre><code class="language-javascript">// Synchronous example from templatingEngine.js
+export function readPage(path) {
+    return fs.readFileSync(path).toString();
+}</code></pre>
+
+    <h2>SSR vs. CSR</h2>
+
+    <p>
+        Server Side Rendering as opposed to Client Side Rendering, is a question of who should have the authority to render pages to the user.
+        There are advantages to both, just like there a disadvantages. I wil try to go through some of the arguments for/against.
+    </p>
+
+    <h3>Load Time</h3>
+
+    <!-- SSR sends finished HTML straight away, CSR loads JS first then fetches data - SSR wins on first load -->
+    <p>
+        With SSR load times are shorter, since SSR sends finished HTML at the get-go, whereas CSR serves HTML -> Loads JS -> Fetches Data.
+        This depends on the amount of data and files that need to be loaded on the page, but in drastic cases CSR will perform a lot worse than SSR.
+    </p>
+
+    <h3>Resources</h3>
+
+    <!-- SSR uses server CPU to build the page, CSR offloads that to the user's browser - who pays the cost and when -->
+    <p>
+        SSR puts the load on the CPU to build the page, great for heavy pages, but can be worse if it's simple pages with high load.
+        With CSR you would offload it to the user's browser.
+    </p>
+
+    <h3>SEO</h3>
+
+    <!-- Google gets fully rendered HTML from SSR and can index it immediately - CSR pages may not get crawled properly -->
+    <p>
+        For SEO (Search Engine Optimization), SSR will render the HTML page fully, whereas with CSR pages might not get crawled properly.
+    </p>
+
+    <h3>CORS</h3>
+
+    <!-- with SSR all data fetching happens on the server so CORS never comes up - browser just receives HTML -->
+    <p>
+        On CSR it can be quite the hassle to manage CORS, however, with SSR it won't matter, since both the API and the page rendering happens server side.
+    </p>
+
+    <pre><code class="language-javascript">
+router.get('/', (req, res) => {
+  res.send(frontpagePage);
+})
+
+router.get('/about', (req, res) => {
+  res.send(aboutPage);
+})
+
+router.get('/contact', (req, res) => {
+  res.send(contactPage);
+})</code></pre>

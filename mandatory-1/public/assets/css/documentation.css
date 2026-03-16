@@ -1,11 +1,15 @@
-/* Documentation-specific styles */
 hr {
     margin-top: 2rem;
     opacity: 0.6;
 }
 
+p {
+    animation: fadeInDown 0.8s;
+}
+
 h1, h2, h3 {
     font-family: "Playfair Display", serif;
+    animation: fadeInUp 1s;
 }
 
 .newspaper-p:first-letter {
@@ -27,19 +31,6 @@ pre {
 
 body.darkmode pre {
     filter: drop-shadow(8px 8px 0px #737270);
-}
-
-pre[data-lang]::before {
-    content: attr(data-lang);
-    position: absolute;
-    top: 0.5rem;
-    right: 0.75rem;
-    font-size: 0.75rem;
-    font-family: monospace;
-    opacity: 0.4;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    pointer-events: none;
 }
 
 code:not(pre code) {
@@ -73,3 +64,24 @@ body.darkmode tbody td {
     border: thin solid #e8e0d0;
 }
 
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(15%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}

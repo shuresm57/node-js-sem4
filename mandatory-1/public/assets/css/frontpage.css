@@ -7,6 +7,16 @@ main {
     padding: 10rem;
 }
 
+a {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    text-decoration: none;
+    color: inherit;
+    font-style: italic;
+    font-size: 30px;
+}
+
 .frontpage-name {
     font-size: 100px; 
     line-height: 5rem; 

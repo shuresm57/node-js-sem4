@@ -1,25 +1,24 @@
-.sidebar {
+.sidebar, .sidebar2 {
     top: 4rem;
     height: calc(100vh - 3rem);
     position: fixed;
-    left: 0rem;
     width: 15%;
-    padding-left: 2rem;
-    font-size: 1.3rem;
     display: flex;
     flex-direction: column;
+    animation: fadeInDown 1.2s;
+}
+
+.sidebar {
+    left: 0rem;
+    padding-left: 2rem;
+    font-size: 1.3rem;
 }
 
 .sidebar2 {
-    top: 4rem;
-    height: calc(100vh - 3rem);
-    position: fixed;
     right: 0rem;
-    width: 15%;
     padding-right: 2rem;
     font-size: 1.8rem;
-    display: flex;
-    flex-direction: column;
+    animation: fadeInDown 1.2s;
 }
 
 .sidebar2 a {
@@ -78,4 +77,15 @@ body.darkmode .sidebar .topbar a.h2 {
 
 body.darkmode .sidebar .topbar a.active {
     color: #e8e0d0;
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }
