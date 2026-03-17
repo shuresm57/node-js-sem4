@@ -10,8 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@wisp-cms/table-of-content": "^0.0.1",
     "express": "^5.2.1",
     "framer-motion": "^12.37.0",
+    "nodemon": "^3.1.14",
     "tocbot": "^4.36.4"
   },
   "nodemonConfig": {

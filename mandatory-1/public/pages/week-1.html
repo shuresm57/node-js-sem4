@@ -1,13 +1,13 @@
     <h1>Introduction to Node.js</h1>
 
-    <h2>Node.js Introduction</h2>
+    <h2 id="node-js-introduction">Node.js Introduction</h2>
     <p class="newspaper-p">
       Node.js is a JavaScript runtime built on Chrome's V8 engine, allowing us
       to run JavaScript outside of a browser. It is commonly used for building
       server-side apps, including Server API's, but also CLI's and desktop apps using the Electron framework.
     </p>
 
-    <h3>REPL</h3>
+    <h3 id="REPL">REPL</h3>
     <p>
       REPL stands for Read-Eval-Print-Loop. It's an environment where we interactively
       can type JavaScript code and then see the immediate result. This is great for quickly
@@ -16,9 +16,9 @@
 
     <hr>
 
-    <h2>Javascript Fundamentals</h2>
+    <h2 id="javascript-fundamentals">Javascript Fundamentals</h2>
 
-    <h3>Variables and Data Types</h3>
+    <h3 id="variables-and-data-types">Variables and Data Types</h3>
     <p>
       JavaScript has three ways of declaring a variable:
     </p>
@@ -47,7 +47,7 @@
  let total = 0;
  total += price;</code></pre>
 
-    <h3>Data Types</h3>
+    <h3 id="data-types">Data Types</h3>
     <ol>
       <li><strong>String</strong> - Text value</li>
       <li><strong>Number</strong> - Numeric values</li>
@@ -59,7 +59,7 @@
       <li><strong>Undefined</strong> - Variable declared but not assigned</li>
     </ol>
 
-    <h3>Type Coercion</h3>
+    <h3 id="type-coercion">Type Coercion</h3>
 
     <p>JavaScript will automatically convert types when needed:</p>
 
@@ -74,7 +74,7 @@
  const newYear = numberYear + increment;
  // newYear = 2026 (Number addition)</code></pre>
 
-    <h3>Strict Equality</h3>
+    <h3 id="strict-equality">Strict Equality</h3>
 
     <p>
       Use <code>===</code> instead of <code>==</code> by default, unless you have a reason to check for type coercion:
@@ -83,7 +83,7 @@
     <pre><code class="language-javascript"> '5' == 5 // True
  '5' === 5 // False</code></pre>
 
-    <h3>Strings and Numbers</h3>
+    <h3 id="strings-and-numbers">Strings and Numbers</h3>
 
     <p>
       There are 3 ways of defining string in javascript:
@@ -109,7 +109,7 @@ const lastName = 'Støvring Storgaard'
 const fullName = `My first name is ${firstName}
 and my last name is ${lastName}`</code></pre>
 
-    <h3>String Methods</h3>
+    <h3 id="string-methods">String Methods</h3>
 
     <p>Replace word:</p>
     <pre><code class="language-javascript">const fact = 'You are learning javascript!';
@@ -123,9 +123,9 @@ console.log(letters[2]);        // 'c'</code></pre>
 
     <hr>
 
-    <h2>Working with Numbers</h2>
+    <h2 id="working-with-numbers">Working with Numbers</h2>
 
-    <h3>Converting Strings to Numbers</h3>
+    <h3 id="convertings-strings-to-numbers">Converting Strings to Numbers</h3>
 
     <pre><code class="language-javascript">// parseFloat - converts to decimal number
 const numberOne = '1.10';
@@ -137,7 +137,7 @@ const total = parseFloat(numberOne) +
 // Number - general conversion
 const anotherNumber = Number('42'); // 42</code></pre>
 
-    <h3>toFixed()</h3>
+    <h3 id="to-fixed">toFixed()</h3>
 
     <p>Format decimal places:</p>
     <pre><code class="language-javascript">const anotherNumberOne = '1.123849';
@@ -156,9 +156,9 @@ console.log(avg);</code></pre>
 
     <hr>
 
-    <h2>Arrays and Objects</h2>
+    <h2 id="arrays-and-objects">Arrays and Objects</h2>
 
-    <h3>Arrays</h3>
+    <h3 id="arrays">Arrays</h3>
 
     <p>An ordered collection of values, accessed by index.</p>
 
@@ -195,7 +195,7 @@ diet.pop();
 // Array.from - copy an array
 const dinnerTray = Array.from(diet);</code></pre>
 
-    <h3>Objects</h3>
+    <h3 id="objects">Objects</h3>
 
     <p>
       Objects store data as key-value pairs. Just like you might see in JSON (<em>JavaScript Object Notation</em>),
@@ -233,9 +233,9 @@ thisSong.about = 'Just a tribute.';</code></pre>
 
     <hr>
 
-    <h2>Code Conventions</h2>
+    <h2 id="code-conventions">Code Conventions</h2>
 
-    <h3>ASI (Automatic Semicolon Insertion)</h3>
+    <h3 id="asi">ASI (Automatic Semicolon Insertion)</h3>
 
     <p>
       JavaScript automatically inserts semicolons at the end of statements. However, it is considered best practice
@@ -252,11 +252,11 @@ thisSong.about = 'Just a tribute.';</code></pre>
       <li>Use proper indentation</li>
     </ul>
 
-    <h3>Linter</h3>
+    <h3 id="linter">Linter</h3>
 
     <p>Install ESLint or the Prettier extension and use this to format your code. It will ensure that your code is readable and therefore easily maintained and understandable for others.</p>
 
-    <h3>ESLint</h3>
+    <h3 id="eslint">ESLint</h3>
 
     <pre><code class="language-bash">npm install -g eslint</code></pre>
 
@@ -274,7 +274,7 @@ thisSong.about = 'Just a tribute.';</code></pre>
   }
 }</code></pre>
 
-    <h3>Prettier</h3>
+    <h3 id="prettier">Prettier</h3>
 
     <pre><code class="language-bash">npm install -g prettier</code></pre>
 
@@ -286,7 +286,7 @@ thisSong.about = 'Just a tribute.';</code></pre>
   "trailingComma": "es5"
 }</code></pre>
 
-    <h3>VS Code Integration</h3>
+    <h3 id="vs-code-integration">VS Code Integration</h3>
 
     <p>Add this JSON to settings.json:</p>
     <pre><code class="language-json">{
@@ -296,7 +296,7 @@ thisSong.about = 'Just a tribute.';</code></pre>
   "prettier.configPath": "~/.prettierrc"
 }</code></pre>
 
-    <h3>Code Style Documentation</h3>
+    <h3 id="code-style-documentation">Code Style Documentation</h3>
     <ul>
       <li><a href="https://www.w3schools.com/js/js_conventions.asp">https://www.w3schools.com/js/js_conventions.asp</a></li>
       <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Code_style_guide/JavaScript">https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Code_style_guide/JavaScript</a></li>
@@ -306,16 +306,16 @@ thisSong.about = 'Just a tribute.';</code></pre>
 
     <hr>
 
-    <h2>REST API Design</h2>
+    <h2 id="rest-api-design">REST API Design</h2>
 
     <p>
       REST (<em>Representational State Transfer</em>) is an architectural style for designing networked applications.
       A REST API uses HTTP requests to perform operations on resources (<em>resources = data</em>).
     </p>
 
-    <h3>Core Principles</h3>
+    <h3 id="core-principles">Core Principles</h3>
 
-    <h3>HTTP Methods</h3>
+    <h3 id="http-methods">HTTP Methods</h3>
     <p>Each HTTP method has a specific purpose:</p>
     <ul>
       <li><code>GET</code> - Retrieve data (Read)</li>
@@ -333,10 +333,10 @@ thisSong.about = 'Just a tribute.';</code></pre>
       <li>Delete → DELETE</li>
     </ul>
 
-    <h3>Method Ordering</h3>
+    <h3 id="method-ordering">Method Ordering</h3>
     <p>When documenting or implementing REST APIs, methods should be presented in a standard order: GET, POST, PUT, PATCH, DELETE.</p>
 
-    <h3>Endpoint Standardization</h3>
+    <h3 id="endpoint-standardization">Endpoint Standardization</h3>
     <p>Endpoints should be:</p>
     <ul>
       <li>Noun-based (not verb-based) - represent resources, not actions</li>
@@ -345,7 +345,7 @@ thisSong.about = 'Just a tribute.';</code></pre>
       <li>Consistent - follow the same patterns throughout your API</li>
     </ul>
 
-    <h3>Example: Beer API</h3>
+    <h3 id="example-beer-api">Example: Beer API</h3>
     <table>
       <thead>
         <tr>
