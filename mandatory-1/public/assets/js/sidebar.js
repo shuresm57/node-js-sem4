@@ -1,7 +1,7 @@
 const nav = document.createElement('nav');
 const nav2 = document.createElement('nav');
 
-nav.className = 'sidebar2';
+nav.className = 'sidebar';
 nav.innerHTML = `
   <h1>Pages</h1>
   <a href="./week-1">Introduction to Node.js</a>
@@ -15,7 +15,7 @@ nav.innerHTML = `
 
 document.body.appendChild(nav);
 
-nav2.className = 'sidebar';
+nav2.className = 'sidebar2';
 nav2.innerHTML = `
   <h1>In this article</h3>
   <div class="js-toc"></div>

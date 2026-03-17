@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 app.use(express.static('public'));
 
-import pagesRouter from './routers/pagesRouter.js'
+import pagesRouter from './routers/pagesRouter.js';
 app.use(pagesRouter);
 
 app.listen(8080, (error) => {

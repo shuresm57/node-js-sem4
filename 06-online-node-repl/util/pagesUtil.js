@@ -1,4 +1,4 @@
-import { readPage, constructPage } from './templatingEngine.js'
+import { readPage, constructPage } from './templatingEngine.js';
 
 
 // SSR is great because of SEO

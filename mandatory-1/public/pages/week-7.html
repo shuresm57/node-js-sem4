@@ -1,15 +1,26 @@
 <h1>Advanced Node.js Concepts</h1>
 
-    <h2>Creating an Express Router</h2>
+    <h2 id="creating-an-express-router">Creating an Express Router</h2>
 
     <p class="newspaper-p">
-        In the previous weeks, when building <code>app.js</code>
+        In the previous weeks, when building <code>app.js</code>, we had all of the code in the same file. 
     </p>
-    <!-- how to write a router from scratch without looking it up -->
+    <p>
+        That can be fine for shorter files, but the longer the file gets, the harder it is to navigate in it. This is where the module <code>Router</code> comes in
+        which is built into <code>express</code>.
+    </p>
+
 
     <h3>The Basic Pattern</h3>
 
-    <!-- import Router, create it, define routes, export it - that's all you need -->
+    <p>
+        In a new file, that in this instance we call <code>replRouter.js</code>, we import a named export, from the <code>express</code>
+        module. Since we don't need the full <code>express</code> framework in the file, we can get on by just calling that single export.
+    </p>
+    <p>
+        The <code>Router()</code> hold the same methods as the <code>Express()</code> for route handling, so we only need to change from 
+        <code>app.get</code> to <code>router.get</code>. Lastly, we need to export router, so we can collect the route handling in a different module.
+    </p>
 
     <pre><code class="language-javascript">// Basic Express Router pattern from replRouter.js
 import { Router } from 'express';
@@ -37,28 +48,65 @@ export default router;</code></pre>
 
     <h3>Hooking It Up in app.js</h3>
 
-    <!-- app.use() is how you plug the router in - middleware runs top to bottom so order matters -->
+    <p>
+        Now that we have generated the router file, we need to import it into a <code>app.js</code> file.
+        So that when we start the app, it will have access to the same routes as before. 
+    </p>
 
-    <h3>Reading URL Parameters</h3>
+    <p>
+        Now <code>app.js</code> is much cleaner and is easier to navigate as well.
+    </p>
+    
+    <pre><code>import express from 'express';
 
-    <!-- req.params for route params like /user/:id, req.body for POST data, req.query for ?foo=bar -->
+const app = express();
+app.use(express.static('public'));
+app.use(express.json());
 
-    <h3>Sending Back Errors</h3>
+import pagesRouter from './routers/pagesRouter.js'
+app.use(pagesRouter);
 
-    <!-- always send a proper status code - 400 for bad input, 404 for not found, 500 for server errors -->
+import replRouter from './routers/replRouter.js';
+app.use(replRouter);
 
-    <h2>The Template Engine</h2>
+const PORT = process.env.PORT || 8080;
 
-    <!-- how constructPage stitches header + page content + footer together using string placeholders -->
+const server = app.listen(PORT, (error) => {
+  if (error) {
+    console.log('Could not start the server on', error.message);
+  };
 
-    <h3 id="how-it-works">How It Works</h3>
+  console.log('Server running on ', PORT);
+});</code></pre>
 
-    <!-- readPage loads the HTML file, constructPage wraps it with header/footer and replaces $$PLACEHOLDERS$$ -->
+    <h2 id="custom-template-engine">Custom Template Engine</h2>
+
+    <p>
+        By utilizing a Template Engine, we can reduce the amount of boilerplate code by a massive amount.
+    </p>
+    <p>
+        When we think about it, the parts that can contain the most repetitive code in these types of apps,
+        are not the business logic, but the frontend; css, navbars, footers, stylesheets etc.
+    </p>
+    <p>
+        So by splitting the HTML into reusable parts, we can define each piece once and compose them into any page,
+        rather than duplicating the same pieces across every page separately.
+    </p>
+    <h3>How It Works</h3>
+
+    <p>
+        We need two files, <code>templatingEngine.js</code> and <code>pagesUtil.js</code>.
+    </p>
+    <p>
+        <code>templatingEngine.js</code> is for building the actual pages, based on options and the two files we always want to incorporate: header and footer. 
+    </p>
 
     <pre><code class="language-javascript">// Templating example from templatingEngine.js
 export function constructPage(page, options = {}) {
-    const header = readPage('./public/components/header/header.html');
-    const footer = readPage('./public/components/footer/footer.html');
+    const header = readPage
+    ('./public/components/header/header.html');
+    const footer = readPage
+    ('./public/components/footer/footer.html');
 
     return header
             .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'Online Node.js REPL')
@@ -67,21 +115,18 @@ export function constructPage(page, options = {}) {
           + footer;
 }</code></pre>
 
-    <h3>Passing Options Per Page</h3>
+    <p>
+        <code>pagesUtil.js</code> is for creating the pages and this is where we also parse the options, so we can define
+        which CSS file we want to incorporate and so on.
+    </p>
 
-    <!-- each page gets its own title, css links and scripts passed in through the options object -->
+    <h3 id="one-file-per-responsibility">One File Per Responsibility</h3>
 
-    <h3>Security</h3>
+    <p>
+        There is a structure beginning to form: we want to make sure each file one serves one responsibility. This way
+        our code is much easier for other people to read and navigate, but also, more importantly, to ourselves.
+    </p>
 
-    <!-- never inject raw user input into templates - sanitize first or you open the door to XSS -->
-
-    <h2>How to Structure Your Code</h2>
-
-    <!-- why splitting into routers/, util/, public/ is better than dumping everything in one file -->
-
-    <h3>One File Per Responsibility</h3>
-
-    <!-- each file does one job - routing, templating, page construction are all separate -->
     <p>
         We used to have a very long <code>app.js</code> file, containing all of the pages routing and API methods.
     </p>
@@ -100,18 +145,13 @@ app.use(pagesRouter);</code></pre>
 
     <h3>Folder Structure</h3>
 
-    <!-- routers/ handles routing, util/ handles helpers, public/ holds static files - explain why this grouping makes sense -->
+    <h2 id="code-placement-and-efficiency">Code Placement and Efficiency</h2>
 
-    <h2>Code Placement and Efficiency</h2>
-
-    <!-- talk about how WHERE you put your code matters - stuff that runs once at startup vs stuff that runs on every request -->
     <p>
         Making sure your know when your code gets executed, is quite important - when making these types of webapps, ask yourself if the code
-        should run on startup or per request.
+        should run on startup or per request. This is something where we can make our code much more efficient.
     </p>
     <h3>Startup vs. Per Request</h3>
-
-    <!-- pages are built once when the server starts and stored as variables - show how pagesUtil.js does this -->
 
     <p>
         One import thing to run on start up, could be the pages. If they are built on startup, the user does not need to wait
@@ -132,7 +172,7 @@ const week7Page = constructPage(week7, {
   scripts: weekScripts
 });</code></pre>
 
-    <h2>Sync vs. Async When Reading Files</h2>
+    <h2 id="files-sync-vs-async">Files: Sync vs. Async</h2>
 
     <p>
         When serving pages with <code>'fs'</code>, we have a choice between fetching the file synchronous or asynchronous. Choosing
@@ -154,7 +194,7 @@ export function readPage(path) {
     return fs.readFileSync(path).toString();
 }</code></pre>
 
-    <h2>SSR vs. CSR</h2>
+    <h2 id="ssr-vs-csr">SSR vs. CSR</h2>
 
     <p>
         Server Side Rendering as opposed to Client Side Rendering, is a question of who should have the authority to render pages to the user.
@@ -163,7 +203,6 @@ export function readPage(path) {
 
     <h3>Load Time</h3>
 
-    <!-- SSR sends finished HTML straight away, CSR loads JS first then fetches data - SSR wins on first load -->
     <p>
         With SSR load times are shorter, since SSR sends finished HTML at the get-go, whereas CSR serves HTML -> Loads JS -> Fetches Data.
         This depends on the amount of data and files that need to be loaded on the page, but in drastic cases CSR will perform a lot worse than SSR.
@@ -171,7 +210,6 @@ export function readPage(path) {
 
     <h3>Resources</h3>
 
-    <!-- SSR uses server CPU to build the page, CSR offloads that to the user's browser - who pays the cost and when -->
     <p>
         SSR puts the load on the CPU to build the page, great for heavy pages, but can be worse if it's simple pages with high load.
         With CSR you would offload it to the user's browser.
@@ -179,14 +217,12 @@ export function readPage(path) {
 
     <h3>SEO</h3>
 
-    <!-- Google gets fully rendered HTML from SSR and can index it immediately - CSR pages may not get crawled properly -->
     <p>
         For SEO (Search Engine Optimization), SSR will render the HTML page fully, whereas with CSR pages might not get crawled properly.
     </p>
 
     <h3>CORS</h3>
 
-    <!-- with SSR all data fetching happens on the server so CORS never comes up - browser just receives HTML -->
     <p>
         On CSR it can be quite the hassle to manage CORS, however, with SSR it won't matter, since both the API and the page rendering happens server side.
     </p>

@@ -1,6 +1,6 @@
 <h1>POST & Loops</h1>
 
-   <h2>Loop Methods</h2>
+   <h2 id="loop-methods">Loop Methods</h2>
 <p class="newspaper-p">
   JavaScript gives us a set of built-in array methods that are cleaner than writing a 
   traditional <code>for</code> loop. Rather than manually managing an index and iterating 
@@ -68,7 +68,7 @@ const oneLinerUpdatedBalloonAnimals = balloonAnimals.map((balloonAnimal) => ({
 );</code></pre>
     <hr>
 
-    <h2>URL Structure</h2>
+    <h2 id="url-structure">URL Structure</h2>
 
     <p>
   A URL is made up of several distinct parts, each serving 
@@ -98,7 +98,7 @@ const oneLinerUpdatedBalloonAnimals = balloonAnimals.map((balloonAnimal) => ({
 
     <hr>
 
-    <h2>JSON & Express</h2>
+    <h2 id="json-and-express">JSON & Express</h2>
 
     <h3>Setup</h3>
 
@@ -120,7 +120,7 @@ app.use(express.json());</code></pre>
 
     <hr>
 
-    <h2>Complete CRUD</h2>
+    <h2 id="complete-crud">Complete CRUD</h2>
       <p>
   CRUD stands for Create, Read, Update and Delete. Together they map directly to HTTP methods: POST creates, 
   GET reads, PATCH and PUT update, and DELETE removes.
@@ -271,7 +271,7 @@ app.patch('/movies/:id', (req, res) => {
 
     <hr>
 
-    <h2>Understanding PATCH vs PUT</h2>
+    <h2 id="understanding-patch-vs-put">Understanding PATCH vs PUT</h2>
 
     <p>
   Confusing PATCH and PUT can be detrimental when working with REST APIs, as using 
@@ -294,7 +294,7 @@ app.patch('/movies/:id', (req, res) => {
 
     <hr>
 
-    <h2>Status Codes</h2>
+    <h2 id="status-codes">Status Codes</h2>
 
     <p>
   HTTP status codes are standardized numbers the server sends back to the client, 
@@ -320,7 +320,7 @@ app.patch('/movies/:id', (req, res) => {
 
     <hr>
 
-    <h2>XSS Prevention</h2>
+    <h2 id="xss-prevention">XSS Prevention</h2>
 
    <p>
   Cross-Site Scripting, or XSS, is an attack where malicious scripts are injected into 
@@ -341,7 +341,7 @@ div.textContent = userInput;</code></pre>
 
     <hr>
 
-    <h2>ID Encryption</h2>
+    <h2 id="id-encryption">ID Encryption</h2>
     <p>
       Uses the <code>crypto</code> module to encrypt IDs with AES-256-CBC. Encrypting IDs before
       sending them to the client can prevent users from guessing sequential IDs and accessing
@@ -412,7 +412,7 @@ module.exports = { encryptId, decryptId };</code></pre>
 
     <hr>
 
-    <h2>Nodemon</h2>
+    <h2 id="nodemon">Nodemon</h2>
 
     <h3>Installation &amp; Usage</h3>
 
