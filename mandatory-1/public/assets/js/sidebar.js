@@ -3,7 +3,7 @@ const nav2 = document.createElement('nav');
 
 nav.className = 'sidebar2';
 nav.innerHTML = `
-  <h1>Topics</h1>
+  <h1>Pages</h1>
   <a href="./week-1"> Week 1 - Introduction to Node.js</a>
   <a href="./week-2"> Week 2 - First Server</a>
   <a href="./week-3"> Week 3 - HTTP & Loops</a>
