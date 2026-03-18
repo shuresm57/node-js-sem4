@@ -12,6 +12,7 @@ tocbot.init({
   contentSelector: 'main',
   headingSelector: 'h2',
   hasInnerContainers: true,
-  headingsOffset: 0,  
+  headingsOffset: 50,
+  scrollSmoothOffset: -50
 });
 
