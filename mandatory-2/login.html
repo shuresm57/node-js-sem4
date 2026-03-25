@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            /* https://grabient.com/HQBgrAzANKAsAcMT0cAjLAnDNYDsOsATDEUSKWicGWlBMHmtA3kS8AGyYRA?style=linearSwatches */
+            background: linear-gradient(90deg, #05050a 0.000%, #05050a 7.692%, #090a0e calc(7.692% + 1px), #090a0e 15.385%, #0d0e12 calc(15.385% + 1px), #0d0e12 23.077%, #121316 calc(23.077% + 1px), #121316 30.769%, #16171a calc(30.769% + 1px), #16171a 38.462%, #1a1b1e calc(38.462% + 1px), #1a1b1e 46.154%, #1e1f22 calc(46.154% + 1px), #1e1f22 53.846%, #222326 calc(53.846% + 1px), #222326 61.538%, #26272a calc(61.538% + 1px), #26272a 69.231%, #292a2d calc(69.231% + 1px), #292a2d 76.923%, #2c2d30 calc(76.923% + 1px), #2c2d30 84.615%, #2e2f33 calc(84.615% + 1px), #2e2f33 92.308%, #303135 calc(92.308% + 1px) 100.000%);
+            color: white;
+            font-size: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        main {
+            max-width: 800px;
+            line-height: 1.8;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        a {
+            font-size: 1rem;
+        }
+
+        a:link {
+          color: white;
+          background-color: transparent;
+          text-decoration: none;
+        }
+
+        a:visited {
+          color: white;
+          background-color: transparent;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: #79baec;
+          background-color: transparent;
+        }
+
+        .login-div {
+            animation: 0.8s fadeIn;
+        }
+
+        .signup-div {
+            display: none;
+            animation: 0.8s fadeIn;
+        }
+
+        .form-div {
+            background: #1c1c1c;
+            max-width: 320px;
+            width: 100%;
+            padding: 40px;
+            box-shadow: 0 0 10px black;
+            text-align: center;
+            min-height: 40vh;
+            border-radius: 20px;
+        }
+
+        #password-alert {
+            font-size: 0.8rem;
+            color: red;
+        }
+
+        input {
+            color: white;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            background-color: transparent;
+        }
+
+
+       .button-1, .button-2 {
+            min-width: 10vw;
+            margin: 1rem;
+            display: inline-block;
+            outline: none;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 13px 23px;
+            border: 1px solid #222222;
+        }
+
+        .button-1 {
+            margin-top: 5rem;
+            background: #2e2f33;
+            color: white;
+        }
+
+        .button-2 {
+            background: white;
+            color: #222222;
+        }
+
+        .button-1:hover {
+            background: #3e3f44;
+        }
+
+        .button-2:hover {
+            background: lightgrey;
+        }
+
+        @keyframes fadeIn {
+            0%   { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0%);    opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+
+        <div class="login-div">
+            <div class="form-div">
+                <h2>LOGIN</h2>
+                <div class="input-div">
+                    <input type="text" placeholder="Username" required>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button class="button-1" type="button">Login</button>
+                <div>
+                    <button class="button-2" type="button" onclick="showSignup()">Create Account</button>
+                    <a href="#">Forgot password?</a><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="signup-div">
+            <div class="form-div">
+                <h2>SIGN UP</h2>
+                <div class="input-div">
+                    <input type="text" placeholder="Username" required>
+                    <input id="password-input-one" type="password" placeholder="Password" required>
+                    <input id="password-input-two" type="password" placeholder="Repeat Password" required>
+                    <p id="password-alert"></p>
+                </div>
+                <button class="button-1" type="button" id="signup-btn">Sign Up</button>
+                <div>
+                    <button class="button-2" type="button" onclick="showLogin()">Back to Login</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const loginDiv = document.querySelector('.login-div');
+        const signupDiv = document.querySelector('.signup-div');
+        const passwordOne = document.getElementById('password-input-one');
+        const passwordTwo = document.getElementById('password-input-two');
+        const passwordAlert = document.getElementById('password-alert');
+        const signupBtn = document.getElementById('signup-btn');
+
+        function showSignup() {
+            loginDiv.style.display  = 'none';
+            signupDiv.style.display = 'block';
+        }
+
+        function showLogin() {
+            loginDiv.style.display  = 'block';
+            signupDiv.style.display = 'none';
+        }
+
+        signupBtn.addEventListener('click', passwordChecker);
+
+        function passwordChecker() {
+            if (passwordOne.value !== passwordTwo.value) {
+                passwordAlert.textContent = 'Passwords do not match';
+                return;
+            }
+            passwordAlert.textContent = '';
+        }
+    </script>
+</body>
+</html>
