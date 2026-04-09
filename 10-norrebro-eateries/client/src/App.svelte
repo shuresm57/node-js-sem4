@@ -12,6 +12,7 @@
   </nav>
 
   <div>
+    <Route path='/'>Norrebronx Eateries</Route>
     <Route path='/restaurants'><Restaurants /></Route>
     <Route path='/visitors'><Visitors /></Route>
     <Route path='/about'>

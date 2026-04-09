@@ -5,27 +5,12 @@ import express from 'express';
 import restaurantsRouter from './routers/restaurantsRouter.js';
 import visitorsRouter from './routers/visitorsRouter.js';
 
-// auto CORS
-
-import cors from 'cors';
-
-// manual CORS
-
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
+import path from 'path';
 
 import session from 'express-session';
 
 const app = express();
-
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+app.use(express.static('../client/dist'));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -35,6 +20,11 @@ app.use(session({
 }));
 app.use(restaurantsRouter);
 app.use(visitorsRouter);
+
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(path.resolve('../client/dist/index.html'));
+});
+
 const PORT = process.env.PORT ?? 8080;
 
 app.listen(PORT, () => {

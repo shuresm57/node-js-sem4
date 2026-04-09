@@ -1,26 +1,16 @@
 <script>
 
     import { onMount } from 'svelte';
-
-    let visitorsCount;
+    import { fetchGet, fetchPost } from '../../util/fetchUtil.js';
+    let visitorsCount = $state();
 
     onMount(async () => {
-        const response = await fetch('http://localhost:8080/api/visitors', {
-            credentials: 'include'
-        })
-        const result = await response.json();
+        const result = await fetchGet('/api/visitors');
         visitorsCount = result.data;
     });
 
     async function visitRestaurant() {
-        const response = await fetch('http://localhost:8080/api/visitors', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await response.json();
+        const result = await fetchPost('/api/visitors');
         visitorsCount = result.data;
     }
 

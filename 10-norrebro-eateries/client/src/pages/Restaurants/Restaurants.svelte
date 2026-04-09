@@ -1,16 +1,15 @@
 <script>
 
     import { onMount } from 'svelte';
+    import { fetchGet } from "../../util/fetchUtil.js";
 
     let restaurants;
 
-
     // we only want to serve the restaurants when mounting the page
     // else, we risk memory leaks
-    onMount(() => {
-        fetch('http://localhost:8080/api/restaurants')
-        .then((response) => response.json())
-        .then((result) => restaurants = result.data);
+    onMount(async () => {
+        const result = await fetchGet('/api/restaurants');
+        restaurants = result.data;
     });
 
 </script>
