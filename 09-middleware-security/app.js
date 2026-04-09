@@ -1,3 +1,9 @@
+import dotenv from 'dotenv/config'
+// also possible, this way i can set options
+// for example different paths or custom env file names
+//dotenv.config()
+
+
 import express from 'express';
 const app = express()
 
@@ -30,7 +36,7 @@ app.use(helmet());
 import session from 'express-session';
 
 app.use(session({
-  secret: 'keyboard cat', // TODO: Make sure not to push this
+  secret: process.env.SESSION_SECRET, // TODO: Make sure not to push this
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
