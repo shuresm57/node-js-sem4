@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 app.use(express.static('public'));
 app.use(express.json());
-
+app.use(express.urlencoded());
 // TODO Create pagesutil
 
 // ====================== PAGES ==============================
@@ -16,6 +16,9 @@ app.use(pagesRouter);
 
 import replRouter from './routers/replRouter.js';
 app.use(replRouter);
+
+import contactRouter from './routers/contactRouter.js';
+app.use(contactRouter)
 
 // this is the process node runs from
 // console.log(process)

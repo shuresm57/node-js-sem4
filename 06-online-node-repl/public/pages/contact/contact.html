@@ -1,4 +1,19 @@
 <h1>Contact </h1>
 
-<!--TODO: Add contact form -->
 <h3>Call me maybe ;)</h3>
+
+<form action="/api/contact" method="POST">
+    <fieldset>
+
+        <label for="name">Name:</label><br>
+        <input placeholder="Name" id="name" name="name"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" placeholder="Email" id="email" name="email">
+
+        <label for="message">Message:</label><br>
+        <textarea style="height: 30vh; width: 30vw;" type="message" id="message" name="message"></textarea>
+
+        <button>Submit</button>
+    </fieldset>
+</form>
