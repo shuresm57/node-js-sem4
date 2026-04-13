@@ -1,12 +1,11 @@
 <script>
-  // This could be done in $stores, maybe we should do that
-  import { Router, Link, Route } from 'svelte-routing';
+  import { Router, Route } from 'svelte-routing';
   import Login from './pages/Login.svelte';
+  import Home from './pages/Home.svelte';
   import { Toaster } from 'svelte-sonner';
 </script>
-<Toaster />
+<Toaster position="bottom-center" richColors />
 <Router>
-  <div>
-      <Login />
-  </div>
+  <Route path="/"><Login /></Route>
+  <Route path="/home"><Home /></Route>
 </Router>

@@ -2,15 +2,16 @@ import { Router } from 'express';
 
 import jwt from 'jsonwebtoken';
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
+import { requireAuth } from '../middleware/jwtAuthenticator.js';
 
 const router = Router();
 
 const usersArray = [];
 
 router.post('/api/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
-  if(!password || !username) return res.status(400).send('Username and password are required.');
+  if(!password || !username || !email) return res.status(400).send('Email, username and password are required.');
 
   try {
     const existingUser = await usersArray.find(user => user.username === username);
@@ -20,6 +21,7 @@ router.post('/api/register', async (req, res) => {
 
     const hashedPassword = await hashPassword(password);
     const newUser = {
+      email,
       username,
       password: hashedPassword
     };
@@ -56,8 +58,14 @@ router.post('/api/login', async (req, res) => {
     });
     res.status(200).send('User logged in successfully');
   } catch (error) {
+    console.error(error);
     res.status(500).send('Login failed');
   }
+});
+
+router.get('/api/home', requireAuth, (req, res) => {
+  const user = usersArray.find(u => u.username === req.user.username);
+  res.send({ data: { message: 'Welcome to the fanclub!', email: user.email } });
 });
 
 export default router;
