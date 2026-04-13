@@ -1,7 +1,12 @@
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
+
 body {
-    background: linear-gradient(90deg, #05050a 0.000%, #05050a 7.692%, #090a0e calc(7.692% + 1px), #090a0e 15.385%, #0d0e12 calc(15.385% + 1px), #0d0e12 23.077%, #121316 calc(23.077% + 1px), #121316 30.769%, #16171a calc(30.769% + 1px), #16171a 38.462%, #1a1b1e calc(38.462% + 1px), #1a1b1e 46.154%, #1e1f22 calc(46.154% + 1px), #1e1f22 53.846%, #222326 calc(53.846% + 1px), #222326 61.538%, #26272a calc(61.538% + 1px), #26272a 69.231%, #292a2d calc(69.231% + 1px), #292a2d 76.923%, #2c2d30 calc(76.923% + 1px), #2c2d30 84.615%, #2e2f33 calc(84.615% + 1px), #2e2f33 92.308%, #303135 calc(92.308% + 1px) 100.000%);
-    color: white;
+    background: #1c1c1c;
     font-size: 1.4rem;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,14 +15,17 @@ body {
     padding: 2rem;
 }
 
+
+
 .form-div {
-    background: #1c1c1c;
-    max-width: 320px;
+    background: rgba(0, 0, 0, 0.7);
+    min-width: 320px;
     width: 100%;
     padding: 40px;
-    box-shadow: 0 0 10px black;
+    box-shadow: 0 0 20px black;
     text-align: center;
     min-height: 40vh;
+    margin-bottom: 20rem;
     border-radius: 20px;
 }
 
@@ -27,15 +35,16 @@ body {
 }
 
 input {
-    color: white;
     display: block;
-    width: 100%;
+    width: 15vw;
     padding: 10px;
     font-size: 16px;
-    border: none;
-    border-bottom: 2px solid #ccc;
+    border-radius: 10px;
+    border: 2px solid white;
+    color: white;
     outline: none;
-    background-color: transparent;
+    background-color: #1c1c1c;
+    margin: 0.5rem auto 0;
 }
 
 .button-1, .button-2 {
@@ -59,13 +68,12 @@ input {
 }
 
 .button-2 {
-    background: white;
-    color: #222222;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
 }
 
 .button-1:hover { background: #3e3f44; }
-.button-2:hover { background: lightgrey; }
-
+.button-2:hover { background: rgba(0, 0, 0, 0.8); }
 h2 {
     text-align: center;
     font-weight: bolder;

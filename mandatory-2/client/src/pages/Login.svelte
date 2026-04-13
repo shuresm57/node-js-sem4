@@ -1,4 +1,7 @@
 <script>
+    import { toast } from 'svelte-sonner';
+    import { fetchPost, fetchGet } from "../util/fetchUtil";
+
     let showingSignup = $state(false);
     let passwordAlert = $state('');
 
@@ -17,22 +20,50 @@
         passwordAlert = '';
     }
 
-    function handleSignup() {
+    async function handleSignup() {
         if (signupPasswordOne !== signupPasswordTwo) {
-            passwordAlert = 'Passwords do not match';
+            toast.error('Passwords must match');
             return;
         }
         passwordAlert = '';
-        // TODO: POST to /register
+        const response = await fetchPost('/api/register', {
+            username: signupUsername,
+            password: signupPasswordOne
+        });
+        if (!response) {
+            toast.error('Could not reach server');
+            return;
+        }
+        const message = await response.text();
+        if (response.ok) {
+            toast.success(message);
+            showLogin();
+        } else {
+            toast.error(message);
+        }
     }
 
-    function handleLogin() {
-        // TODO: POST to /login
+    async function handleLogin() {
+        const response = await fetchPost('/api/login', {
+            username: usernameInput,
+            password: passwordInput
+        });
+        if (!response) {
+            toast.error('Could not reach server');
+            return;
+        }
+        const message = await response.text();
+        if (response.ok) {
+            toast.success(message);
+        } else {
+            toast.error(message);
+        }
     }
 </script>
 
 {#if !showingSignup}
-    <div class="login-div">
+<div class="login-wrapper">
+     <div class="login-div">
         <div class="form-div">
             <h2>LOGIN</h2>
             <div class="input-div">
@@ -42,11 +73,13 @@
             <button class="button-1" type="button" onclick={handleLogin}>Login</button>
             <div>
                 <button class="button-2" type="button" onclick={showSignup}>Create Account</button><br>
-                <a href="#">Forgot password?</a><br>
             </div>
         </div>
     </div>
+</div>
+   
 {:else}
+<div class="signup-wrapper">
     <div class="signup-div">
         <div class="form-div">
             <h2>SIGN UP</h2>
@@ -62,4 +95,14 @@
             </div>
         </div>
     </div>
+</div>
 {/if}
+
+<style>
+    :global(body) {
+    background: url("/login-background.png") no-repeat center center !important;
+    background-size: cover !important;
+    min-height: 100vh;
+    overflow: hidden;
+    }
+</style>

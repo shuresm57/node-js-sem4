@@ -7,18 +7,16 @@ const router = Router();
 
 const usersArray = [];
 
-router.post('/register', async (req, res) => {
+router.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
 
-  if(!password || !username) return res.status.(400).send('Username and password are required.');
+  if(!password || !username) return res.status(400).send('Username and password are required.');
 
   try {
     const existingUser = await usersArray.find(user => user.username === username);
     if (existingUser) {
       return res.status(400).send('User already exists');
     }
-
-
 
     const hashedPassword = await hashPassword(password);
     const newUser = {
@@ -34,7 +32,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -45,16 +43,16 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: user.username }, // Payload (data inside the token)
-      process.env.JWT_SECRET, // Secret key for signing the token
-      { expiresIn: '1h' } // Token expiration time
+      { username: user.username }, // payload (data inside the token)
+      process.env.JWT_SECRET, // secret key for signing the token
+      { expiresIn: '1h' } // token expiration time
     );
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: false,
+      secure: false, // should be true (https) for production
       sameSite: 'strict',
-      maxAge: 60 * 60 * 1000
+      maxAge: 60 * 60 * 1000 // 1 hour
     });
     res.status(200).send('User logged in successfully');
   } catch (error) {
