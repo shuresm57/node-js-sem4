@@ -21,3 +21,11 @@ Configured with inspiration from:
 ## Helmet
 
 ## Middleware
+
+## Nodemailer
+
+https://nodemailer.com/
+
+## Secure Password Recovery
+
+https://blog.logrocket.com/implementing-secure-password-reset-node-js/

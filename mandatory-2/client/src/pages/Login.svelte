@@ -16,8 +16,11 @@
     function showPasswordRecovery() { view = 'recovery'; }
     
 </script>
+<svelte:head>
+    <title>{view === 'recovery' ? 'Recover Password' : view === 'signup' ? 'Sign Up' : 'Login'} | R&C Fan Club</title>
+</svelte:head>
 <div class="page-bg login-bg">
-<h1>Ratchet & Clank Fan Club</h1>
+<h1>Ratchet & Clank™ Fan Club</h1>
 {#if view === 'login'}
 <div class="login-wrapper">
      <div class="login-div">
@@ -61,9 +64,9 @@
         <div class="form-div">
             <h2>RECOVER ACCOUNT</h2>
             <div class="input-div">
-                <input type="text" placeholder="Username" bind:value={signupEmail} required>
+                <input type="text" placeholder="Email" bind:value={signupEmail} required>
             </div>
-            <button class="button-1" type="button" onclick={() => handlePasswordRecovery(signupEmail)}>Send reset link </button>
+            <button class="button-1" type="button" onclick={() => handlePasswordRecovery(signupEmail, showLogin)}>Send reset link </button>
             <div>
                 <button class="button-2" type="button" onclick={showLogin}>Back to Login</button>
             </div>
@@ -71,4 +74,8 @@
     </div>
 </div>
 {/if}
+<footer>
+    Ratchet & Clank is a registered trademark of Sony Interactive Entertainment LLC. 
+    This is an unofficial fan site and is not affiliated with or endorsed by Sony Interactive Entertainment.
+</footer>
 </div>

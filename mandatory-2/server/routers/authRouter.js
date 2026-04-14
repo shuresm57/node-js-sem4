@@ -3,6 +3,7 @@ import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
+import { sendPasswordRecoveryEmail } from '../util/emailUtil.js';
 
 const router = Router();
 
@@ -67,5 +68,46 @@ router.get('/api/home', requireAuth, (req, res) => {
   const user = usersArray.find(u => u.username === req.user.username);
   res.send({ data: { message: 'Welcome to the fanclub!', email: user.email } });
 });
+
+router.get('/api/users/:username', (req, res) => {
+  const { username } = req.params;
+  const found = usersArray.find(u => u.username === username);
+  if (found) return res.status(200).send({ field: 'username' });
+  res.status(404).send();
+});
+
+router.get('/api/emails/:email', (req, res) => {
+  const { email } = req.params;
+  const found = usersArray.find(u => u.email === email);
+  if (found) return res.status(200).send({ field: 'email' });
+  res.status(404).send();
+});
+
+router.post('/api/request-reset', (req, res) => {
+  const { email } = req.body;
+  const user = usersArray.find(u => u.email === email);
+  if (!user) return res.status(404).send('No account with that email.');
+
+  const token = crypto.randomUUID();
+  user.resetToken = token;
+  user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
+
+  sendPasswordRecoveryEmail(email, user.username, `http://localhost:5173/reset-password?token=${token}`);
+
+  res.status(200).send('Reset link sent.');
+});
+
+router.post('/api/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+  const user = usersArray.find(u => u.resetToken === token && u.resetTokenExpiry > Date.now());
+  if (!user) return res.status(400).send('Invalid or expired token.');
+
+  user.password = await hashPassword(newPassword);
+  user.resetToken = null;
+  user.resetTokenExpiry = null;
+
+  res.status(200).send('Password updated successfully.');
+});
+
 
 export default router;

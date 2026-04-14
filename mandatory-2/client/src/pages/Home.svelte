@@ -2,9 +2,6 @@
   import { onMount } from 'svelte';
   import { fetchGet } from '../util/fetchUtil';
 
-  let message = $state('');
-  let email = $state('');
-
   onMount(async () => {
     const response = await fetchGet('/api/home');
     if (!response || !response.ok) {
