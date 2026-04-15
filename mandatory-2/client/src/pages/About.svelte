@@ -2,6 +2,7 @@
   import { handleLogout } from '../util/authService.svelte.js';
   import { Link } from 'svelte-routing';
 </script>
+
 <div class="page-bg home-bg">
   <nav class="navbar">
     <div class="nav-links">
@@ -11,11 +12,10 @@
     </div>
     <button class="button-2" onclick={handleLogout}>Logout</button>
   </nav>
-  <h1>We are happy that you joined!</h1>
-  <p>Thanks for joining the (unofficial) Rachet and Clank Fanclub</p>
+  <h1>About</h1>
+  <p>This is an unoffical fanclub.</p>
   <footer>
     Ratchet & Clank is a registered trademark of Sony Interactive Entertainment LLC. 
     This is an unofficial fan site and is not affiliated with or endorsed by Sony Interactive Entertainment.
   </footer>
 </div>
-

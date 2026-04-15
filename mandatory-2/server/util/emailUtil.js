@@ -11,19 +11,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendWelcomeEmail(email, name) {
+export async function sendWelcomeEmail(email, username) {
     const info = await transporter.sendMail({
     from: '"Rachet and Clank FanClub" <info@rcfc.com>',
     to: `${email}`,
     subject: 'Welcome to the Fanclub!',
     text: 
         `
-        Welcome ${name}!
+        Welcome ${username}!
         We are so happy you wanted to join our club!
         `,
     html: 
         `
-        <h1>Welcome ${name}!</h1>
+        <h1>Welcome ${username}!</h1>
 
         <p>We are so happy you wanted to join our club!</p>
         

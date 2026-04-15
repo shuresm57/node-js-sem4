@@ -49,9 +49,10 @@ const authLimiter = rateLimit({
   legacyHeaders: false
 });
 
-app.use('/api/auth', authLimiter);
+//app.use('/api', authLimiter);
 
 app.use(authRouter);
+
 
 const PORT = process.env.PORT ?? 8080;
 

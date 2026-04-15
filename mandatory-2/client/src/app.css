@@ -37,6 +37,26 @@ body {
     background-repeat: no-repeat;
 }
 
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
 .login-bg {
     background-image: url("/login-background.png");
 }
@@ -116,4 +136,6 @@ footer {
     margin-top: auto;
     color: white;
     font-size: 12px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
 }

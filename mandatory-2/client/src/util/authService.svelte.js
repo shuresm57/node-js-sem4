@@ -1,23 +1,6 @@
 import { toast } from 'svelte-sonner';
 import { fetchPost, fetchGet } from "./fetchUtil"
-
-export async function handleLogin(username, password) {
-    const response = await fetchPost('/api/login', {
-        username,
-        password
-    });
-    if (!response) {
-        toast.error('Error logging in. Try again later.');
-        return;
-    }
-    const message = await response.text();
-    if (response.ok) {
-        toast.success(message);
-        window.location.href = '/home';
-    } else {
-        toast.error(message);
-    }
-}
+import { userStore } from '../stores/userStore.svelte.js';
 
 export async function handleSignup(email, username, passwordOne, passwordTwo, onSuccess) {
     if (!passwordMatchChecker(passwordOne, passwordTwo)) return;
@@ -49,6 +32,32 @@ export async function handleSignup(email, username, passwordOne, passwordTwo, on
     } else {
         toast.error('Error signing up. Try again later.');
     }
+}
+
+export async function handleLogin(username, password) {
+  const response = await fetchPost('/api/login', { username, password });
+  if (!response) {
+    toast.error('Error logging in. Try again later.');
+    return;
+  }
+  const message = await response.text();
+  if (response.ok) {
+    userStore.user = { username };
+    toast.success(message);
+    window.location.href = '/home';
+  } else {
+    toast.error(message);
+  }
+}
+
+export async function handleLogout() {
+  const response = await fetchPost('/api/logout', {});
+  if (response?.ok) {
+    userStore.user = null;
+    window.location.href = '/';
+  } else {
+    toast.error('Logout failed. Try again.');
+  }
 }
 
 export async function handlePasswordRecovery(email, onSuccess) {
@@ -85,6 +94,8 @@ export async function handleResetPassword(token, passwordOne, passwordTwo) {
         toast.error(message);
     }
 }
+
+
 
 //====================
 // HELPER FUNCTIONS ||
