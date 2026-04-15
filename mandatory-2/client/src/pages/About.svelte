@@ -12,8 +12,10 @@
     </div>
     <button class="button-2" onclick={handleLogout}>Logout</button>
   </nav>
-  <h1>About</h1>
-  <p>This is an unoffical fanclub.</p>
+  <h1 class=home-page-header>About</h1>
+  <div class=home-div>
+    <p>This is an unoffical fanclub.</p>
+  </div>
   <footer>
     Ratchet & Clank is a registered trademark of Sony Interactive Entertainment LLC. 
     This is an unofficial fan site and is not affiliated with or endorsed by Sony Interactive Entertainment.
