@@ -4,12 +4,6 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
-// =============
-// CORS       ||
-// =============
-
-import cors from 'cors';
-
 // ================
 // RATE LIMITERS ||
 // ================
@@ -25,13 +19,19 @@ import authRouter from './routers/authRouter.js';
 const app = express();
 app.use(helmet());
 
+app.use(express.json());
+app.use(cookieParser());
+
+// =============
+// CORS       ||
+// =============
+
+import cors from 'cors';
+
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
-
-app.use(express.json());
-app.use(cookieParser());
 
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
