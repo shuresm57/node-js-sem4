@@ -1,9 +1,11 @@
 import { Router } from 'express';
-
 import jwt from 'jsonwebtoken';
+
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
 import { sendWelcomeEmail, sendPasswordRecoveryEmail } from '../util/emailUtil.js';
+import db from '../database/connection.js';
+
 const router = Router();
 
 const usersArray = [];
@@ -25,7 +27,12 @@ router.post('/api/register', async (req, res) => {
       username,
       password: hashedPassword
     };
-    usersArray.push(newUser);
+    await db.run(`
+      INSERT INTO users
+      (email, username, password)
+      VALUES (?, ?, ?)
+      `, [email, username, hashedPassword]
+    );
     sendWelcomeEmail(email, username)
     res.status(201).send('User registered successfully');
   } catch (error) {
@@ -84,10 +91,15 @@ router.get('/api/users/:username', (req, res) => {
   res.status(404).send();
 });
 
-router.get('/api/emails/:email', (req, res) => {
+router.get('/api/emails/:email', async (req, res) => {
   const { email } = req.params;
-  const found = usersArray.find(u => u.email === email);
-  if (found) return res.status(200).send({ field: 'email' });
+  const found = await db.get(`
+      SELECT *
+      FROM users
+      WHERE users.email = (?)
+      `, [email]
+    );
+  if (found) return res.status(200).send;
   res.status(404).send();
 });
 
