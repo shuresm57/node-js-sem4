@@ -42,7 +42,8 @@ export default router;
 By exporting the router, we can call upon the routes in `app.js` or whatever your main server application file is called.
 
 ## Secure Password Recovery
-Making sure password recovery is secure matters just as much as the login flow itself. If the reset process is weak, it can become the easiest way to hack users.
+
+I would like to shine a light on the password recovery flow. It is not the flashiest part of an authentication system, but it is at least as important as the login flow itself. If the reset process is weak, it can become the easiest way to compromise a user's account.
 
 How it works step by step:
 1. The user submits their email to `/api/request-reset`.
@@ -50,5 +51,5 @@ How it works step by step:
 3. We send an email with a link like `http://localhost:5173/reset-password?token=<token>`.
 4. The user clicks the link, enters a new password, and submits it to `/api/reset-password`.
 5. We look up the user by token, but only when the token exists and expiry > now.
-6. We then hash the new password, save it, and immediately clear the reset token.
-7. That makes the token single-use, and the 15-minute expiry keeps the risk window small if the email is exposed.
+6. We hash the new password, save it, and immediately clear the reset token.
+7. The token is single-use, and the 15-minute expiry keeps the risk window small if the email is intercepted.
