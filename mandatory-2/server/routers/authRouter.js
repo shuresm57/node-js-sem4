@@ -15,7 +15,9 @@ const router = Router();
 router.post('/api/register', async (req, res) => {
   const { username, password, email } = req.body;
 
-  if (!password || !username || !email) return res.status(400).send('Email, username and password are required.');
+  if (!password || !username || !email) {
+    return res.status(400).send('Email, username and password are required.');
+  }
 
   try {
     const existingUser = findByUsername(username);
@@ -42,7 +44,7 @@ router.post('/api/login', async (req, res) => {
     const user = findByUsername(username);
 
     if (!user || !(await comparePassword(password, user.password))) {
-      return res.status(401).send('Invalid credentials');
+      return res.status(401).send('Invalid credentials.');
     }
 
     const token = jwt.sign(
@@ -77,33 +79,44 @@ router.post('/api/logout', (req, res) => {
 router.get('/api/home', requireAuth, (req, res) => {
   const username = req.user.username;
   const user = findByUsername(username);
-  if (!user) return res.status(404).send({ error: 'User not found' });
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
   res.send({ data: { message: 'Welcome to the fanclub!', email: user.email, username: user.username } });
 });
 
 router.get('/api/users/:username', (req, res) => {
   const { username } = req.params;
   const found = findByUsername(username);
-  if (found) return res.status(200).send({ field: 'username' });
+  if (found) {
+    return res.status(200).send({ field: 'username' });
+  }
+
   res.status(404).send();
 });
 
 router.get('/api/emails/:email', (req, res) => {
   const { email } = req.params;
   const found = findByEmail(email);
-  if (found) return res.status(200).send();
+  if (found) {
+    return res.status(200).send();
+  }
   res.status(404).send();
 });
 
 router.post('/api/request-reset', (req, res) => {
   const { email } = req.body;
   const user = findByEmail(email);
-  if (!user) return res.status(404).send('No account with that email.');
+
+  if (!user) {
+    return res.status(404).send('No account with that email.');
+  }
 
   const token = crypto.randomUUID();
   const expiry = Date.now() + 15 * 60 * 1000;
-  setExpiryTokenByEmail(email, expiry, token);
 
+  setExpiryTokenByEmail(email, expiry, token);
   sendPasswordRecoveryEmail(email, user.username, `${process.env.CLIENT_URL}/reset-password?token=${token}`);
 
   res.status(200).send('Reset link sent.');
@@ -112,7 +125,9 @@ router.post('/api/request-reset', (req, res) => {
 router.post('/api/reset-password', async (req, res) => {
   const { token, newPassword } = req.body;
   const user = findUserByToken(token, Date.now());
-  if (!user) return res.status(400).send('Invalid or expired token.');
+  if (!user) {
+    return res.status(400).send('Invalid or expired token.');
+  }
 
   const hashed = await hashPassword(newPassword);
   updateUserAndToken(user.id, hashed);
