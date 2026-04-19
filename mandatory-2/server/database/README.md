@@ -1,63 +1,42 @@
 # Database
 
-We use [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3) — a synchronous SQLite driver for Node. No `await`, no callbacks, just regular function calls. SQLite stores the whole database in a single file (`mandatory2.db`), so no separate database server has to run.
+For the database, I chose to use SQLite mainly because of ease of use; it can be quickly spun up as opposed to MySQL or Postgres that needs to be run as a independent instance, or MongoDB that requires to be deployed to a server.
 
-## Connection
+Neither Cassanda, Redis or Elasticsearch matches the requirements of this application so far, hence it would be overkill to use. 
 
-`connection.js` opens the database. The filename is resolved relative to the file itself rather than the process working directory, so the path doesn't break if the server is started from a different folder:
+Although I could argue, that using Redis, or any other in-memory database, for the reset password functionality could be useful at some point, since there is no reason to save the tokens to a file - and it could also eliminate the need of writing to the .db file and locking it just to reset a password.
 
-```javascript
-import Database from 'better-sqlite3';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+Right now, the token is cleared by a query, which could prove problematic, should the file be write locked or if the application should crash before it can be cleared.
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+## Database JS files
 
-const db = new Database(join(__dirname, 'mandatory2.db'));
-db.pragma('journal_mode = WAL');
+### `connection.js`
 
-export default db;
-```
+Used to set up the connection to the database, given that it exists.
 
-`WAL` (write-ahead logging) lets reads and writes happen in parallel, which avoids the "database is locked" errors you see with the default rollback journal.
+I am using `better-sqlite3` since `sqlite` is deprecated and therefore no longer maintained. By setting `journal_mode = WAL`, reads and writes can happen in parallel — writes are staged in a `-wal` file while reads continue against the main database file. 
 
-## Schema
+A `-shm` shared memory index is also created alongside it. The `-shm` file is a shared memory index that allows multiple connections to coordinate access to the `-wal` file efficiently.
 
-`createDatabase.js` creates the `users` table if it doesn't already exist. Run it once before starting the server:
+It should be noted that these two files only exist while the server is running.
 
-```bash
-node database/createDatabase.js
-```
+### `createDatabase.js`
 
-```javascript
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email VARCHAR(255) NOT NULL,
-    username VARCHAR(30) NOT NULL,
-    password VARCHAR(2500) NOT NULL,
-    reset_token TEXT,
-    reset_token_expiry INTEGER
-  );
-`);
-```
+This creates the database and also create the `users` table.
 
-The `reset_token` and `reset_token_expiry` columns are used by the password recovery flow (see [`util/`](../util/README.md)).
+It also creates a test user in the database, for testing access.
 
-## Querying
+### `queries.js`
 
-`better-sqlite3` works in two steps: prepare the statement, then call `.get()`, `.all()`, or `.run()` on it.
+Instead of having the queries in the `authRouter.js`, I made this file for better separation between the API and service layer.
 
-```javascript
-// one row
-const user = db.prepare(`SELECT * FROM users WHERE username = ?`).get(username);
+The following queries exist:
 
-// many rows
-const users = db.prepare(`SELECT * FROM users`).all();
-
-// insert / update / delete
-db.prepare(`INSERT INTO users (email, username, password) VALUES (?, ?, ?)`)
-  .run(email, username, hashedPassword);
-```
-
-Parameters are spread as separate arguments, not passed as an array. Always parameterise — never string-interpolate user input into SQL.
+| Name | Description |
+|---|---|
+| `findByUsername` | Looks up a user by username, returning their `id`. |
+| `findByEmail` | Fetches all columns for a user matching the given email. |
+| `saveUser` | Inserts a new user with email, username, and hashed password. |
+| `setExpiryTokenByEmail` | Writes a password reset token and its expiry timestamp to a user record, looked up by email. |
+| `findUserByToken` | Finds a user by reset token, only returning a result if the token is not yet expired. |
+| `updateUserAndToken` | Updates the password for a user by id, clears the reset token and expiry. |

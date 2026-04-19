@@ -1,15 +1,15 @@
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '../../.env' })
-
 import db from './connection.js';
 import { hashPassword } from '../util/passwordUtil.js';
+
+dotenv.config({ path: '../../.env' });
 
 const deleteMode = process.argv.includes('--delete');
 
 if (deleteMode) {
-  db.exec(`DROP TABLE IF EXISTS users;`);
-};
+  db.exec('DROP TABLE IF EXISTS users;');
+}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (

@@ -1,14 +1,5 @@
 # Server
 
-Express backend. Entry point is `app.js`, which wires up the global middleware (CORS, Helmet, rate limiting) and mounts the routers.
-
-For deeper notes on a specific topic, see the README in the corresponding subfolder:
-
-- [`database/`](./database/README.md) — `better-sqlite3` setup and schema
-- [`routers/`](./routers/README.md) — Express Router pattern
-- [`middleware/`](./middleware/README.md) — JWT and `requireAuth`
-- [`util/`](./util/README.md) — bcrypt, Nodemailer, password recovery
-
 ## dotenv
 
 The dotenv package is a simple, secrets or key file, made to manage the applications secrets and to give the developer a single place to securely store sensitive application secrets.
