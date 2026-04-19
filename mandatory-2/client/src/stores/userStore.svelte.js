@@ -1,1 +1,1 @@
-export const userStore = $state({ user: null });
+export const userStore = $state({ user: null, authChecked: false });

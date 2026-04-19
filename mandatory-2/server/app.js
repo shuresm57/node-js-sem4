@@ -2,35 +2,36 @@ import dotenv from 'dotenv/config';
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import helmet from 'helmet';
-
-// ================
-// RATE LIMITERS ||
-// ================
-
-import { rateLimit } from 'express-rate-limit';
-
-//= ==========
-// ROUTERS ||
-//= ==========
-
-import authRouter from './routers/authRouter.js';
 
 const app = express();
+
+app.use(express.json());
+app.use(cookieParser());
 
 // =============
 // CORS       ||
 // =============
+
+import cors from 'cors';
 
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
 
+// ================
+// HELMET        ||
+// ================
+
+import helmet from 'helmet';
+
 app.use(helmet());
-app.use(express.json());
-app.use(cookieParser());
+
+// ================
+// RATE LIMITERS ||
+// ================
+
+import { rateLimit } from 'express-rate-limit';
 
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -39,8 +40,6 @@ const generalLimiter = rateLimit({
   legacyHeaders: false
 });
 
-app.use(generalLimiter);
-
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
@@ -48,7 +47,14 @@ const authLimiter = rateLimit({
   legacyHeaders: false
 });
 
+app.use(generalLimiter);
 //app.use('/api', authLimiter);
+
+// =============
+// ROUTERS    ||
+// =============
+
+import authRouter from './routers/authRouter.js';
 
 app.use(authRouter);
 

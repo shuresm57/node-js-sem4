@@ -1,9 +1,10 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import Database from 'better-sqlite3';
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url';
 
-const connection = await open({
-    filename: 'mandatory2.db',
-    driver: sqlite3.Database
-});
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default connection;
+const db = new Database(join(__dirname, 'mandatory2.db'));
+db.pragma('journal_mode = WAL');
+
+export default db;

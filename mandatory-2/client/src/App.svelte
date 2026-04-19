@@ -18,6 +18,7 @@
       const data = await response.json();
       userStore.user = { username: data.data.username };
     }
+    userStore.authChecked = true;
   })
 
 </script>

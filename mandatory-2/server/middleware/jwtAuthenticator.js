@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-// TODO: Use in routes that need protection
 export const requireAuth = (req, res, next) => {
   const token = req.cookies?.token;
 

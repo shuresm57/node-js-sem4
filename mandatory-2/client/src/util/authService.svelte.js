@@ -121,16 +121,12 @@ function emailValidityChecker(email) {
 
 async function checkIfUserExists(username) {
     const response = await fetchGet(`/api/users/${username}`);
-    if (response.status === 200) {
-        return false;
-    }
+    if (response?.status === 200) return false;
     return true;
 }
 
 async function checkIfEmailExists(email) {
     const response = await fetchGet(`/api/emails/${email}`);
-    if (response.status === 200) {
-        return false;
-    }
+    if (response?.status === 200) return false;
     return true;
 }

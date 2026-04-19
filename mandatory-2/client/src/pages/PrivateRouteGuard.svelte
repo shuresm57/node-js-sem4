@@ -4,17 +4,13 @@
 
   let { children } = $props();
 
-// $: is not allowed in runes mode, use $effect instead.
   $effect(() => {
-    if (!userStore.user) {
+    if (userStore.authChecked && !userStore.user) {
       navigate('/', { replace: true });
     }
   });
 </script>
 
-
-<!-- <slot/ > is deprecated, use @render ... instead --> 
-
-{#if userStore.user}
+{#if userStore.authChecked && userStore.user}
   {@render children()}
 {/if}

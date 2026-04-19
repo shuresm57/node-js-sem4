@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
+import crypto from 'node:crypto';
 
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
@@ -8,31 +9,25 @@ import db from '../database/connection.js';
 
 const router = Router();
 
-const usersArray = [];
-
 router.post('/api/register', async (req, res) => {
   const { username, password, email } = req.body;
 
-  if(!password || !username || !email) return res.status(400).send('Email, username and password are required.');
+  if(!password || !username || !email) return res.status(400).send('Email, username and password are required.');
 
   try {
-    const existingUser = await usersArray.find(user => user.username === username);
+    const existingUser = db.prepare(`SELECT id FROM users WHERE username = ?`).get(username);
     if (existingUser) {
       return res.status(400).send('User already exists');
     }
 
     const hashedPassword = await hashPassword(password);
-    const newUser = {
-      email,
-      username,
-      password: hashedPassword
-    };
-    await db.run(`
+
+    db.prepare(`
       INSERT INTO users
       (email, username, password)
       VALUES (?, ?, ?)
-      `, [email, username, hashedPassword]
-    );
+    `).run(email, username, hashedPassword);
+
     sendWelcomeEmail(email, username)
     res.status(201).send('User registered successfully');
   } catch (error) {
@@ -45,7 +40,11 @@ router.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await usersArray.find(user => user.username === username);
+    const user = db.prepare(`
+      SELECT *
+      FROM users
+      WHERE users.username = ?
+    `).get(username);
 
     if (!user || !(await comparePassword(password, user.password))) {
       return res.status(401).send('Invalid credentials');
@@ -63,6 +62,7 @@ router.post('/api/login', async (req, res) => {
       sameSite: 'strict',
       maxAge: 60 * 60 * 1000 // 1 hour
     });
+
     res.status(200).send(`${username} logged in successfully`);
   } catch (error) {
     console.error(error);
@@ -80,37 +80,39 @@ router.post('/api/logout', (req, res) => {
 })
 
 router.get('/api/home', requireAuth, (req, res) => {
-  const user = usersArray.find(u => u.username === req.user.username);
+  const user = db.prepare(`SELECT email, username FROM users WHERE username = ?`).get(req.user.username);
+  if (!user) return res.status(404).send({ error: 'User not found' });
   res.send({ data: { message: 'Welcome to the fanclub!', email: user.email, username: user.username } });
 });
 
 router.get('/api/users/:username', (req, res) => {
   const { username } = req.params;
-  const found = usersArray.find(u => u.username === username);
+  const found = db.prepare(`SELECT id FROM users WHERE username = ?`).get(username);
   if (found) return res.status(200).send({ field: 'username' });
   res.status(404).send();
 });
 
-router.get('/api/emails/:email', async (req, res) => {
+router.get('/api/emails/:email', (req, res) => {
   const { email } = req.params;
-  const found = await db.get(`
+  const found = db.prepare(`
       SELECT *
       FROM users
-      WHERE users.email = (?)
-      `, [email]
-    );
-  if (found) return res.status(200).send;
+      WHERE users.email = ?
+  `).get(email);
+  if (found) return res.status(200).send();
   res.status(404).send();
 });
 
-router.post('/api/request-reset', async (req, res) => {
+router.post('/api/request-reset', (req, res) => {
   const { email } = req.body;
-  const user = usersArray.find(u => u.email === email);
+  const user = db.prepare(`SELECT username FROM users WHERE email = ?`).get(email);
   if (!user) return res.status(404).send('No account with that email.');
 
   const token = crypto.randomUUID();
-  user.resetToken = token;
-  user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
+  const expiry = Date.now() + 15 * 60 * 1000;
+  db.prepare(
+    `UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?`
+  ).run(token, expiry, email);
 
   sendPasswordRecoveryEmail(email, user.username, `http://localhost:5173/reset-password?token=${token}`);
 
@@ -119,12 +121,15 @@ router.post('/api/request-reset', async (req, res) => {
 
 router.post('/api/reset-password', async (req, res) => {
   const { token, newPassword } = req.body;
-  const user = usersArray.find(u => u.resetToken === token && u.resetTokenExpiry > Date.now());
+  const user = db.prepare(
+    `SELECT id FROM users WHERE reset_token = ? AND reset_token_expiry > ?`
+  ).get(token, Date.now());
   if (!user) return res.status(400).send('Invalid or expired token.');
 
-  user.password = await hashPassword(newPassword);
-  user.resetToken = null;
-  user.resetTokenExpiry = null;
+  const hashed = await hashPassword(newPassword);
+  db.prepare(
+    `UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?`
+  ).run(hashed, user.id);
 
   res.status(200).send('Password updated successfully.');
 });
