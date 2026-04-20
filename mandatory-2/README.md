@@ -2,9 +2,7 @@
 
 This is the 2nd mandatory hand-in for the 4th semester Node.js elective at Erhvervsakadami København
 
-
 A fullstack authentication system, built on Svelte, Node.js with Express, and SQLite.
-
 
 The application is themed as a Ratchet & Clank fan club site, because it is an awesome game.
 

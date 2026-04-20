@@ -24,7 +24,7 @@ export function saveUser (email, username, hashedPassword) {
       `).run(email, username, hashedPassword);
 }
 
-export function setExpiryTokenByEmail(token, expiry, email) {
+export function setExpiryTokenByEmail (token, expiry, email) {
   return db.prepare(
     `UPDATE users 
     SET reset_token = ?, reset_token_expiry = ? 
@@ -32,8 +32,8 @@ export function setExpiryTokenByEmail(token, expiry, email) {
   ).run(token, expiry, email);
 }
 
-export function findUserByToken(token, date){
-    return db.prepare(
+export function findUserByToken (token, date) {
+  return db.prepare(
     `SELECT *
     FROM users 
     WHERE reset_token = ? 
@@ -41,8 +41,8 @@ export function findUserByToken(token, date){
   ).get(token, date);
 }
 
-export function updateUserAndToken(hashed, id) {
-    return db.prepare(
+export function updateUserAndToken (hashed, id) {
+  return db.prepare(
     `UPDATE users 
     SET password = ?, 
     reset_token = NULL, 
