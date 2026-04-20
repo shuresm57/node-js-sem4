@@ -9,3 +9,12 @@ run_server:
 # run the client
 run_client:
 	npm run dev --prefix client
+
+install:
+	make -j 2 install_server install_client
+
+install_server:
+	cd server && npm install -y
+
+install_client:
+	cd client && npm install -y

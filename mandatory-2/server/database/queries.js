@@ -1,11 +1,15 @@
 import db from '../database/connection.js';
 
 export function findByUsername (username) {
-  db.prepare('SELECT id FROM users WHERE username = ?').get(username);
+  return db.prepare(`
+    SELECT * 
+    FROM users 
+    WHERE username = ?
+    `).get(username);
 }
 
 export function findByEmail (email) {
-  db.prepare(`
+  return db.prepare(`
       SELECT *
       FROM users
       WHERE users.email = ?
@@ -13,7 +17,7 @@ export function findByEmail (email) {
 }
 
 export function saveUser (email, username, hashedPassword) {
-  db.prepare(`
+  return db.prepare(`
         INSERT INTO users
         (email, username, password)
         VALUES (?, ?, ?)
@@ -21,7 +25,7 @@ export function saveUser (email, username, hashedPassword) {
 }
 
 export function setExpiryTokenByEmail(token, expiry, email) {
-  db.prepare(
+  return db.prepare(
     `UPDATE users 
     SET reset_token = ?, reset_token_expiry = ? 
     WHERE email = ?`
@@ -29,13 +33,20 @@ export function setExpiryTokenByEmail(token, expiry, email) {
 }
 
 export function findUserByToken(token, date){
-    db.prepare(
-    'SELECT id FROM users WHERE reset_token = ? AND reset_token_expiry > ?'
+    return db.prepare(
+    `SELECT *
+    FROM users 
+    WHERE reset_token = ? 
+    AND reset_token_expiry > ?`
   ).get(token, date);
 }
 
 export function updateUserAndToken(hashed, id) {
-    db.prepare(
-    'UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?'
+    return db.prepare(
+    `UPDATE users 
+    SET password = ?, 
+    reset_token = NULL, 
+    reset_token_expiry = NULL 
+    WHERE id = ?`
   ).run(hashed, id);
 }

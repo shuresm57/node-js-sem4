@@ -31,5 +31,11 @@ This prevents attackers from using rainbow tables to get passwords from precompu
 
 ## Nodemailer & Ethereal
 
+Nodemailer is a library in Node, that is used for sending emails - however we need a SMTP server for sending these emails.
+
+If we dont have one ourselves, we can use Ethereral which is an SMTP server that 'sends' emails, good for testing if the nodemailer configurations works and to review the design of the emails.
+
+In our application we have `sendWelcomeEmail()` and `sendPasswordRecoveryEmail`. When these are called, a preview URL is logged in the server console, which we then can access to view the sent email.
+
 https://nodemailer.com/
 

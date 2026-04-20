@@ -1,5 +1,6 @@
 <script>
     import { handleResetPassword } from '../util/authService.svelte.js';
+    import Footer from '../components/Footer.svelte';
 
     const token = new URLSearchParams(window.location.search).get('token');
 
@@ -23,8 +24,5 @@
             <button class="button-1" type="button" onclick={() => handleResetPassword(token, passwordOne, passwordTwo)}>Reset Password</button>
         </div>
     </div>
-    <footer>
-        Ratchet & Clank is a registered trademark of Sony Interactive Entertainment LLC.
-        This is an unofficial fan site and is not affiliated with or endorsed by Sony Interactive Entertainment.
-    </footer>
+    <Footer />
 </div>

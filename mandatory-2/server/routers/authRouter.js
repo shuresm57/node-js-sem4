@@ -1,3 +1,5 @@
+import dotenv from 'dotenv/config';
+
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'node:crypto';
@@ -116,7 +118,7 @@ router.post('/api/request-reset', (req, res) => {
   const token = crypto.randomUUID();
   const expiry = Date.now() + 15 * 60 * 1000;
 
-  setExpiryTokenByEmail(email, expiry, token);
+  setExpiryTokenByEmail(token, expiry, email);
   sendPasswordRecoveryEmail(email, user.username, `${process.env.CLIENT_URL}/reset-password?token=${token}`);
 
   res.status(200).send('Reset link sent.');
@@ -130,7 +132,7 @@ router.post('/api/reset-password', async (req, res) => {
   }
 
   const hashed = await hashPassword(newPassword);
-  updateUserAndToken(user.id, hashed);
+  updateUserAndToken(hashed, user.id);
 
   res.status(200).send('Password updated successfully.');
 });
