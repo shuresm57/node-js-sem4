@@ -20,13 +20,15 @@ The application needs a `.env` file — see the [.env.example](.env.example) for
 
 ## Documentation
 
-**Backend**
+I chose to spend a lot of time writing relevant documentation for each part, so I gain a better understanding of each moving part. 
+
+### Backend*
 - [server](./server/README.md) — app entry, dotenv, CORS, Helmet, Rate Limiting
 - [server/database/](./server/database/README.md) — `better-sqlite3` setup and schema
 - [server/routers/](./server/routers/README.md) — Express Router pattern
 - [server/middleware/](./server/middleware/README.md) — JWT and the `requireAuth` middleware
 - [server/util/](./server/util/README.md) — bcrypt, Nodemailer, password recovery flow
 
-**Frontend**
+### Frontend
 - [`client/`](./client/README.md) — Svelte 5 + Vite overview, fetch util, user store
 - [`client/src/pages/`](./client/src/pages/README.md) — Private Routes
