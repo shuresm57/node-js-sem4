@@ -22,7 +22,7 @@ The application needs a `.env` file — see the [.env.example](.env.example) for
 
 I chose to spend a lot of time writing relevant documentation for each part, so I gain a better understanding of each moving part. 
 
-### Backend*
+### Backend
 - [server](./server/README.md) — app entry, dotenv, CORS, Helmet and JWT
 - [server/database/](./server/database/README.md) — `better-sqlite3` setup and schema
 - [server/routers/](./server/routers/README.md) — Express Router pattern
