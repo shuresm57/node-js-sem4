@@ -71,8 +71,8 @@ export async function handleLogout () {
 }
 
 export async function handlePasswordRecovery (email, onSuccess) {
-  const emailExists = await checkIfEmailExists(email);
-  if (!emailExists) {
+  const emailAvailable = await checkIfEmailExists(email);
+  if (emailAvailable) {
     toast.error('No user with that email was found.');
     return;
   }
