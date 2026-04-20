@@ -1,5 +1,45 @@
 # Server
 
+This directory holds the server code, built on Node.js with Express and SQLite.
+
+Libraries currently in use:
+
+> express (HTTP server) \
+> better-sqlite3 (database) \
+> jsonwebtoken (JWT auth) \
+> bcrypt (password hashing) \
+> nodemailer (email) \
+> cors, helmet, express-rate-limit (security middleware)
+
+Run the server by running these commands:
+
+```bash
+$ npm install
+$ node app.js
+```
+
+## JWT
+
+JSON Web Token is a standardized way to transmit claims between two parties as a cryptographically signed token — the payload is readable but tamper-proof.
+
+We use it for two things:
+
+1. Attaching a token to a user, granting them access to resources, as long as their credentials exists in our database
+2. Generating a secure URL for password recovery that only exists for 15 minutes.
+
+This way we ensure a higher level of security between frontend and backend, or a backend and multiple services.
+
+JWT is scalable because it is stateless, meaning any service with the secret key can verify the token independently, without a shared session store.
+
+Couldnt have done it without these helpful people:
+
+> [www.laraibrabbani.net/](https://www.laraibrabbani.net/blog/nodejs/creating-secure-password-flows-with-nodejs-and-mysql?utm_source=chatgpt.com)
+> [Digital Ocean Article](https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs?utm_source=chatgpt.com#advanced-jwt-security)
+> [Medium Article](https://medium.com/@aishwaryajanardhana/one-stop-guide-to-jwt-authentication-with-node-js-c0e796821a33) \
+> [dev.to Article](https://dev.to/akshaykurve/handling-authentication-with-jwt-the-right-way-in-nodejs-2026-edition-25na#what-is-jwt-in-simple-terms)
+
+For more information, read the [IETF Official Document on JWT](https://datatracker.ietf.org/doc/html/rfc7519)
+
 ## dotenv
 
 The dotenv package is a simple, secrets or key file, made to manage the applications secrets and to give the developer a single place to securely store sensitive application secrets.
@@ -21,7 +61,7 @@ const PORT = process.env.PORT ?? 1234;
 
 `dotenv` will find the .env file automatically, if placed in the root folder of the application.
 
-> It should **never**, ever be pushed to version control.
+> It should never, **ever** be pushed to version control.
 
 ## CORS
 
@@ -35,36 +75,6 @@ app.use(cors({
   credentials: true
 }));
 ```
-
-## Rate Limiting
-
-Rate limiting is used to limit repeated requests for endpoints. We use two rate limiters in this project, one for the whole website, and then one that is set specifically up for authorization.
-
-We use a rate limiter, because we want to prevent abuse and ensure a fair and stable use of resources to our users.
-
-The general limiter:
-
-```javascript
-const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false
-});
-```
-
-Authorization limiter:
-
-```javascript
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false
-});
-```
-
-The key difference here being the `limit:` - in the general we set it to 100 and for the authorization it is set to 10, to drastically limit the amount of requests that can be made.
 
 ## Helmet
 

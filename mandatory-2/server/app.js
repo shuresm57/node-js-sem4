@@ -19,8 +19,7 @@ import helmet from 'helmet';
 // RATE LIMITERS ||
 // ================
 
-import { rateLimit } from 'express-rate-limit';
-// app.use('/api', authLimiter);
+import { generalLimiter } from './middleware/rateLimiters.js';
 
 // =============
 // ROUTERS    ||
@@ -39,20 +38,6 @@ app.use(cors({
 }));
 
 app.use(helmet());
-
-const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false
-});
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false
-});
 
 app.use(generalLimiter);
 

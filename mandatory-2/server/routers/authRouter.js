@@ -6,15 +6,16 @@ import crypto from 'node:crypto';
 
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
+import { authLimiter } from '../middleware/rateLimiters.js';
 import { sendWelcomeEmail, sendPasswordRecoveryEmail } from '../util/emailUtil.js';
-import { 
-  findByEmail, findByUsername, saveUser, 
-  setExpiryTokenByEmail, findUserByToken, updateUserAndToken 
+import {
+  findByEmail, findByUsername, saveUser,
+  setExpiryTokenByEmail, findUserByToken, updateUserAndToken
 } from '../database/queries.js';
 
 const router = Router();
 
-router.post('/api/register', async (req, res) => {
+router.post('/api/register', authLimiter, async (req, res) => {
   const { username, password, email } = req.body;
 
   if (!password || !username || !email) {
@@ -39,7 +40,7 @@ router.post('/api/register', async (req, res) => {
   }
 });
 
-router.post('/api/login', async (req, res) => {
+router.post('/api/login', authLimiter, async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -107,7 +108,7 @@ router.get('/api/emails/:email', (req, res) => {
   res.status(404).send();
 });
 
-router.post('/api/request-reset', (req, res) => {
+router.post('/api/request-reset', authLimiter, (req, res) => {
   const { email } = req.body;
   const user = findByEmail(email);
 
@@ -124,7 +125,7 @@ router.post('/api/request-reset', (req, res) => {
   res.status(200).send('Reset link sent.');
 });
 
-router.post('/api/reset-password', async (req, res) => {
+router.post('/api/reset-password', authLimiter, async (req, res) => {
   const { token, newPassword } = req.body;
   const user = findUserByToken(token, Date.now());
   if (!user) {

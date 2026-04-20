@@ -1,18 +1,28 @@
 import { toast } from 'svelte-sonner';
-import { fetchPost, fetchGet } from "./fetchUtil"
+import { fetchPost, fetchGet } from './fetchUtil.js';
 import { userStore } from '../stores/userStore.svelte.js';
 
 export async function handleSignup(email, username, passwordOne, passwordTwo, onSuccess) {
-    if (!passwordMatchChecker(passwordOne, passwordTwo)) return;
-    if (!emailValidityChecker(email)) return;
+    if (!passwordMatchChecker(passwordOne, passwordTwo)) {
+        return;
+    }
+    if (!emailValidityChecker(email)) {
+        return;
+    }
 
     const [userAvailable, emailAvailable] = await Promise.all([
         checkIfUserExists(username),
         checkIfEmailExists(email)
     ]);
 
-    if (!userAvailable) { toast.error('Username already taken.'); return; }
-    if (!emailAvailable) { toast.error('Email already in use.'); return; }
+    if (!userAvailable) {
+        toast.error('Username already taken.');
+        return;
+    }
+    if (!emailAvailable) {
+        toast.error('Email already in use.');
+        return;
+    }
     
     const response = await fetchPost('/api/register', {
         email,
@@ -80,7 +90,9 @@ export async function handlePasswordRecovery(email, onSuccess) {
 }
 
 export async function handleResetPassword(token, passwordOne, passwordTwo) {
-    if (!passwordMatchChecker(passwordOne, passwordTwo)) return;
+    if (!passwordMatchChecker(passwordOne, passwordTwo)) {
+        return;
+    }
     const response = await fetchPost('/api/reset-password', { token, newPassword: passwordOne });
     if (!response) {
         toast.error('An error has occurred. Please try again later.');
@@ -111,7 +123,7 @@ function passwordMatchChecker(passwordOne, passwordTwo) {
 }
 
 function emailValidityChecker(email) {
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValid = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
     if (!isValid) {
         toast.error('Email is invalid.');
         return false;
@@ -121,12 +133,16 @@ function emailValidityChecker(email) {
 
 async function checkIfUserExists(username) {
     const response = await fetchGet(`/api/users/${username}`);
-    if (response?.status === 200) return false;
+    if (response?.status === 200) {
+        return false;
+    }
     return true;
 }
 
 async function checkIfEmailExists(email) {
     const response = await fetchGet(`/api/emails/${email}`);
-    if (response?.status === 200) return false;
+    if (response?.status === 200) {
+        return false;
+    }
     return true;
 }

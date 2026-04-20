@@ -28,5 +28,3 @@ This is a frankenstein way of doing the PrivateRoutes, with inspiration from man
 > [svelte-navigator private-routes example](https://github.com/mefechoel/svelte-navigator/tree/main/example/private-routes) \
 > [Svelte 5 migration guide](https://svelte.dev/docs/svelte/v5-migration-guide) \
 > [effect rune docs](https://svelte.dev/docs/svelte/$effect) \
-> [How to await Firebase Auth with SvelteKit (Captain Codeman)](https://www.captaincodeman.com/how-to-await-firebase-auth-with-sveltekit) \
-> [Content Flash in Protected Route with React HOC (Auth0 community)](https://community.auth0.com/t/content-flash-in-protected-route-with-react-hoc/122741)
