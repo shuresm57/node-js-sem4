@@ -30,5 +30,5 @@ I chose to spend a lot of time writing relevant documentation for each part, so 
 - [server/util/](./server/util/README.md) — bcrypt, Nodemailer, password recovery flow
 
 ### Frontend
-- [`client/`](./client/README.md) — Svelte 5 + Vite overview, fetch util, user store
-- [`client/src/pages/`](./client/src/pages/README.md) — Private Routes
+- [client/](./client/README.md) — Svelte 5 + Vite overview, fetch util, user store
+- [client/src/pages/](./client/src/pages/README.md) — Private Routes
