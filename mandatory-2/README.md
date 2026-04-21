@@ -12,8 +12,8 @@ Use the [Makefile](Makefile) to install and run the frontend and backend in para
 
 ```bash
 # from mandatory-2 directory
-make install
-make run
+$ make install
+$ make run
 ```
 
 The application needs a `.env` file — see the [.env.example](.env.example) for the variables needed.
