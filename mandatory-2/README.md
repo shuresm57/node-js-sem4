@@ -1,4 +1,4 @@
-# Mandatory II — Fullstack Auth
+# Mandatory II  Fullstack Auth
 
 This is the 2nd mandatory hand-in for the 4th semester Node.js elective at Erhvervsakadami København
 
@@ -23,12 +23,12 @@ The application needs a `.env` file - see the [.env.example](.env.example) for t
 I chose to spend a lot of time writing relevant documentation for each part, so I gain a better understanding of each moving part. 
 
 ### Backend
-- [server](./server/README.md) — app entry, dotenv, CORS, Helmet and JWT
-- [server/database/](./server/database/README.md) — `better-sqlite3` setup and schema
-- [server/routers/](./server/routers/README.md) — Express Router pattern
-- [server/middleware/](./server/middleware/README.md) — `rateLimiter` and `requireAuth` middleware
-- [server/util/](./server/util/README.md) — bcrypt, Nodemailer, password recovery flow
+- [server](./server/README.md) app entry, dotenv, CORS, Helmet and JWT
+- [server/database/](./server/database/README.md) `better-sqlite3` setup and schema
+- [server/routers/](./server/routers/README.md) Express Router pattern
+- [server/middleware/](./server/middleware/README.md) `rateLimiter` and `requireAuth` middleware
+- [server/util/](./server/util/README.md) bcrypt, Nodemailer, password recovery flow
 
 ### Frontend
-- [client/](./client/README.md) — Svelte 5 + Vite overview, fetch util, user store
-- [client/src/pages/](./client/src/pages/README.md) — Private Routes
+- [client/](./client/README.md) Svelte 5 + Vite overview, fetch util, user store
+- [client/src/pages/](./client/src/pages/README.md) Private Routes
