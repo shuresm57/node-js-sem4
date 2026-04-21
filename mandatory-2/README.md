@@ -16,7 +16,7 @@ $ make install
 $ make run
 ```
 
-The application needs a `.env` file — see the [.env.example](.env.example) for the variables needed.
+The application needs a `.env` file - see the [.env.example](.env.example) for the variables needed.
 
 ## Documentation
 
