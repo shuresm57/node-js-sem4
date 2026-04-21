@@ -14,7 +14,7 @@ Right now, the token is cleared by a query, which could prove problematic, shoul
 
 Used to set up the connection to the database, given that it exists.
 
-I am using `better-sqlite3` since `sqlite` is deprecated and therefore no longer maintained. By setting `journal_mode = WAL`, reads and writes can happen in parallel — writes are staged in a `-wal` file while reads continue against the main database file. 
+I am using `better-sqlite3` since `sqlite` is deprecated and therefore no longer maintained. By setting `journal_mode = WAL`, reads and writes can happen in parallel, writes are staged in a `-wal` file while reads continue against the main database file. 
 
 A `-shm` shared memory index is also created alongside it. The `-shm` file is a shared memory index that allows multiple connections to coordinate access to the `-wal` file efficiently.
 

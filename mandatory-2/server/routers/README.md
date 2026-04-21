@@ -7,7 +7,7 @@
 | `/api/register` | `POST` | Create a new user (hashed password, sends welcome email) |
 | `/api/login` | `POST` | Verify credentials and set a JWT cookie |
 | `/api/logout` | `POST` | Clear the JWT cookie |
-| `/api/home` | `GET` | Protected — returns the current user (uses `requireAuth`) |
+| `/api/home` | `GET` | Protected - returns the current user (uses `requireAuth`) |
 | `/api/users/:username` | `GET` | Check if a username is taken (sign-up form) |
 | `/api/emails/:email` | `GET` | Check if an email is taken |
 | `/api/request-reset` | `POST` | Generate a password-reset token, email the link |

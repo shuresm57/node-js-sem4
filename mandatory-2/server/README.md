@@ -20,7 +20,7 @@ $ node app.js
 
 ## JWT
 
-JSON Web Token is a standardized way to transmit claims between two parties as a cryptographically signed token — the payload is readable but tamper-proof.
+JSON Web Token is a standardized way to transmit claims between two parties as a cryptographically signed token, the payload is readable but tamper-proof.
 
 We use it for two things:
 
