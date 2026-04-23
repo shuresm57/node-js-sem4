@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 
 import authRouter from './routers/authRouter.js';
-
+import { generalLimiter, authLimiter } from './middleware/rateLimiters.js';
 
 const app = express();
 app.use(express.json);
