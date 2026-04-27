@@ -4,19 +4,29 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 
-import authRouter from './routers/authRouter.js';
-import { generalLimiter, authLimiter } from './middleware/rateLimiters.js';
+
+import { generalLimiter } from './middleware/rateLimiters.js';
 
 const app = express();
-app.use(express.json);
-app.use(cookieParser);
+
+app.use(express.json());
+
+app.use(cookieParser());
+
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }));
-app.use(helmet);
+
+app.use(helmet());
 app.use(generalLimiter);
-app.use(authLimiter);
+
+//
+// ROUTERS
+//
+
+import authRouter from './routers/authRouter.js';
+app.use(authRouter);
 
 const PORT = process.env.PORT ?? 8080;
 

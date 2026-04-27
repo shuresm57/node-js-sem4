@@ -15,7 +15,7 @@
     const response = await fetchGet('/api/home');
     if(response?.ok){
       const data = await response.json();
-      userStore.user = { username: data.data.username };
+      userStore.user = { email: data.data.email };
     }
     userStore.authChecked = true;
   })

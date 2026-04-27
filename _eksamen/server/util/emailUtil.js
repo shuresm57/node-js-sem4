@@ -11,21 +11,24 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+const fromAddress = '"Better Tour" <info@bettertour.com>';
+
 export async function sendWelcomeEmail (email, username) {
   const info = await transporter.sendMail({
-    from: '"Rachet and Clank FanClub" <info@rcfc.com>',
+    from: fromAddress,
     to: `${email}`,
-    subject: 'Welcome to the Fanclub!',
+    subject: 'Welcome to BetterTour!',
     text:
         `
         Welcome ${username}!
-        We are so happy you wanted to join our club!
+
+        ...and Welcome to a new way of managing your shows.
         `,
     html:
         `
         <h1>Welcome ${username}!</h1>
 
-        <p>We are so happy you wanted to join our club!</p>
+        <p>...and Welcome to a new way of managing your shows.</p>
         
         `
   });
@@ -36,7 +39,7 @@ export async function sendWelcomeEmail (email, username) {
 
 export async function sendPasswordRecoveryEmail (email, name, link) {
   const info = await transporter.sendMail({
-    from: '"Rachet and Clank FanClub" <info@rcfc.com>',
+    from: fromAddress,
     to: `${email}`,
     subject: 'Password Recovery',
     text:

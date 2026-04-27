@@ -1,38 +1,33 @@
-import dotenv from 'dotenv/config';
+import 'dotenv/config';
 
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import crypto from 'node:crypto';
 
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
 import { authLimiter } from '../middleware/rateLimiters.js';
-import { sendWelcomeEmail, sendPasswordRecoveryEmail } from '../util/emailUtil.js';
-import {
-  findByEmail, findByUsername, saveUser,
-  setExpiryTokenByEmail, findUserByToken, updateUserAndToken
-} from '../database/queries.js';
+import { findByEmail, saveUser } from '../database/queries.js';
 
 const router = Router();
 
 router.post('/api/register', authLimiter, async (req, res) => {
-  const { username, password, email } = req.body;
+  const { email, password } = req.body;
 
-  if (!password || !username || !email) {
-    return res.status(400).send('Email, username and password are required.');
+  if (!password || !email) {
+    return res.status(400).send('Email and password are required.');
   }
 
   try {
-    const existingUser = findByUsername(username);
+    const existingUser = findByEmail(email);
     if (existingUser) {
       return res.status(400).send('User already exists');
     }
 
     const hashedPassword = await hashPassword(password);
 
-    saveUser(email, username, hashedPassword);
+    saveUser(email, hashedPassword);
 
-    sendWelcomeEmail(email, username);
+    sendWelcomeEmail(email);
     res.status(201).send('User registered successfully');
   } catch (error) {
     console.log(error);
@@ -41,17 +36,17 @@ router.post('/api/register', authLimiter, async (req, res) => {
 });
 
 router.post('/api/login', authLimiter, async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = findByUsername(username);
+    const user = findByEmail(email);
 
-    if (!user || !(await comparePassword(password, user.password))) {
+    if (!user || !(await comparePassword(password, user.password_hash))) {
       return res.status(401).send('Invalid credentials.');
     }
 
     const token = jwt.sign(
-      { username: user.username }, // payload (data inside the token)
+      { email: user.email }, // payload (data inside the token)
       process.env.JWT_SECRET, // secret key for signing the token
       { expiresIn: '1h' } // token expiration time
     );
@@ -63,7 +58,7 @@ router.post('/api/login', authLimiter, async (req, res) => {
       maxAge: 60 * 60 * 1000 // 1 hour
     });
 
-    res.status(200).send(`${username} logged in successfully`);
+    res.status(200).send(`${email} logged in successfully`);
   } catch (error) {
     console.error(error);
     res.status(500).send('Login failed');
@@ -76,27 +71,17 @@ router.post('/api/logout', (req, res) => {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict'
   });
-  res.status(200).send(`${req.body.username} logged out successfully`);
+  res.status(200).send(`${req.body.email} logged out successfully`);
 });
 
 router.get('/api/home', requireAuth, (req, res) => {
-  const username = req.user.username;
-  const user = findByUsername(username);
+  const email = req.user.email;
+  const user = findByEmail(email);
   if (!user) {
     return res.status(404).send({ error: 'User not found' });
   }
 
-  res.send({ data: { message: 'Welcome to the fanclub!', email: user.email, username: user.username } });
-});
-
-router.get('/api/users/:username', (req, res) => {
-  const { username } = req.params;
-  const found = findByUsername(username);
-  if (found) {
-    return res.status(200).send({ field: 'username' });
-  }
-
-  res.status(404).send();
+  res.send({ data: { message: 'Welcome to BetterTour!', email: user.email } });
 });
 
 router.get('/api/emails/:email', (req, res) => {
@@ -108,34 +93,5 @@ router.get('/api/emails/:email', (req, res) => {
   res.status(404).send();
 });
 
-router.post('/api/request-reset', authLimiter, (req, res) => {
-  const { email } = req.body;
-  const user = findByEmail(email);
-
-  if (!user) {
-    return res.status(404).send('No account with that email.');
-  }
-
-  const token = crypto.randomUUID();
-  const expiry = Date.now() + 15 * 60 * 1000;
-
-  setExpiryTokenByEmail(token, expiry, email);
-  sendPasswordRecoveryEmail(email, user.username, `${process.env.CLIENT_URL}/reset-password?token=${token}`);
-
-  res.status(200).send('Reset link sent.');
-});
-
-router.post('/api/reset-password', authLimiter, async (req, res) => {
-  const { token, newPassword } = req.body;
-  const user = findUserByToken(token, Date.now());
-  if (!user) {
-    return res.status(400).send('Invalid or expired token.');
-  }
-
-  const hashed = await hashPassword(newPassword);
-  updateUserAndToken(hashed, user.id);
-
-  res.status(200).send('Password updated successfully.');
-});
 
 export default router;

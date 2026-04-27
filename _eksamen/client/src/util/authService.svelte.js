@@ -44,15 +44,15 @@ export async function handleSignup (email, username, passwordOne, passwordTwo, o
   }
 }
 
-export async function handleLogin (username, password) {
-  const response = await fetchPost('/api/login', { username, password });
+export async function handleLogin (email, password) {
+  const response = await fetchPost('/api/login', { email, password });
   if (!response) {
     toast.error('Error logging in. Try again later.');
     return;
   }
   const message = await response.text();
   if (response.ok) {
-    userStore.user = { username };
+    userStore.user = { email };
     toast.success(message);
     window.location.href = '/home';
   } else {
