@@ -1,6 +1,6 @@
 <script>
-    import { handleResetPassword } from '../util/authService.svelte.js';
-    import Footer from '../components/Footer.svelte';
+    import { handleResetPassword } from '../../util/authService.svelte.js';
+    import Footer from '../../components/Footer.svelte';
 
     const token = new URLSearchParams(window.location.search).get('token');
 

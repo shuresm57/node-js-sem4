@@ -6,7 +6,11 @@ import jwt from 'jsonwebtoken';
 import { hashPassword, comparePassword } from '../util/passwordUtil.js';
 import { requireAuth } from '../middleware/jwtAuthenticator.js';
 import { authLimiter } from '../middleware/rateLimiters.js';
-import { findByEmail, saveUser } from '../database/queries.js';
+import {
+  findByEmail, saveUser,
+  findArtistByUserEmail, findVenueByUserEmail,
+  findShowsByArtistId, findShowsByVenueId
+} from '../database/queries.js';
 
 const router = Router();
 
@@ -27,7 +31,6 @@ router.post('/api/register', authLimiter, async (req, res) => {
 
     saveUser(email, hashedPassword);
 
-    sendWelcomeEmail(email);
     res.status(201).send('User registered successfully');
   } catch (error) {
     console.log(error);
@@ -82,6 +85,30 @@ router.get('/api/home', requireAuth, (req, res) => {
   }
 
   res.send({ data: { message: 'Welcome to BetterTour!', email: user.email } });
+});
+
+router.get('/api/artist', requireAuth, (req, res) => {
+  const { email } = req.user;
+  const artist = findArtistByUserEmail(email);
+
+  if (!artist) {
+    return res.status(404).send();
+  }
+
+  artist.shows = findShowsByArtistId(artist.artist_id);
+  res.send(artist);
+});
+
+router.get('/api/venue', requireAuth, (req, res) => {
+  const { email } = req.user;
+  const venue = findVenueByUserEmail(email);
+
+  if (!venue) {
+    return res.status(404).send();
+  }
+
+  venue.shows = findShowsByVenueId(venue.venue_id);
+  res.send(venue);
 });
 
 router.get('/api/emails/:email', (req, res) => {

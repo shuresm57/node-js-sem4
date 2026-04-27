@@ -3,10 +3,10 @@
   import { Toaster } from 'svelte-sonner';
   import { onMount } from 'svelte';
 
-  import Login from './pages/Login.svelte';
+  import Login from './pages/auth/Login.svelte';
   import Home from './pages/Home.svelte';
   import About from './pages/About.svelte';
-  import ResetPassword from './pages/ResetPassword.svelte';
+  import ResetPassword from './pages/auth/ResetPassword.svelte';
   import PrivateRoute from './pages/PrivateRoute.svelte';
   import { fetchGet } from './util/fetchUtil.js';
   import { userStore } from './stores/userStore.svelte.js';

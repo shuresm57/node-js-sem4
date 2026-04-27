@@ -1,6 +1,6 @@
 <script>
-    import { handleLogin, handleSignup, handlePasswordRecovery } from "../util/authService.svelte.js";
-    import Footer from '../components/Footer.svelte';
+    import { handleLogin, handleSignup, handlePasswordRecovery } from "../../util/authService.svelte.js";
+    import Footer from '../../components/Footer.svelte';
 
     let view = $state('login');
 
@@ -28,7 +28,7 @@
 
         {#if view === 'login'}
             <h2 class="font-serif text-accent text-2xl font-bold text-center mb-6 tracking-wide">Login</h2>
-            <div class="flex flex-col gap-3">
+            <form class="flex flex-col gap-3" onsubmit={(e) => { e.preventDefault(); handleLogin(emailInput, passwordInput); }}>
                 <input
                     class="bg-bg border border-border text-text placeholder-muted rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-primary"
                     type="email" placeholder="Email" bind:value={emailInput} required
@@ -37,11 +37,11 @@
                     class="bg-bg border border-border text-text placeholder-muted rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-primary"
                     type="password" placeholder="Password" bind:value={passwordInput} required
                 >
-            </div>
-            <button
-                class="mt-5 w-full bg-primary hover:brightness-110 text-text font-bold py-2 rounded-lg transition"
-                type="button" onclick={() => handleLogin(emailInput, passwordInput)}
-            >Login</button>
+                <button
+                    class="mt-2 w-full bg-primary hover:brightness-110 text-text font-bold py-2 rounded-lg transition"
+                    type="submit"
+                >Login</button>
+            </form>
             <div class="mt-4 flex flex-col items-center gap-2 text-sm">
                 <button class="text-muted hover:text-highlight transition" type="button" onclick={showSignup}>Don't have an account? Sign up</button>
                 <a class="text-muted hover:text-accent transition" href="#" onclick={(e) => { e.preventDefault(); showPasswordRecovery(); }}>Forgot password?</a>
