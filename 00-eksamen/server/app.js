@@ -30,10 +30,6 @@ app.use(authRouter);
 
 const PORT = process.env.PORT ?? 8080;
 
-app.listen(PORT, (error) => {
-  if (error) {
-    console.log('Error starting the server');
-    return;
-  }
-  console.log('Server running at ', PORT);
+app.listen(PORT, () => {
+  console.log(`The server is running at ${PORT}`);
 });
