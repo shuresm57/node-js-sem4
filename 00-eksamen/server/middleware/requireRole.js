@@ -1,7 +1,7 @@
-export function requireRole (role) {
+export function requireOrgType (orgType) {
   return (req, res, next) => {
-    if (req.user?.role !== role) {
-      return res.status(403).send({ error: 'Forbidden. Wrong role.' });
+    if (req.user?.orgType !== orgType) {
+      return res.status(403).send({ error: 'Forbidden' });
     }
     next();
   };
