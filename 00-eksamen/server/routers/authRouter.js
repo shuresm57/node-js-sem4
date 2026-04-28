@@ -49,9 +49,15 @@ router.post('/api/login', authLimiter, async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: user.email }, // payload (data inside the token)
-      process.env.JWT_SECRET, // secret key for signing the token
-      { expiresIn: '1h' } // token expiration time
+      {
+        userId: user.id,
+        email: user.email,
+        orgType: user.orgType, // can be artist or venue
+        orgId: user.orgId, // again, artist_id or venue_id
+        orgRole: user.orgRole // either admin or member
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
     );
 
     res.cookie('token', token, {
