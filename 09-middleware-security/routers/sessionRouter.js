@@ -3,24 +3,23 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/dogpark/bark', (req, res) => {
+  req.session.dogBarks = req.session.dogBarks ? req.session.dogBarks + 1 : 1;
 
-    req.session.dogBarks = req.session.dogBarks ? req.session.dogBarks + 1 : 1;
+  console.log(req.session.dogBarks);
 
-    console.log(req.session.dogBarks);
-
-    res.send({ dog: `woof! Total barks: ${req.session.dogBarks}` });
+  res.send({ dog: `woof! Total barks: ${req.session.dogBarks}` });
 });
 
 router.get('/dogpark/shutup', (req, res) => {
-    const dogBarks = req.session.dogBarks;
+  const dogBarks = req.session.dogBarks;
 
-    req.session.dogBarks = 0;
+  req.session.dogBarks = 0;
 
-    res.send({ data: `No more dogs barking. Amount of dogs being quited ${dogBarks}`});
-})
+  res.send({ data: `No more dogs barking. Amount of dogs being quited ${dogBarks}` });
+});
 
 router.get('/dogpark/shutdown', (req, res) => {
-    req.session.dogBarks = undefined;
+  req.session.dogBarks = undefined;
 });
 
 export default router;

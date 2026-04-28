@@ -1,2 +1,1 @@
-console.log('Hello from frontpage.js')
-
+console.log('Hello from frontpage.js');

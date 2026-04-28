@@ -5,21 +5,17 @@ const app = express();
 // parse the req.body
 app.use(express.json());
 
-
-
 // path must be absolute, cannot be relative
-
-
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 // route
-      // endpoint
-                // callback function, route handler
+// endpoint
+// callback function, route handler
 app.get('/xss', (req, res) => {
-  res.sendFile(__dirname + '/xss.html')
+  res.sendFile(__dirname + '/xss.html');
 });
 
 app.get('/snowstorms', (req, res) => {
@@ -32,7 +28,7 @@ app.get('/forecast', (req, res) => {
 });
 
 app.get('/proxy', (req, res) => {
-  //assignment: create a proxy to https://google.com/'
+  // assignment: create a proxy to https://google.com/'
 
   // fetch('https://google.com')
   // .then((response) => response.text())
@@ -40,9 +36,7 @@ app.get('/proxy', (req, res) => {
   //   res.send(result)
   // })
 
-  
-
-})
+});
 
 // how can we send data in a GET request?
 
@@ -55,7 +49,7 @@ app.get('/cars/:carModel', (req, res) => {
 app.get('/cars/:carModel/:year', (req, res) => {
   console.log(req.params);
   res.send({
-    data: `Your ${req.params.carModel} from the year ${req.params.year} is very nice`,
+    data: `Your ${req.params.carModel} from the year ${req.params.year} is very nice`
   });
 });
 
@@ -64,20 +58,19 @@ app.get('/bag', (req, res) => {
   res.send({ data: req.query });
 });
 
-
 app.post('/dinosaurs', (req, res) => {
-  console.log(req.body)
-  res.send({ data : req.body })
-})
+  console.log(req.body);
+  res.send({ data: req.body });
+});
 
 // assignment : create a POST route with the endpoint /energydrinks that adds energydrinks to an array
 
-const energyDrinks = []
+const energyDrinks = [];
 
 app.post('/energy-drinks', (req, res) => {
   energyDrinks.push(req.body);
   res.send(req.body);
   console.log(energyDrinks);
-})
+});
 
 app.listen(8080);

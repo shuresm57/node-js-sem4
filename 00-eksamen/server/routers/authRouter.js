@@ -120,5 +120,4 @@ router.get('/api/emails/:email', (req, res) => {
   res.status(404).send();
 });
 
-
 export default router;

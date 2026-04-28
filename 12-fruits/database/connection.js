@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-    // protocol signifier          mongodb PORT
+// protocol signifier          mongodb PORT
 const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
@@ -13,6 +13,6 @@ const db = client.db(dbName);
 const fruits = db.collection('fruits');
 
 export default {
-    fruits: db.collection('fruits'),
-    stands: db.collection('stands')
+  fruits: db.collection('fruits'),
+  stands: db.collection('stands')
 };

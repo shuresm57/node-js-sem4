@@ -1,10 +1,17 @@
 import 'dotenv/config';
 import express from 'express';
-const app = express();
 
 import path from 'path';
 import { readFileSync } from 'fs';
 import chokidar from 'chokidar';
+
+import session from 'express-session';
+
+// IMPORT ROUTERS
+
+import restaurantsRouter from './routers/restaurantsRouter.js';
+import visitorsRouter from './routers/visitorsRouter.js';
+const app = express();
 
 // Simple live reload with SSE
 const clients = [];
@@ -14,7 +21,7 @@ app.get('/livereload', (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
+    Connection: 'keep-alive'
   });
   res.write('\n');
 
@@ -50,23 +57,12 @@ app.use(express.static(path.resolve('../client/dist'), {
 
 app.use(express.json());
 
-
-import session from 'express-session';
-
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
-
-
-
-// IMPORT ROUTERS
-
-import restaurantsRouter from './routers/restaurantsRouter.js';
-import visitorsRouter from './routers/visitorsRouter.js';
-
 
 // SPA fallback - serve index.html with livereload script injected for all routes
 app.use((req, res) => {
@@ -89,4 +85,4 @@ app.use(restaurantsRouter);
 app.use(visitorsRouter);
 
 const PORT = Number(process.env.PORT) || 8080;
-app.listen(PORT, () => console.log("Server is running on port", PORT));
+app.listen(PORT, () => console.log('Server is running on port', PORT));

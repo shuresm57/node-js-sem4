@@ -4,8 +4,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 
-
 import { generalLimiter } from './middleware/rateLimiters.js';
+
+//
+// ROUTERS
+//
+
+import authRouter from './routers/authRouter.js';
 
 const app = express();
 
@@ -20,12 +25,6 @@ app.use(cors({
 
 app.use(helmet());
 app.use(generalLimiter);
-
-//
-// ROUTERS
-//
-
-import authRouter from './routers/authRouter.js';
 app.use(authRouter);
 
 const PORT = process.env.PORT ?? 8080;

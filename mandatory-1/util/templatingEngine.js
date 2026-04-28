@@ -5,7 +5,7 @@ export function constructPage (page, options = {}) {
   const footer = readPage('./public/components/footer.html');
   const sidebar = readPage('./public/components/pages-sidebar.html');
 
-  if(options.sidebar){
+  if (options.sidebar) {
     return header
       .replace('$$DOCUMENT_TITLE$$', options.documentTitle || 'VSS')
       .replace('$$CSS_LINKS$$', options.cssLinks)

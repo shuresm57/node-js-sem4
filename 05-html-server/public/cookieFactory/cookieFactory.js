@@ -1,7 +1,7 @@
-function getNewCookieBatch() {
-    return ['cookie', 'milk :)', 'coookie'];
+function getNewCookieBatch () {
+  return ['cookie', 'milk :)', 'coookie'];
 }
 
 export default {
-    getNewCookieBatch
+  getNewCookieBatch
 };

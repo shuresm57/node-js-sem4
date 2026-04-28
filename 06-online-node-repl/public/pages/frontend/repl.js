@@ -2,14 +2,14 @@ const replCodeOutputDiv = document.getElementById('repl-code-output');
 const replInputInput = document.getElementById('repl-code-input');
 
 replInputInput.addEventListener('keyup', (event) => {
-    if (event.key === 'Enter'){
-        runReplInput();
-    }
-})
+  if (event.key === 'Enter') {
+    runReplInput();
+  }
+});
 
 function runReplInput () {
   const replCode = replInputInput.value;
-  replInputInput.value = "";
+  replInputInput.value = '';
   addInput(replCode);
 
   fetch('/api/repl', {
@@ -22,17 +22,17 @@ function runReplInput () {
   // descructor parameter
     .then((response) => response.json())
     .then(({ data }) => {
-        if (data.error) {
-          addError();
-          console.log(data.error)
-        } else {
-          addOutputAndResult(data.output, data.result);
-          console.log(data.output, data.result);
-        }
-    })
+      if (data.error) {
+        addError();
+        console.log(data.error);
+      } else {
+        addOutputAndResult(data.output, data.result);
+        console.log(data.output, data.result);
+      }
+    });
 }
 
-function addInput(replCode) {
+function addInput (replCode) {
   const replCodeDiv = document.createElement('div');
   replCodeDiv.textContent = `> ${replCode}`;
   replCodeDiv.classList.add('repl-code-prompt');
@@ -42,7 +42,7 @@ function addInput(replCode) {
   scrollToTheBottom();
 }
 
-function addError(error) {
+function addError (error) {
   const replErrorDiv = document.createElement('div');
   replErrorDiv.textContent = `> ${error}`;
   replErrorDiv.classList.add('repl-code-error');
@@ -52,7 +52,7 @@ function addError(error) {
   scrollToTheBottom();
 }
 
-function addOutputAndResult(output, result) {
+function addOutputAndResult (output, result) {
   if (output) {
     const replOutputDiv = document.createElement('div');
     replOutputDiv.textContent = output;
@@ -70,6 +70,6 @@ function addOutputAndResult(output, result) {
   scrollToTheBottom();
 }
 
-function scrollToTheBottom() {
+function scrollToTheBottom () {
   replCodeOutputDiv.scrollTop = replCodeOutputDiv.scrollHeight;
 }

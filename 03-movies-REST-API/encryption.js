@@ -9,14 +9,14 @@ const iv = Buffer.alloc(16, 0); // 16 bit initialization vector, needed for the 
 // const SECRET = crypto.randomBytes(32).toString('hex');
 // console.log(SECRET);
 
-function encryptId(id) {
+function encryptId (id) {
   const cipher = crypto.createCipheriv(algorithm, key, iv);
   let encrypted = cipher.update(String(id), 'utf-8', 'hex');
   encrypted += cipher.final('hex');
   return encrypted;
 }
 
-function decryptId(encrypted) {
+function decryptId (encrypted) {
   try {
     const decipher = crypto.createDecipheriv(algorithm, key, iv);
     let decrypted = decipher.update(encrypted, 'hex', 'utf-8');

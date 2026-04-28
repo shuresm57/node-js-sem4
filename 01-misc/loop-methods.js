@@ -25,7 +25,7 @@ console.log(doubledNumbers);
 const balloonAnimals = [
   { type: 'Koala', difficulty: 5.0 },
   { type: 'Dog', difficulty: 2.5 },
-  { type: 'Giraffe', difficulty: 1.0, isTall: true },
+  { type: 'Giraffe', difficulty: 1.0, isTall: true }
 ];
 
 // task: make all the difficulty levels 3.0 except for koala
@@ -41,7 +41,7 @@ console.log(updatedBalloonAnimals);
 
 const oneLinerUpdatedBalloonAnimals = balloonAnimals.map((balloonAnimal) => ({
   difficulty: balloonAnimal.type !== 'Koala' ? 3.0 : balloonAnimal.difficulty,
-  ...balloonAnimal,
+  ...balloonAnimal
 }));
 
 console.log(oneLinerUpdatedBalloonAnimals);

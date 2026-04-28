@@ -6,8 +6,8 @@ const saltRounds = 14;
 
 const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-console.log(hashedPassword)
+console.log(hashedPassword);
 
-const passwordIsSame = await bcrypt.compare(passwordComparison, hashedPassword)
+const passwordIsSame = await bcrypt.compare(passwordComparison, hashedPassword);
 
 console.log(passwordIsSame);

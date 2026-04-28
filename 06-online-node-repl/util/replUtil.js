@@ -22,19 +22,19 @@ const BLACKLIST = [
   'setTimeout', 'setInterval', 'setImmediate'
 ];
 
-function containsBlacklistedTerm(code) {
+function containsBlacklistedTerm (code) {
   const found = BLACKLIST.find(term => code.includes(term));
   return found || null;
 }
 
-export function getOrCreateSandboxContext(sessionId) {
+export function getOrCreateSandboxContext (sessionId) {
   if (!sessions.has(sessionId)) {
     sessions.set(sessionId, createSandboxContext(sessionId));
   }
   return sessions.get(sessionId);
 }
 
-function createSandboxContext(sessionId) {
+function createSandboxContext (sessionId) {
   const sandbox = {
     output: '',
     error: '',
@@ -56,7 +56,7 @@ function createSandboxContext(sessionId) {
   };
 }
 
-export function executeCodeInSandbox(sandbox, code) {
+export function executeCodeInSandbox (sandbox, code) {
   const blocked = containsBlacklistedTerm(code);
   if (blocked) {
     return {
@@ -74,20 +74,18 @@ export function executeCodeInSandbox(sandbox, code) {
       timeout: 2000,
       displayErrors: false
     });
-    
+
     sandbox.context.result = result;
 
     return {
-        success: true,
-        output: sandbox.context.output.trim(),
-        result: result === undefined ? 'undefined' : String(result)
+      success: true,
+      output: sandbox.context.output.trim(),
+      result: result === undefined ? 'undefined' : String(result)
     };
-
   } catch (error) {
     return {
-        success: false,
-        error: error.message
+      success: false,
+      error: error.message
     };
-
   }
 }

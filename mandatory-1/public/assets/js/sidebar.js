@@ -15,4 +15,3 @@ tocbot.init({
   headingsOffset: 50,
   scrollSmoothOffset: -50
 });
-

@@ -1,14 +1,14 @@
 import db from './connection.js';
 
-export function findByEmail(email) {
+export function findByEmail (email) {
   return db.prepare('SELECT * FROM user WHERE email = ?').get(email);
 }
 
-export function saveUser(email, hashedPassword) {
+export function saveUser (email, hashedPassword) {
   return db.prepare('INSERT INTO user (email, password_hash) VALUES (?, ?)').run(email, hashedPassword);
 }
 
-export function findArtistByUserEmail(email) {
+export function findArtistByUserEmail (email) {
   return db.prepare(`
     SELECT a.* FROM artist a
     JOIN artist_user au ON a.artist_id = au.artist_id
@@ -17,7 +17,7 @@ export function findArtistByUserEmail(email) {
   `).get(email);
 }
 
-export function findVenueByUserEmail(email) {
+export function findVenueByUserEmail (email) {
   return db.prepare(`
     SELECT v.* FROM venue v
     JOIN venue_user vu ON v.venue_id = vu.venue_id
@@ -26,7 +26,7 @@ export function findVenueByUserEmail(email) {
   `).get(email);
 }
 
-export function findShowsByArtistId(artistId) {
+export function findShowsByArtistId (artistId) {
   return db.prepare(`
     SELECT s.*, v.name AS venue_name, v.address AS venue_address
     FROM show s
@@ -36,7 +36,7 @@ export function findShowsByArtistId(artistId) {
   `).all(artistId);
 }
 
-export function findShowsByVenueId(venueId) {
+export function findShowsByVenueId (venueId) {
   return db.prepare(`
     SELECT s.*, a.name AS artist_name
     FROM show s

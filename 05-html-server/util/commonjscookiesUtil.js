@@ -1,14 +1,14 @@
 const cookie = require('./cookie.json');
 
-function getCookie() {
-    return cookie;
+function getCookie () {
+  return cookie;
 }
 
-const key = "value";
+const key = 'value';
 const jsonObject = {
-    key
-}
+  key
+};
 
-console.log(jsonObject)
+console.log(jsonObject);
 
 module.exports = { getCookie };
