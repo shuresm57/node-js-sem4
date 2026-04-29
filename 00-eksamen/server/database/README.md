@@ -1,3 +1,0 @@
-# ERD
-
-![](./imgs/image.png)
