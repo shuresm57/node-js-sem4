@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "13-sockets",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,11 +11,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.4.1",
-    "jsonwebtoken": "^9.0.3"
+    "socket.io": "^4.8.3"
   }
 }
