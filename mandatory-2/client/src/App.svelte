@@ -19,7 +19,7 @@
       userStore.user = { username: data.data.username };
     }
     userStore.authChecked = true;
-  })
+  });
 
 </script>
 <Toaster position="top-center" richColors />
