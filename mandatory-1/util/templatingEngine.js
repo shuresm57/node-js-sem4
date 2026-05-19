@@ -1,9 +1,14 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export function constructPage (page, options = {}) {
-  const header = readPage('./public/components/header.html');
-  const footer = readPage('./public/components/footer.html');
-  const sidebar = readPage('./public/components/pages-sidebar.html');
+  const header = readPage(path.join(__dirname, '../public/components/header.html'));
+  const footer = readPage(path.join(__dirname, '../public/components/footer.html'));
+  const sidebar = readPage(path.join(__dirname, '../public/components/pages-sidebar.html'));
 
   if (options.sidebar) {
     return header
@@ -23,6 +28,6 @@ export function constructPage (page, options = {}) {
           footer.replace('$$SCRIPTS$$', options.scripts || '');
 }
 
-export function readPage (path) {
-  return fs.readFileSync(path).toString();
+export function readPage (filePath) {
+  return fs.readFileSync(filePath).toString();
 }

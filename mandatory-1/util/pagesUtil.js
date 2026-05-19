@@ -1,6 +1,11 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { readPage, constructPage } from './templatingEngine.js';
 
-const frontpage = readPage('./public/pages/frontpage.html');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const frontpage = readPage(path.join(__dirname, '../public/pages/frontpage.html'));
 const frontpagePage = constructPage(frontpage, {
   documentTitle: 'VSS',
   cssLinks: '<link rel="stylesheet" href="/assets/css/main-style.css"><link rel="stylesheet" href="/assets/css/frontpage.css"><link rel="stylesheet" href="/assets/css/topbar.css">',
@@ -20,7 +25,7 @@ const homeButton = `
       </svg> HOME</a>
 `;
 
-const projects = readPage('./public/pages/projects.html');
+const projects = readPage(path.join(__dirname, '../public/pages/projects.html'));
 const projectsPage = constructPage(projects, {
   documentTitle: 'VSS - Projects',
   cssLinks: `
@@ -32,7 +37,7 @@ const projectsPage = constructPage(projects, {
 
 const weekPageScripts = '<script type="module" src="/assets/js/sidebar.js"></script>';
 
-const week1 = readPage('./public/pages/week-1.html');
+const week1 = readPage(path.join(__dirname, '../public/pages/week-1.html'));
 const week1Page = constructPage(week1, {
   documentTitle: 'VSS - Week 1',
   cssLinks: weekCssLinks,
@@ -41,7 +46,7 @@ const week1Page = constructPage(week1, {
   sidebar: true
 });
 
-const week2 = readPage('./public/pages/week-2.html');
+const week2 = readPage(path.join(__dirname, '../public/pages/week-2.html'));
 const week2Page = constructPage(week2, {
   documentTitle: 'VSS - Week 2',
   cssLinks: weekCssLinks,
@@ -50,7 +55,7 @@ const week2Page = constructPage(week2, {
   sidebar: true
 });
 
-const week3 = readPage('./public/pages/week-3.html');
+const week3 = readPage(path.join(__dirname, '../public/pages/week-3.html'));
 const week3Page = constructPage(week3, {
   documentTitle: 'VSS - Week 3',
   cssLinks: weekCssLinks,
@@ -59,7 +64,7 @@ const week3Page = constructPage(week3, {
   sidebar: true
 });
 
-const week4 = readPage('./public/pages/week-4.html');
+const week4 = readPage(path.join(__dirname, '../public/pages/week-4.html'));
 const week4Page = constructPage(week4, {
   documentTitle: 'VSS - Week 4',
   cssLinks: weekCssLinks,
@@ -68,7 +73,7 @@ const week4Page = constructPage(week4, {
   sidebar: true
 });
 
-const week5 = readPage('./public/pages/week-5.html');
+const week5 = readPage(path.join(__dirname, '../public/pages/week-5.html'));
 const week5Page = constructPage(week5, {
   documentTitle: 'VSS - Week 5',
   cssLinks: weekCssLinks,
@@ -77,7 +82,7 @@ const week5Page = constructPage(week5, {
   sidebar: true
 });
 
-const week6 = readPage('./public/pages/week-6.html');
+const week6 = readPage(path.join(__dirname, '../public/pages/week-6.html'));
 const week6Page = constructPage(week6, {
   documentTitle: 'VSS - Week 6',
   cssLinks: weekCssLinks,
@@ -86,7 +91,7 @@ const week6Page = constructPage(week6, {
   sidebar: true
 });
 
-const week7 = readPage('./public/pages/week-7.html');
+const week7 = readPage(path.join(__dirname, '../public/pages/week-7.html'));
 const week7Page = constructPage(week7, {
   documentTitle: 'VSS - Week 7',
   cssLinks: weekCssLinks,
